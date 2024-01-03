@@ -1,7 +1,8 @@
-﻿using StudyProject.Core.ArticleAggregate.Interfaces;
+﻿using StudyProject.Core.ArticleAggregate;
+using StudyProject.Core.ArticleAggregate.Interfaces;
 using StudyProject.Core.Models;
 
-namespace StudyProject.Core.ArticleAggregate
+namespace StudyProject.Application.Common.Builders
 {
     /// <summary>
     /// Represents a builder for creating articles.

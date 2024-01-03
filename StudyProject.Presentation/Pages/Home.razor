@@ -1,5 +1,6 @@
 ﻿@page "/"
-@using StudyProject.Core.ArticleAggregate
+@using StudyProject.Application
+@using StudyProject.Application.Common.Builders
 @using StudyProject.Infrastructure
 @using System.Linq
 @inject ApplicationDbContext context;
@@ -23,8 +24,7 @@ Context exists: @(context != null)
 
     private void IncrementCount()
     {
-        Article article = new ArticleBuilder().WithTitle("Hello World").Build();
-        context.AddArticle(article);
+        context.AddArticleAsync(new ArticleBuilder().WithTitle("Hello World!").Build());
     }
 
 }

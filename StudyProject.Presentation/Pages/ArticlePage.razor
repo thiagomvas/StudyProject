@@ -1,0 +1,31 @@
+﻿@page "/article/{Id}"
+@using StudyProject.Core.ArticleAggregate
+@using StudyProject.Core.Models
+@using StudyProject.Infrastructure
+@inject ApplicationDbContext context;
+
+@if(GetArticle() == null)
+{
+	<h1>No article found.</h1>
+	<h1>Articles: </h1>
+	foreach (var article in context.GetArticles())
+	{
+		<p>@article.Title (@article.Id)</p>
+	}
+}
+else
+{
+	<h1>@article.Title (article.Id)</h1>
+	<p>@article.Content</p>
+}
+
+
+@code {
+	[Parameter] public string Id { get; set; }
+	private Article? article;
+	Article? GetArticle()
+	{
+		article = context.Articles.Find(x => x.Id == new HexId(Id));
+		return article;
+	}
+}

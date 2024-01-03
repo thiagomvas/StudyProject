@@ -6,7 +6,7 @@ namespace StudyProject.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<Article> Articles { get; set; }
+        List<Article> Articles { get; set; }
 
         Task<Article> GetArticleByIdAsync(HexId id);
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
