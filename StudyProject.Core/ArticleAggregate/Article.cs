@@ -1,10 +1,15 @@
-﻿namespace StudyProject.Core.Models
+﻿using StudyProject.Core.Models;
+
+namespace StudyProject.Core.ArticleAggregate
 {
     public class Article
     {
         public HexId Id { get; set; }
         public string Title { get; set; } = string.Empty;
-        public List<string> Content { get; set; } = new();
+        public string Content { get; set; }
         public Subject[] Subjects { get; set; } = new Subject[0];
+
+        internal Article() { }
+
     }
 }
