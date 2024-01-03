@@ -3,44 +3,50 @@ using StudyProject.Core.Models;
 
 namespace StudyProject.Core.ArticleAggregate
 {
+    /// <summary>
+    /// Represents a builder for creating articles.
+    /// </summary>
     public class ArticleBuilder : IArticleBuilder
     {
         private readonly Article article = new();
+
+        /// <inheritdoc/>
         public Article Build()
         {
             return article;
         }
 
-        Article IArticleBuilder.Build()
-        {
-            throw new NotImplementedException();
-        }
 
-        IArticleBuilder IArticleBuilder.WithContent(string content)
+        /// <inheritdoc/>
+        public IArticleBuilder WithContent(string content)
         {
             article.Content = content;
             return this;
         }
 
-        IArticleBuilder IArticleBuilder.WithDisciplines(Discipline[] disciplines)
+        /// <inheritdoc/>
+        public IArticleBuilder WithDisciplines(Discipline[] disciplines)
         {
             article.Disciplines = disciplines;
             return this;
         }
 
-        IArticleBuilder IArticleBuilder.WithSubjects(Subject[] subjects)
+        /// <inheritdoc/>
+        public IArticleBuilder WithSubjects(Subject[] subjects)
         {
             article.Subjects = subjects;
             return this;
         }
 
-        IArticleBuilder IArticleBuilder.WithTitle(string title)
+        /// <inheritdoc/>
+        public IArticleBuilder WithTitle(string title)
         {
             article.Title = title;
             return this;
         }
 
-        IArticleBuilder IArticleBuilder.WithTopics(Topic[] topics)
+        /// <inheritdoc/>
+        public IArticleBuilder WithTopics(Topic[] topics)
         {
             article.Topics = topics;
             return this;
