@@ -11,13 +11,24 @@ namespace StudyProject.Core.ArticleAggregate
             return article;
         }
 
+        Article IArticleBuilder.Build()
+        {
+            throw new NotImplementedException();
+        }
+
         IArticleBuilder IArticleBuilder.WithContent(string content)
         {
             article.Content = content;
             return this;
         }
 
-        IArticleBuilder IArticleBuilder.WithSubjects(params Subject[] subjects)
+        IArticleBuilder IArticleBuilder.WithDisciplines(Discipline[] disciplines)
+        {
+            article.Disciplines = disciplines;
+            return this;
+        }
+
+        IArticleBuilder IArticleBuilder.WithSubjects(Subject[] subjects)
         {
             article.Subjects = subjects;
             return this;
@@ -26,6 +37,12 @@ namespace StudyProject.Core.ArticleAggregate
         IArticleBuilder IArticleBuilder.WithTitle(string title)
         {
             article.Title = title;
+            return this;
+        }
+
+        IArticleBuilder IArticleBuilder.WithTopics(Topic[] topics)
+        {
+            article.Topics = topics;
             return this;
         }
     }

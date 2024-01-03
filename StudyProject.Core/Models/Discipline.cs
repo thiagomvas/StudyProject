@@ -2,7 +2,7 @@
 
 namespace StudyProject.Core.Models
 {
-    public class Subject : IClassification
+    public class Discipline : IClassification
     {
         public HexId Id { get; }
         public string Name { get; } = string.Empty;

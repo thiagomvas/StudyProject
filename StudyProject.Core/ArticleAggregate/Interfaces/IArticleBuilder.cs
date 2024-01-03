@@ -6,7 +6,9 @@ namespace StudyProject.Core.ArticleAggregate.Interfaces
     {
         IArticleBuilder WithTitle(string title);
         IArticleBuilder WithContent(string content);
-        IArticleBuilder WithSubjects(params Subject[] subjects);
+        IArticleBuilder WithSubjects(Subject[] subjects);
+        IArticleBuilder WithDisciplines(Discipline[] disciplines);
+        IArticleBuilder WithTopics(Topic[] topics);
         Article Build();
     }
 }
