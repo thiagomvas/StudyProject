@@ -23,7 +23,7 @@ Welcome to your new app.
 else
 {
 	<h1>@article.Title (@article.Id)</h1>
-    <p>@article.Content</p>
+    @((MarkupString)article.Content)
 }
 @code {
 
@@ -32,7 +32,9 @@ else
 
     private async void IncrementCount()
     {
-        await invoker.CreateArticleAsync(new CreateArticleCommand(new ArticleBuilder().WithTitle("Foo").WithContent("Bar").Build()));
+        Article a = new ArticleBuilder().WithTitle("Bar").WithContent("""<h2> Hi ! </h2><p class='markup'>This is a <em>markup string</em>.</p><button class="btn btn-primary" @onclick="GetArticle">This is a button!</button>""").Build();
+        article = a;
+        await invoker.CreateArticleAsync(new CreateArticleCommand(a));
     }
 
     private async void GetArticle()
