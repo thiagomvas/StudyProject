@@ -23,7 +23,6 @@ namespace StudyProject.Application.Articles.Commands
         public async Task<Article> GetArticleAsync(GetArticleCommand command)
         {
             var article = await _context.GetArticleByIdAsync(command.Id);
-            Console.WriteLine(article.Title);
             return article;
         }
 

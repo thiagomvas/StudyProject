@@ -42,6 +42,10 @@ namespace StudyProject.Core.ArticleAggregate.Interfaces
         /// <returns>The article builder instance after the operation has been done.</returns>
         public IArticleBuilder WithTopics(Topic[] topics);
 
+
+        public IArticleBuilder WithId(HexId id);
+        public IArticleBuilder WithId(string id);
+
         /// <summary>
         /// Builds the article.
         /// </summary>

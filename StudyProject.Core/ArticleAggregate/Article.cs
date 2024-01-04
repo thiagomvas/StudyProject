@@ -37,6 +37,13 @@ namespace StudyProject.Core.ArticleAggregate
         /// </summary>
         public Topic[] Topics { get; set; } = new Topic[0];
 
+        public static readonly Article NotFound = new Article
+        {
+            Id = new HexId("0x000000"),
+            Title = "Oops! Article Not Found",
+            Content = "The article you are looking for could not be found. Please try again later.",
+        };
+
         public Article() 
         { 
             Id = HexId.NewHexId();

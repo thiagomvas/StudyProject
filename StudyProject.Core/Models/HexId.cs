@@ -77,5 +77,8 @@ namespace StudyProject.Core.Models
         {
             return !(hexId1 == hexId2);
         }
+
+        public static bool operator ==(HexId hex, string s) => hex.hexId == s;
+        public static bool operator !=(HexId hex, string s) => hex.hexId != s;
     }
 }

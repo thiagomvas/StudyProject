@@ -1,11 +1,31 @@
 ﻿@page "/article/{Id}"
+@using StudyProject.Application.Articles.Commands
+@using StudyProject.Application.Articles.Commands.Get
 @using StudyProject.Core.ArticleAggregate
-@using StudyProject.Core.Models
 @using StudyProject.Infrastructure
+@inject ArticleCommandInvoker invoker
 
-<h1>Article Id: @Id</h1>
+@if (article == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@article.Title</h1>
+	<p>@article.Content</p>
+
+}
 
 
 @code {
-	[Parameter] public string Id { get; set; }
+    [Parameter] public string Id { get; set; }
+
+    Article? article;
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetArticleCommand command = new(Id);
+        article = invoker.GetArticleAsync(command).Result; 
+    }
+
 }

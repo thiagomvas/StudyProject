@@ -32,6 +32,18 @@ namespace StudyProject.Application.Common.Builders
             return this;
         }
 
+        public IArticleBuilder WithId(HexId id)
+        {
+            article.Id = id;
+            return this;
+        }
+
+        public IArticleBuilder WithId(string id)
+        {
+            article.Id = new HexId(id);
+            return this;
+        }
+
         /// <inheritdoc/>
         public IArticleBuilder WithSubjects(Subject[] subjects)
         {

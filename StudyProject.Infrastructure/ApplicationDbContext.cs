@@ -1,15 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StudyProject.Application.Common.Builders;
+﻿using StudyProject.Application.Common.Builders;
 using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
 using StudyProject.Core.Models;
+using StudyProject.Infrastructure.DTOs;
+using System.Net.Http.Json;
 
 namespace StudyProject.Infrastructure
 {
 	public class ApplicationDbContext : IApplicationDbContext
 	{
+
 		private List<Article> articles = new List<Article>();
 		public List<Article> Articles { get => articles; set => articles = value; }
+
+
+		public async Task LoadData(string address)
+		{
+			using var client = new HttpClient();
+            var _articles = await client.GetFromJsonAsync<ArticleDTO[]>(Path.Combine(address, "sample-data/articles.json"));
+			Articles = _articles.Select(e => e.ToArticle()).ToList();
+			Console.WriteLine($"Loaded {Articles.Count} articles");
+		}
 
 		public Task AddArticleAsync(Article article)
 		{
@@ -27,8 +38,10 @@ namespace StudyProject.Infrastructure
 
 		public Task<Article> GetArticleByIdAsync(HexId id)
 		{
-			Console.WriteLine("Get Article By Id Async Called");
-			return Task.FromResult(Articles.Find(a => a.Id == id));
+            Console.WriteLine("Get Article By Id Async Called");
+			var article = Articles.Find(a => a.Id == id) ?? Article.NotFound;
+
+            return Task.FromResult(article);
 		}
 
 		public Task<int> SaveChangesAsync(CancellationToken cancellationToken)

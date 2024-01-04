@@ -10,7 +10,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-ArticleCommandInvoker invoker = new(new ApplicationDbContext());
+var db = new ApplicationDbContext();
+await db.LoadData(builder.HostEnvironment.BaseAddress);
+
+ArticleCommandInvoker invoker = new(db);
 builder.Services.AddSingleton(invoker);
 
 await builder.Build().RunAsync();
