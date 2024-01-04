@@ -1,0 +1,37 @@
+﻿@page "/article/{Id}"
+@using MathJaxBlazor
+@using StudyProject.Application.Articles.Commands
+@using StudyProject.Application.Articles.Commands.Get
+@using StudyProject.Core.ArticleAggregate
+@using StudyProject.Infrastructure
+@inject ArticleCommandInvoker invoker
+@inherits MathJaxContentComponent
+
+<MathJaxSettings Tex="@texSettings" />
+
+@if (article == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h1>@article.Title</h1>
+    @((MarkupString)article.Content)
+
+}
+
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    Article? article;
+    TexInputSettings texSettings = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        texSettings.InlineMath.Add(new string[] { "$", "$" });
+        GetArticleCommand command = new(Id);
+        article = invoker.GetArticleAsync(command).Result; 
+    }
+
+}
