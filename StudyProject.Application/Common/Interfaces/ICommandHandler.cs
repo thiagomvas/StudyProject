@@ -8,6 +8,6 @@ namespace StudyProject.Application.Common.Interfaces
 {
     internal interface ICommandHandler<TCommand> where TCommand : ICommand
     {
-        void Handle(TCommand command);
+        Task Handle(TCommand command);
     }
 }

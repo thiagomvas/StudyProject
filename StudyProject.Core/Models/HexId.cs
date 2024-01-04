@@ -62,5 +62,20 @@ namespace StudyProject.Core.Models
             }
             return new HexId(stringBuilder.ToString());
         }
+
+        
+        public static bool operator ==(HexId hexId1, HexId hexId2)
+        {
+            if(hexId1.hexId == hexId2.hexId)
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        public static bool operator !=(HexId hexId1, HexId hexId2)
+        {
+            return !(hexId1 == hexId2);
+        }
     }
 }

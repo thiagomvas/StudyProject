@@ -6,45 +6,45 @@ using StudyProject.Core.Models;
 
 namespace StudyProject.Infrastructure
 {
-    public class ApplicationDbContext
-    {
-        public List<Article> Articles = new() { new ArticleBuilder().WithTitle("Foo").WithContent("Bar").Build(), };
+	public class ApplicationDbContext : IApplicationDbContext
+	{
+		private List<Article> articles = new List<Article>();
+		public List<Article> Articles { get => articles; set => articles = value; }
 
-
-        public List<Article> GetArticles()
-        {
-            return Articles;
-        }
-
-        public Task<Article> GetArticleByIdAsync(HexId id)
-        {
-            return Task.FromResult(Articles.FirstOrDefault(x => x.Id == id));
-        }
-
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-        {
-            return Task.FromResult(0);
-        }
-
-        public Task AddArticleAsync(Article article)
-        {
-            Articles.Add(article);
+		public Task AddArticleAsync(Article article)
+		{
+			Console.WriteLine($"Add Article Async Called\nID: {article.Id}");
+			Articles.Add(article);
             return Task.CompletedTask;
         }
 
-        public Task UpdateArticleAsync(Article article)
-        {
+		public Task DeleteArticleAsync(HexId id)
+		{
+			Console.WriteLine("Delete Article Async Called");
+			Articles.Remove(Articles.Find(a => a.Id == id));
+			return Task.CompletedTask;
+		}
 
-            var articleToUpdate = Articles.FirstOrDefault(a => a.Id == article.Id);
-            articleToUpdate = article;
-            return Task.CompletedTask;
+		public Task<Article> GetArticleByIdAsync(HexId id)
+		{
+			Console.WriteLine("Get Article By Id Async Called");
+			return Task.FromResult(Articles.Find(a => a.Id == id));
+		}
 
-        }
+		public Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+		{
+			Console.WriteLine("Save Changes Async Called");
+			return Task.FromResult(1);
+		}
 
-        public Task DeleteArticleAsync(HexId id)
-        {
-            Articles.Remove(Articles.FirstOrDefault(a => a.Id == id));
-            return Task.CompletedTask;
-        }
-    }
+		public Task UpdateArticleAsync(Article article)
+		{
+			Console.WriteLine("Update Article Async Called");
+			Articles.Remove(Articles.Find(a => a.Id == article.Id));
+			return Task.CompletedTask;
+
+		}
+	}
+
+
 }
