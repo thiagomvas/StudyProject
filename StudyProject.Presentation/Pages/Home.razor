@@ -6,6 +6,9 @@
 @using StudyProject.Application.Common.Builders
 @using StudyProject.Core.ArticleAggregate
 @inject ArticleCommandInvoker invoker;
+@inherits MathJaxContentComponent
+
+<MathJaxSettings Tex="@texSettings" />
 
 <PageTitle>Home</PageTitle>
 
@@ -17,27 +20,40 @@
 
 @if(article == null)
 {
-	<p><em>Loading...</em></p>
+
 }
 else
 {
-    // NOTE : This is a hack to get the equations to render. Blazor does not render the component if its from a MarkupString
 	<h1>@article.Title (@article.Id)</h1>
     @((MarkupString)article.Content)
-    foreach(var eq in equations)
-    {
-        <Equation Value="@eq" />
-    }
 }
 
 <p>This is another test: <Equation Value="\pi \cdot r^2" TeXDisplay="false"/> is the area of a circle</p>
 
 @code {
+    // NOTE: If the page is redrawn the LaTeX breaks
+    TexInputSettings texSettings = new();
 
+    protected override Task OnInitializedAsync()
+    {
+        texSettings.InlineMath.Add(new string[] { "$", "$" });
+        IncrementCount();
+        return base.OnInitializedAsync();
+    }
     private string SearchId;
     private Article? article;
 
-    string[] equations = ["a^2 + b^2 = c^2", """\frac{d}{dx} f(x)"""];
+    string text2 =
+    """"
+<h2> Hi ! </h2>
+<p> This is a test </p>
+<p>This is a second test: \(l^2 \) is the area of a square
+<p>This is a third test: $1 + 2 + 3 = 6$ </p>
+\[
+\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).
+\]
+
+"""";
 
     private async void IncrementCount()
     {
@@ -45,7 +61,18 @@ else
     """"
 <h2> Hi ! </h2>
 <p> This is a test </p>
-<p>This is another test: <MathJaxBlazor.Equation Value="l^2" TeXDisplay="false"/> is the area of a square</p>
+<p>This is a second test: \(l^2 \) is the area of a square
+<p>This is a third test: $1 + 2 + 3 = 6$ </p>
+$$ a/c=1000 $$
+
+\( a + b = c \)
+
+Testing: $a^2 + b^2 = c^2$ is the Pythagorean Theorem
+
+\[
+\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).
+\]
+        
 """";
         Article a = new ArticleBuilder().WithTitle("Bar").WithContent(text).Build();
         article = a;
