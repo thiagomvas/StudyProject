@@ -4,28 +4,6 @@
 @using MathJaxBlazor
 
 
-<style>
-	table {
-		border-collapse: collapse;
-		width: 100%;
-	}
-
-	th, td {
-		border: 1px solid black;
-		padding: 8px;
-		text-align: left;
-	}
-
-	/* Style odd rows with a different background color */
-	tbody tr:nth-child(odd) {
-		background-color: #f2f2f2;
-	}
-
-	/* Style even rows with a different background color */
-	tbody tr:nth-child(even) {
-		background-color: #ffffff;
-	}
-</style>
 <h3>Statistics</h3>
 Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> and <b>Variance</b> from a data set.
 
@@ -34,7 +12,7 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 <div>
 @if (showFormulas)
 {
-	<button @onclick="() => showFormulas = !showFormulas">Show Formulas</button>
+	<CustomButton OnClick="() => showFormulas = !showFormulas">Show Formulas</CustomButton>
 	<table>
 		<thead>
 			<tr>
@@ -75,7 +53,7 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 }
 else
 {
-	<button @onclick="() => showFormulas = !showFormulas">Show Formulas</button>
+	<CustomButton OnClick="() => showFormulas = !showFormulas">Show Formulas</CustomButton>
 }
 </div>
 
@@ -84,7 +62,7 @@ else
 	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset" />
 </div>
 <br />
-<button @onclick="CalculateData">Compute values</button>
+<CustomButton OnClick="CalculateData">Compute values</CustomButton>
 
 <br />
 @if(stats == null)
@@ -95,6 +73,9 @@ else
 else
 {
 	<div>
+		<br />
+		<br />
+		<br />
 		<p>Mean: <Equation Value="@stats.Mean.ToString()" TeXDisplay="false" /></p>
 		<p>Median: <Equation Value="@stats.Median.ToString()" TeXDisplay="false" /></p>
 		<p>Mode: <Equation Value="@stats.Mode.ToString()" TeXDisplay="false" /></p>
@@ -110,6 +91,10 @@ else
 	DescriptiveStatistics<double> stats = null;
 	private void CalculateData()
 	{
+		if(string.IsNullOrWhiteSpace(input))
+		{
+			return;
+		}
 		var data = ProcessInput();
 		stats = new(data); 
 	}

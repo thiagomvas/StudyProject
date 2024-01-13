@@ -1,0 +1,28 @@
+﻿@inherits ComponentBase
+
+<style>
+    .custom-button {
+		cursor: pointer;
+        display: inline-block;
+        background-color: mediumseagreen;
+        color: white;
+        padding: 7px;
+        border-radius: 5px;
+        font-size: 1.2em;
+	}
+</style>
+
+<div class="custom-button">
+    <span @onclick="Navigate">@Text</span>
+</div>
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string Text { get; set; }
+    [Parameter] public string Destination { get; set; }
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo(Destination);
+    }
+}

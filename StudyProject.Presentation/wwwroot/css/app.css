@@ -2,6 +2,34 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+table {
+    border-collapse: collapse;
+    width: 100%;
+    border-radius: 5px;
+    color: white;
+}
+
+th, td {
+    border: 0.5px solid black;
+    padding: 8px;
+    text-align: left;
+}
+
+thead {
+    background-color: #1f1f1f;
+    color: white;
+}
+
+/* Style odd rows with a different background color */
+tbody tr:nth-child(odd) {
+    background-color: #232323;
+}
+
+/* Style even rows with a different background color */
+tbody tr:nth-child(even) {
+    background-color: #1f1f1f;
+}
+
 h1:focus {
     outline: none;
 }
