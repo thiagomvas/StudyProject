@@ -1,0 +1,53 @@
+﻿<!-- CustomTable.razor -->
+
+@inherits ComponentBase
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    /* Style odd rows with a different background color */
+    tbody tr:nth-child(odd) {
+        background-color: #f2f2f2;
+    }
+
+    /* Style even rows with a different background color */
+    tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+</style>
+
+<table>
+    <thead>
+        <tr>
+            @foreach (var header in Headers)
+            {
+                <th>@header</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Rows)
+        {
+            <tr>
+                @foreach (var cell in row)
+                {
+                    <td>@cell</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter] public List<string> Headers { get; set; }
+    [Parameter] public List<List<string>> Rows { get; set; }
+}

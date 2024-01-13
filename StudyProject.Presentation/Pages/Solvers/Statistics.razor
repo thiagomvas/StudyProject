@@ -1,0 +1,121 @@
+﻿@page "/solvers/Statistics"
+@using TMath.Numerics
+@using TMath.Numerics.Models
+@using MathJaxBlazor
+
+
+<style>
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	th, td {
+		border: 1px solid black;
+		padding: 8px;
+		text-align: left;
+	}
+
+	/* Style odd rows with a different background color */
+	tbody tr:nth-child(odd) {
+		background-color: #f2f2f2;
+	}
+
+	/* Style even rows with a different background color */
+	tbody tr:nth-child(even) {
+		background-color: #ffffff;
+	}
+</style>
+<h3>Statistics</h3>
+Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> and <b>Variance</b> from a data set.
+
+<br />
+
+<div>
+@if (showFormulas)
+{
+	<button @onclick="() => showFormulas = !showFormulas">Show Formulas</button>
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Formula</th>
+				<th>Info</th>
+				<!-- Add more header cells if needed -->
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Mean</td>
+				<td><Equation Value=" \overline{x} = \frac{1}{n} \sum_{i=i}^{n} x_{i} " /></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Median</td>
+				<td><Equation Value=" med(X) = \left \{\begin{align*}  &X\left [ \frac{n+1}{2}\right] &\text{if n is odd} \\ &\frac{X[\frac{n}{2}] + X[\frac{n}{2} + 1]}{2} &\text{if n is even}\\ \end{align*} \right." /></td>
+				<td><Equation Value="X =" TeXDisplay="false" /> ordered list of values in data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+			</tr>
+			<tr>
+				<td>Mode</td>
+				<td>There is no formula</td>
+				<td>Most frequent value in data set</td>
+			</tr>
+			<tr>
+				<td>Variance</td>
+				<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
+				<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+			</tr>
+			<tr>
+				<td>Standard Deviation</td>
+				<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n - 1}}" /></td>
+				<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+			</tr>
+		</tbody>
+	</table>
+}
+else
+{
+	<button @onclick="() => showFormulas = !showFormulas">Show Formulas</button>
+}
+</div>
+
+<br />
+<div>
+	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset" />
+</div>
+<br />
+<button @onclick="CalculateData">Compute values</button>
+
+<br />
+@if(stats == null)
+{
+	<p>Enter your data set separated by a ,</p>
+	<p>Example: 1, 2, 3, 4, 5 (space not required)</p>
+}
+else
+{
+	<div>
+		<p>Mean: <Equation Value="@stats.Mean.ToString()" TeXDisplay="false" /></p>
+		<p>Median: <Equation Value="@stats.Median.ToString()" TeXDisplay="false" /></p>
+		<p>Mode: <Equation Value="@stats.Mode.ToString()" TeXDisplay="false" /></p>
+		<p>Variance: <Equation Value="@stats.Variance.ToString()" TeXDisplay="false" /></p>
+		<p>Standard Deviation: <Equation Value="@stats.StandardDeviation.ToString()" TeXDisplay="false" /></p>
+	</div>
+}
+
+@code {
+
+	private bool showFormulas = false;
+	private string input;
+	DescriptiveStatistics<double> stats = null;
+	private void CalculateData()
+	{
+		var data = ProcessInput();
+		stats = new(data); 
+	}
+
+	private double[] ProcessInput()
+	{
+		return input.Replace(" ", "").Split(',').Select(x => double.Parse(x)).ToArray();
+	}
+}
