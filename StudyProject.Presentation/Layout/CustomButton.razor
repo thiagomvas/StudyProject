@@ -4,12 +4,13 @@
     .custom-button {
         cursor: pointer;
         display: inline-block;
-        background-color: mediumseagreen;
+        background-color: @Color;
         color: white;
-        padding: 7px;
+        padding: 12px;
         border-radius: 5px;
-        font-size: 1.2em;
-        border: 0px;
+        width: @Width;
+        margin: 10px 0 10px 0;
+        border: none;
     }
 </style>
 
@@ -20,4 +21,7 @@
 @code {
     [Parameter] public EventCallback OnClick { get; set; }
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string Color { get; set; } = "#303031";
+    [Parameter] public string Width { get; set; } = "";
 }

@@ -12,7 +12,7 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 <div>
 @if (showFormulas)
 {
-	<CustomButton OnClick="() => showFormulas = !showFormulas">Show Formulas</CustomButton>
+	<CustomButton OnClick="() => showFormulas = !showFormulas">Hide Formulas</CustomButton>
 	<table>
 		<thead>
 			<tr>
@@ -57,13 +57,14 @@ else
 }
 </div>
 
+
 <br />
 <div>
 	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset" />
 </div>
 <br />
 <CustomButton OnClick="CalculateData">Compute values</CustomButton>
-
+<hr style="border: 1px solid #ccc; margin: 20px 0;" />
 <br />
 @if(stats == null)
 {
@@ -73,9 +74,6 @@ else
 else
 {
 	<div>
-		<br />
-		<br />
-		<br />
 		<p>Mean: <Equation Value="@stats.Mean.ToString()" TeXDisplay="false" /></p>
 		<p>Median: <Equation Value="@stats.Median.ToString()" TeXDisplay="false" /></p>
 		<p>Mode: <Equation Value="@stats.Mode.ToString()" TeXDisplay="false" /></p>
