@@ -1,16 +1,62 @@
 ﻿@page "/solvers"
 @inject NavigationManager navManager;
+
+<PageTitle>Solvers</PageTitle>
+
 <h1>Solvers</h1>
 <p>This page contains all the solvers and formula applications in the website.</p>
 
-<RedirectButton Destination="solvers/Statistics" Color="#303031">
-	<h2>Statistics</h2>
-	<p>Calculate the Mean, Median, Mode, Variance and Standard Deviation from a data set.</p>
-</RedirectButton>
+<input type="text" @bind="searchTerm" placeholder="Search solvers..." />
 
-<RedirectButton Destination="solvers/QuadraticEquation" Color="#303031">
-	<h2>Quadratic Equation</h2>
-	<p>Calculate the roots of a quadratic equation.</p>
-</RedirectButton>
+@{
+    List<Redirect> redirects = new List<Redirect>
+    {
+        new("solvers/Statistics", "Statistics", "Calculate the Mean, Median, Mode, Variance and Standard Deviation from a data set."),
+        new("solvers/QuadraticEquation", "Quadratic Equation", "Calculate the roots of a quadratic equation."),
+        new("solvers/Vectors", "Vector Operations", "Compute operations between vectors such as Cross Products, Dot Products, Angle between Vectors, Length and more"),
+        new("solvers/Matrix", "Matrix Operations", "Compute operations between matrices such as Determinant, Inverse, Transpose, Rank and more"),
+    };
 
+    redirects = ApplySearchFilter(redirects, searchTerm);
 
+    redirects.Sort((x, y) => x.Title.CompareTo(y.Title));
+}
+
+@foreach (var redirect in redirects)
+{
+    <RedirectButton Destination="@redirect.Destination" Color="#303031">
+        <h2>@redirect.Title</h2>
+        <p>@redirect.Description</p>
+    </RedirectButton>
+}
+
+@code {
+    class Redirect
+    {
+        public string Destination { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+
+        public Redirect(string destination, string title, string description)
+        {
+            Destination = destination;
+            Title = title;
+            Description = description;
+        }
+    }
+
+    string searchTerm = "";
+
+    List<Redirect> ApplySearchFilter(List<Redirect> redirects, string searchTerm)
+    {
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            searchTerm = searchTerm.ToLower();
+            redirects = redirects.Where(r =>
+                r.Title.ToLower().Contains(searchTerm) ||
+                r.Description.ToLower().Contains(searchTerm))
+                .ToList();
+        }
+        return redirects;
+    }
+}
