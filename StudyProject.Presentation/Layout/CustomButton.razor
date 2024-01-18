@@ -4,17 +4,16 @@
     .custom-button {
         cursor: pointer;
         display: inline-block;
-        background-color: @Color;
         color: white;
         padding: 12px;
         border-radius: 5px;
-        width: @Width;
         margin: 10px 0 10px 0;
         border: none;
+        height: fit-content;
     }
 </style>
 
-<button class="custom-button" @onclick="OnClick">
+<button style="background-color: @Color; width: @Width;" class="custom-button" @onclick="OnClick">
     @ChildContent
 </button>
 
@@ -23,5 +22,5 @@
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter] public string Color { get; set; } = "#303031";
-    [Parameter] public string Width { get; set; } = "";
+    [Parameter] public string Width { get; set; } = "fit-content";
 }

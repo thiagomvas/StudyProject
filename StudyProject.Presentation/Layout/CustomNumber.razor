@@ -1,0 +1,10 @@
+﻿@using StudyProject.Application.Common.Builders
+@inherits ComponentBase
+
+<InputNumber style="width: 50px; height: fit-content;" TValue="double" placeholder="@index" ValueChanged="(e => Array[index] = e)" ValueExpression="() => Array[index]" />
+
+
+@code {
+    [Parameter] public ArrayReference<double> Array { get; set; }
+    [Parameter] public int index { get; set; }
+}

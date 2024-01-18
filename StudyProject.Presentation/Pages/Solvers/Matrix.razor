@@ -1,5 +1,6 @@
 ﻿@page "/solvers/Matrix"
 @using System.Text
+@using StudyProject.Application.Common.Builders
 @using TMath.Numerics
 @using TMath.Numerics.LinearAlgebra
 @using TMath.Numerics.Models
@@ -10,19 +11,13 @@
 <h3>Matrix Operations</h3>
 <br />
 
-<div style="max-width: 800px; margin: auto; display: flex; justify-content: space-between;">
+<div style="max-width: 800px; display: flex; justify-content: space-between;">
 
-	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
-		<input type="text" style="width: 50px" placeholder="1" @bind-value="a[0]" />
-		<input type="text" style="width: 50px" placeholder="2" @bind-value="a[1]" />
-		<input type="text" style="width: 50px" placeholder="3" @bind-value="a[2]" />
-		<input type="text" style="width: 50px" placeholder="4" @bind-value="a[3]" />
-		<input type="text" style="width: 50px" placeholder="5" @bind-value="a[4]" />
-		<input type="text" style="width: 50px" placeholder="6" @bind-value="a[5]" />
-		<input type="text" style="width: 50px" placeholder="7" @bind-value="a[6]" />
-		<input type="text" style="width: 50px" placeholder="8" @bind-value="a[7]" />
-		<input type="text" style="width: 50px" placeholder="9" @bind-value="a[8]" />
-		<CustomButton Width="100px" OnClick="TransposeA">Transpose</CustomButton>
+	<div style="display: grid; grid-template-columns: repeat(@arrayASize, 50px); gap: 10px;">
+		@for (int i = 0; i < arrayASize * arrayASize; i++)
+		{
+			<CustomNumber Array="@a" index="@i" />
+		}
 	</div>
 
 	<div style="display: grid; grid-template-columns: repeat(3, 100px); gap: 10px;">
@@ -31,20 +26,29 @@
 		<CustomButton Width="100px" OnClick="Multiply">A * B </CustomButton>
 	</div>
 
-	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
-		<input type="text" style="width: 50px" placeholder="1" @bind-value="b[0]" />
-		<input type="text" style="width: 50px" placeholder="2" @bind-value="b[1]" />
-		<input type="text" style="width: 50px" placeholder="3" @bind-value="b[2]" />
-		<input type="text" style="width: 50px" placeholder="4" @bind-value="b[3]" />
-		<input type="text" style="width: 50px" placeholder="5" @bind-value="b[4]" />
-		<input type="text" style="width: 50px" placeholder="6" @bind-value="b[5]" />
-		<input type="text" style="width: 50px" placeholder="7" @bind-value="b[6]" />
-		<input type="text" style="width: 50px" placeholder="8" @bind-value="b[7]" />
-		<input type="text" style="width: 50px" placeholder="9" @bind-value="b[8]" />
-		<CustomButton Width="100px" OnClick="TransposeB">Transpose</CustomButton>
+	<div style="display: grid; grid-template-columns: repeat(@arrayBSize, 50px); gap: 10px;">
+		@for (int i = 0; i < arrayBSize * arrayBSize; i++)
+		{
+			<CustomNumber Array="@b" index="@i" />
+		}
 	</div>
 </div>
+<div style="max-width: 800px; display: flex; justify-content: space-between;">
 
+
+	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
+		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize + 1)">+</CustomButton>
+		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize - 1)">-</CustomButton>
+		<CustomButton OnClick="TransposeA">Transpose</CustomButton>
+	</div>
+
+	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
+		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize + 1)">+</CustomButton>
+		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize - 1)">-</CustomButton>
+		<CustomButton OnClick="TransposeB">Transpose</CustomButton>
+	</div>
+</div>
+<hr style="border: 1px solid #ccc; margin: 20px 0;" />
 <hr style="border: 1px solid #ccc; margin: 20px 0;" />
 <div>Output: <Equation Value="@output" TeXDisplay="false" /></div>
 
@@ -52,18 +56,38 @@
 
 
 @code {
-	string[] a = new string[9];
-	string[] b = new string[9];
+
+	int arrayASize = 3;
+	int arrayBSize = 3;
+
+	private void ResizeArrayA(int newvalue)
+	{
+		if(newvalue <= 0)
+			return; 
+		arrayASize = newvalue; 
+		a = new(new double[newvalue * newvalue]);
+	}
+	private void ResizeArrayB(int newvalue)
+	{
+		if(newvalue <= 0)
+			return; 
+		arrayBSize = newvalue; 
+		b = new(new double[newvalue * newvalue]);
+	}
+
+	ArrayReference<double> a = new(new double[9]);
+	ArrayReference<double> b = new(new double[9]);
+
 
 	string output;
 
 	private void TransposeA()
 	{
-		var matrixA = new TMatrix<double>(3, 3);
+		var matrixA = new TMatrix<double>(arrayASize, arrayASize);
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < arrayASize * arrayASize; i++)
 		{
-			matrixA[i / 3, i % 3] = double.Parse(a[i]);
+			matrixA[i / arrayASize, i % arrayASize] = a[i];
 		}
 
 		var result = matrixA.Transpose();
@@ -73,11 +97,11 @@
 
 	private void TransposeB()
 	{
-		var matrixB = new TMatrix<double>(3, 3);
+		var matrixB = new TMatrix<double>(arrayBSize, arrayBSize);
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < arrayBSize * arrayBSize; i++)
 		{
-			matrixB[i / 3, i % 3] = double.Parse(b[i]);
+			matrixB[i / arrayBSize, i % arrayBSize] = b[i];
 		}
 
 		var result = matrixB.Transpose();
@@ -87,13 +111,14 @@
 
 	private void Add()
 	{
-		var matrixA = new TMatrix<double>(3, 3);
-		var matrixB = new TMatrix<double>(3, 3);
+		int max = Math.Max(arrayASize, arrayBSize);
+		var matrixA = new TMatrix<double>(max, max);
+		var matrixB = new TMatrix<double>(max, max);
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < max * max; i++)
 		{
-			matrixA[i / 3, i % 3] = double.Parse(a[i]);
-			matrixB[i / 3, i % 3] = double.Parse(b[i]);
+			matrixA[i / max, i % max] = a[i];
+			matrixB[i / max, i % max] = b[i];
 		}
 
 		var result = matrixA + matrixB;
@@ -103,13 +128,14 @@
 
 	private void Subtract()
 	{
-		var matrixA = new TMatrix<double>(3, 3);
-		var matrixB = new TMatrix<double>(3, 3);
+		int max = Math.Max(arrayASize, arrayBSize);
+		var matrixA = new TMatrix<double>(max, max);
+		var matrixB = new TMatrix<double>(max, max);
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < max * max; i++)
 		{
-			matrixA[i / 3, i % 3] = double.Parse(a[i]);
-			matrixB[i / 3, i % 3] = double.Parse(b[i]);
+			matrixA[i / max, i % max] = a[i];
+			matrixB[i / max, i % max] = b[i];
 		}
 
 		var result = matrixA - matrixB;
@@ -119,13 +145,14 @@
 
 	private void Multiply()
 	{
-		var matrixA = new TMatrix<double>(3, 3);
-		var matrixB = new TMatrix<double>(3, 3);
+		int max = Math.Max(arrayASize, arrayBSize);
+		var matrixA = new TMatrix<double>(max, max);
+		var matrixB = new TMatrix<double>(max, max);
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < max * max; i++)
 		{
-			matrixA[i / 3, i % 3] = double.Parse(a[i]);
-			matrixB[i / 3, i % 3] = double.Parse(b[i]);
+			matrixA[i / max, i % max] = a[i];
+			matrixB[i / max, i % max] = b[i];
 		}
 
 		var result = matrixA * matrixB;
