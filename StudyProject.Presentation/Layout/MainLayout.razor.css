@@ -6,12 +6,37 @@
     color: white;
 }
 
+.custom-input-field {
+    width: 50px;
+    height: fit-content;
+    background: #303031;
+    color: white;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+/* Hide the up and down arrows */
+.custom-input-field::-webkit-inner-spin-button,
+.custom-input-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.custom-input-field[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
 main {
     flex: 1;
+    background-color: #232323;
 }
 
 .sidebar {
     background-color: #1a1a1a;
+    height: 100%;
 }
 
 

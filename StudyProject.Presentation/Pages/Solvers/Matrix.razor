@@ -1,6 +1,7 @@
 ﻿@page "/solvers/Matrix"
 @using System.Text
 @using StudyProject.Application.Common.Builders
+@using System.Numerics
 @using TMath.Numerics
 @using TMath.Numerics.LinearAlgebra
 @using TMath.Numerics.Models
@@ -8,69 +9,102 @@
 
 <PageTitle>Matrix Operations</PageTitle>
 
-<h3>Matrix Operations</h3>
-<br />
+<style>
+	.page {
+		overflow: hidden;
+	}
 
-<div style="max-width: 800px; display: flex; justify-content: space-between;">
+	.custom-input-field {
+		width: 30px;
+		height: fit-content;
+		background: #282424;
+		color: white;
+		appearance: none;
+		border: none;
+		border-radius: 5px;
+		padding: 0px 5px 0px 5px;
+	}
+
+		/* Hide the up and down arrows */
+		.custom-input-field::-webkit-inner-spin-button,
+		.custom-input-field::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		.custom-input-field[type="number"] {
+			-moz-appearance: textfield;
+		}
+</style>
+
+<h3>Matrix Operations</h3>
+
+<div style="max-width: 75%; display: flex; justify-content: space-between;">
 
 	<div style="display: grid; grid-template-columns: repeat(@arrayASize, 50px); gap: 10px;">
 		@for (int i = 0; i < arrayASize * arrayASize; i++)
 		{
 			<CustomNumber Array="@a" index="@i" />
 		}
+
+		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize + 1)">+</CustomButton>
+		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize - 1)">-</CustomButton>
+		<CustomButton OnClick="TransposeA">Transpose</CustomButton>
 	</div>
 
-	<div style="display: grid; grid-template-columns: repeat(3, 100px); gap: 10px;">
-		<CustomButton Width="100px" OnClick="Add">A + B</CustomButton>
-		<CustomButton Width="100px" OnClick="Subtract">A - B</CustomButton>
-		<CustomButton Width="100px" OnClick="Multiply">A * B </CustomButton>
-	</div>
 
 	<div style="display: grid; grid-template-columns: repeat(@arrayBSize, 50px); gap: 10px;">
 		@for (int i = 0; i < arrayBSize * arrayBSize; i++)
 		{
 			<CustomNumber Array="@b" index="@i" />
 		}
-	</div>
-</div>
-<div style="max-width: 800px; display: flex; justify-content: space-between;">
-
-
-	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
-		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize + 1)">+</CustomButton>
-		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize - 1)">-</CustomButton>
-		<CustomButton OnClick="TransposeA">Transpose</CustomButton>
-	</div>
-
-	<div style="display: grid; grid-template-columns: repeat(3, 50px); gap: 10px;">
 		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize + 1)">+</CustomButton>
 		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize - 1)">-</CustomButton>
 		<CustomButton OnClick="TransposeB">Transpose</CustomButton>
 	</div>
 </div>
 <Divider />
-<div>Output: <Equation Value="@output" TeXDisplay="false" /></div>
 
-
+<CustomButton Width="150px" OnClick="MultiplyA">A * <input type="number" class="custom-input-field" @bind-value="AtimesScalar" /></CustomButton>
+<CustomButton Width="150px" OnClick="MultiplyB">B *<input type="number" class="custom-input-field" @bind-value="BtimesScalar" /></CustomButton>
+<CustomButton Width="100px" OnClick="Add"><Equation Value="A + B"/></CustomButton>
+<CustomButton Width="100px" OnClick="Subtract"><Equation Value="A - B" /></CustomButton>
+<CustomButton Width="100px" OnClick="Multiply"><Equation Value="A \cdot B" /> </CustomButton>
+<CustomButton Width="150px" OnClick="Identity">Identity <input type="number" class="custom-input-field" @bind-value="identitySize" /></CustomButton>
+<Divider />
+<h2><Equation Value="@output" TeXDisplay="false" /></h2>
+<Divider />
+<h2>Step by Step</h2>
+<Equation Value="@stepbystep" TeXDisplay="false" />
 
 
 @code {
-
+	bool init = false;
 	int arrayASize = 3;
 	int arrayBSize = 3;
+	int identitySize = 3;
+	int AtimesScalar = 2;
+	int BtimesScalar = 2;
+
+
+	protected override void OnInitialized()
+	{
+		init = true;
+		base.OnInitialized();
+	}
 
 	private void ResizeArrayA(int newvalue)
 	{
-		if(newvalue <= 0)
-			return; 
-		arrayASize = newvalue; 
+		if (newvalue <= 0)
+			return;
+		arrayASize = newvalue;
 		a = new(new double[newvalue * newvalue]);
 	}
 	private void ResizeArrayB(int newvalue)
 	{
-		if(newvalue <= 0)
-			return; 
-		arrayBSize = newvalue; 
+		if (newvalue <= 0)
+			return;
+		arrayBSize = newvalue;
 		b = new(new double[newvalue * newvalue]);
 	}
 
@@ -79,6 +113,66 @@
 
 
 	string output;
+	string stepbystep;
+
+	private void MultiplyA()
+	{
+		TMatrix<double> m = new TMatrix<double>(arrayASize, arrayASize, a.array);
+		TMatrix<double> result = m * AtimesScalar;
+		output = $"{AtimesScalar} * {MatrixToLatex(m)} = {MatrixToLatex(result)}";
+
+		StringBuilder sb = new();
+		sb.Append("""\begin{pmatrix}""");
+		for (int i = 0; i < result.Rows; i++)
+		{
+			for (int j = 0; j < result.Columns; j++)
+			{
+				sb.Append($"{AtimesScalar} * {m[i, j]}");
+				if (j + 1 < result.Columns)
+				{
+					sb.Append(" & ");
+				}
+			}
+			sb.Append("""\\""");
+		}
+		sb.Append("""\end{pmatrix}""");
+
+		stepbystep = $"\\begin{{align*}} {AtimesScalar} * {MatrixToLatex(m)} &= {sb.ToString()}\\\\ &= {MatrixToLatex(result)} \\end{{align*}}";
+	}
+
+
+	private void MultiplyB()
+	{
+		TMatrix<double> m = new TMatrix<double>(arrayASize, arrayASize, b.array);
+		TMatrix<double> result = m * BtimesScalar;
+		output = $"{AtimesScalar} * {MatrixToLatex(m)} = {MatrixToLatex(result)}";
+
+		StringBuilder sb = new();
+		sb.Append("""\begin{pmatrix}""");
+		for (int i = 0; i < result.Rows; i++)
+		{
+			for (int j = 0; j < result.Columns; j++)
+			{
+				sb.Append($"{BtimesScalar} * {m[i, j]}");
+				if (j + 1 < result.Columns)
+				{
+					sb.Append(" & ");
+				}
+			}
+			sb.Append("""\\""");
+		}
+		sb.Append("""\end{pmatrix}""");
+
+		stepbystep = $"\\begin{{align*}} {BtimesScalar} * {MatrixToLatex(m)} &= {sb.ToString()}\\\\ &= {MatrixToLatex(result)} \\end{{align*}}";
+	}
+
+	private void Identity()
+	{
+		TMatrix<int> matrix = TMatrix<int>.Identity(identitySize);
+
+		output = $@"I = {MatrixToLatex(matrix)}";
+		stepbystep = $@"\text{{Simply create a {identitySize}x{identitySize} matrix where all the elements in the diagonal are 1, and the rest are 0}}";
+	}
 
 	private void TransposeA()
 	{
@@ -123,7 +217,26 @@
 
 		var result = matrixA + matrixB;
 
-		output = MatrixToLatex(result);
+		output = $"A + B = {MatrixToLatex(result)}";
+
+
+		StringBuilder sb = new();
+		sb.Append("""\begin{pmatrix}""");
+		for (int i = 0; i < result.Rows; i++)
+		{
+			for (int j = 0; j < result.Columns; j++)
+			{
+				sb.Append($"{matrixA[i, j]} + {matrixB[i, j]}");
+				if (j + 1 < result.Columns)
+				{
+					sb.Append(" & ");
+				}
+			}
+			sb.Append("""\\""");
+		}
+		sb.Append("""\end{pmatrix}""");
+
+		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
 	}
 
 	private void Subtract()
@@ -140,7 +253,25 @@
 
 		var result = matrixA - matrixB;
 
-		output = MatrixToLatex(result);
+		output = $"A - B = {MatrixToLatex(result)}";
+
+		StringBuilder sb = new();
+		sb.Append("""\begin{pmatrix}""");
+		for (int i = 0; i < result.Rows; i++)
+		{
+			for (int j = 0; j < result.Columns; j++)
+			{
+				sb.Append($"{matrixA[i, j]} - {matrixB[i, j]}");
+				if (j + 1 < result.Columns)
+				{
+					sb.Append(" & ");
+				}
+			}
+			sb.Append("""\\""");
+		}
+		sb.Append("""\end{pmatrix}""");
+
+		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
 	}
 
 	private void Multiply()
@@ -158,12 +289,39 @@
 		var result = matrixA * matrixB;
 
 		output = MatrixToLatex(result);
+
+		StringBuilder sb = new();
+
+		sb.Append("""\begin{pmatrix}""");
+
+		for (int i = 0; i < matrixA.Rows; i++)
+		{
+			for (int j = 0; j < matrixB.Columns; j++)
+			{
+				for (int k = 0; k < matrixA.Columns; k++)
+				{
+					sb.Append($"{matrixA[i, k]} * {matrixB[k, j]}");
+					if (k + 1 < matrixA.Columns)
+						sb.Append(" + ");
+				}
+				if (j + 1 < result.Columns)
+				{
+					sb.Append(" & ");
+				}
+			}
+			sb.Append("""\\""");
+		}
+
+		sb.Append("""\end{pmatrix}""");
+		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
+
 	}
 
-	private string MatrixToLatex(TMatrix<double> input)
+	private string MatrixToLatex<T>(TMatrix<T> input)
+	where T : INumber<T>
 	{
 		StringBuilder sb = new();
-		sb.Append("""\begin{bmatrix}""");
+		sb.Append("""\begin{pmatrix}""");
 		for (int i = 0; i < input.Rows; i++)
 		{
 			for (int j = 0; j < input.Columns; j++)
@@ -176,7 +334,7 @@
 			}
 			sb.Append("""\\""");
 		}
-		sb.Append("""\end{bmatrix}""");
+		sb.Append("""\end{pmatrix}""");
 		return sb.ToString();
 	}
 

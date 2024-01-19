@@ -21,14 +21,14 @@ await builder.Build().RunAsync();
 
 public class ArrayReference<T>
 {
-    private readonly T[] array;
-    public T this[int i]
-    {
-        get => array[i];
-        set => array[i] = value;
-    }
-    public ArrayReference(T[] array)
-    {
-        this.array = array;
-    }
+	public readonly T[] array;
+	public T this[int i]
+	{
+		get => array[i];
+		set => array[i] = value;
+	}
+	public ArrayReference(T[] array)
+	{
+		this.array = array;
+	}
 }

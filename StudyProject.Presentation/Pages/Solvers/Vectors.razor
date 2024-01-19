@@ -40,8 +40,8 @@
 	<h2>
 		<Equation Value="@output" TeXDisplay=false />
 	</h2>
+	<Divider />
 }
-<Divider />
 
 @if (!string.IsNullOrWhiteSpace(output))
 {
@@ -49,10 +49,6 @@
 	<h3>
 		<Equation Value="@stepbystep" TeXDisplay=false />
 	</h3>
-}
-else
-{
-	<div style="height: 300%;">.</div>
 }
 
 @code
@@ -122,7 +118,7 @@ else
 
 		output = $"\\left|\\vec{{v}}\\right| = {result}";
 
-		stepbystep = $@"|\vec{{v99}}| = \sqrt{{ {v[0]}^2 + {v[1]}^2 + {v[2]}^2}} = {result}";
+		stepbystep = $@"|\vec{{v}}| = \sqrt{{ {v[0]}^2 + {v[1]}^2 + {v[2]}^2}} = {result}";
 	}
 
 	private void MagnitudeU()
