@@ -48,8 +48,7 @@
 		<CustomButton OnClick="TransposeB">Transpose</CustomButton>
 	</div>
 </div>
-<hr style="border: 1px solid #ccc; margin: 20px 0;" />
-<hr style="border: 1px solid #ccc; margin: 20px 0;" />
+<Divider />
 <div>Output: <Equation Value="@output" TeXDisplay="false" /></div>
 
 
@@ -89,6 +88,7 @@
 		{
 			matrixA[i / arrayASize, i % arrayASize] = a[i];
 		}
+
 
 		var result = matrixA.Transpose();
 
