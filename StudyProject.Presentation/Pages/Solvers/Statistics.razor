@@ -1,4 +1,5 @@
 ﻿@page "/solvers/Statistics"
+@using TMath
 @using TMath.Numerics
 @using TMath.Numerics.Models
 @using MathJaxBlazor
@@ -41,11 +42,26 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 				</tr>
 				<tr>
 					<td>Variance</td>
-					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
+					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n} " /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 				<tr>
 					<td>Standard Deviation</td>
+					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n}}" /></td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+				</tr>
+				<tr>
+					<td>Geometric Mean</td>
+					<td><Equation Value="\overline{x}_{geom} = \left(\prod_{i=1}^{n} x_{i}\right)^{\frac{1}{n}} = \sqrt[n]{x_1 \cdot x_2 \cdot \cdots \cdot x_n}" /></td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+				</tr>
+				<tr>
+					<td>Sample Variance</td>
+					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+				</tr>
+				<tr>
+					<td>Sample Standard Deviation</td>
 					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n - 1}}" /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
@@ -61,11 +77,11 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 
 <br />
 <div>
-	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset"/>
+	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset" />
 </div>
 <br />
 <CustomButton OnClick="CalculateData">Compute values</CustomButton>
-<hr style="border: 1px solid #ccc; margin: 20px 0;" />
+<Divider />
 <br />
 @if (stats == null)
 {
@@ -87,8 +103,24 @@ else
 				<td>@stats.Median</td>
 			</tr>
 			<tr>
+				<td>Range</td>
+				<td>@stats.Range</td>
+			</tr>
+			<tr>
 				<td>Mode</td>
 				<td>@stats.Mode</td>
+			</tr>
+			<tr>
+				<td>Sum</td>
+				<td>@stats.Sum</td>
+			</tr>
+			<tr>
+				<td>Largest</td>
+				<td>@stats.Largest</td>
+			</tr>
+			<tr>
+				<td>Smallest</td>
+				<td>@stats.Smallest</td>
 			</tr>
 			<tr>
 				<td>Variance</td>
@@ -98,12 +130,25 @@ else
 				<td>Standard Deviation</td>
 				<td>@stats.StandardDeviation</td>
 			</tr>
+			<tr>
+				<td>Geometric Mean</td>
+				<td>@stats.GeometricMean</td>
+			</tr>
+			<tr>
+				<td>Sample Standard Deviation</td>
+				<td>@stats.SampleStandardDeviation</td>
+			</tr>
+			<tr>
+				<td>Sample Variance</td>
+				<td>@stats.SampleVariance</td>
+			</tr>
 		</tbody>
 	</table>
+
+	<Divider />
 }
 
 @code {
-
 	private bool showFormulas = false;
 	private string input;
 	DescriptiveStatistics<double> stats = null;
