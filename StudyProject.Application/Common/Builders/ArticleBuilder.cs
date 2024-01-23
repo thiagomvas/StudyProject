@@ -4,6 +4,7 @@ using StudyProject.Core.Models;
 
 namespace StudyProject.Application.Common.Builders
 {
+
     /// <summary>
     /// Represents a builder for creating articles.
     /// </summary>

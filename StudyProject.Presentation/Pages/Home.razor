@@ -6,27 +6,18 @@
 @using StudyProject.Application.Common.Builders
 @using StudyProject.Core.ArticleAggregate
 @inject ArticleCommandInvoker invoker;
-@inherits MathJaxContentComponent
 
-<MathJaxSettings Tex="@texSettings" />
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
+<Equation Value="a^2 + b^2 = c^2"/>
+
 <button class="btn btn-primary" @onclick="IncrementCount">Create Article</button>
 <InputText @bind-Value="SearchId" />
 <button class="btn btn-primary" @onclick="GetArticle">Search Article</button>
 
-@if(article == null)
-{
-
-}
-else
-{
-	<h1>@article.Title (@article.Id)</h1>
-    @((MarkupString)article.Content)
-}
 
 <p>This is another test: <Equation Value="\pi \cdot r^2" TeXDisplay="false"/> is the area of a circle</p>
 

@@ -1,0 +1,33 @@
+﻿@inherits ComponentBase
+
+<style>
+    .custom-button {
+		cursor: pointer;
+        display: inline-block;
+        background-color: @Color;
+        color: white;
+        padding: 12px;
+        border-radius: 5px;
+        width: @Width;
+        margin: 10px 0 10px 0;
+        border: none;
+        text-align: left;
+	}
+</style>
+
+<button class="custom-button" @onclick="Navigate">
+    @ChildContent
+</button>
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string Destination { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Color { get; set; } = "#303031";
+    [Parameter] public string Width { get; set; } = "100%";
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo(Destination);
+    }
+}

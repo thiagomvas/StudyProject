@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyProject.Application", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyProject.Infrastructure", "StudyProject.Infrastructure\StudyProject.Infrastructure.csproj", "{A8FC33E2-4666-4C12-B289-97FE0ECE3377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudyProject.Presentation", "StudyProject.Presentation\StudyProject.Presentation.csproj", "{31A9F8A2-5453-47E0-B26F-BC58D9C4278E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudyProject.Presentation", "StudyProject.Presentation\StudyProject.Presentation.csproj", "{31A9F8A2-5453-47E0-B26F-BC58D9C4278E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,6 +8,10 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
+<MathJaxBlazor.Equation Value="@($"\\sqrt{{{currentCount}}}")" />
+
+
+
 @code {
     private int currentCount = 0;
 

@@ -1,0 +1,80 @@
+﻿@page "/solvers"
+@inject NavigationManager navManager;
+
+<PageTitle>Solvers</PageTitle>
+
+<h1>Solvers</h1>
+<p>This page contains all the solvers and formula applications in the website.</p>
+
+<input type="text" @bind="searchTerm" placeholder="Search solvers..." />
+
+@{
+	Console.WriteLine("Well hello there");
+
+	sortedRedirects = ApplySearchFilter(redirects, searchTerm);
+
+	sortedRedirects.Sort((x, y) => x.Title.CompareTo(y.Title));
+}
+
+@if (sortedRedirects.Count == 0)
+{
+	<p>No solvers found.</p>
+}
+else
+{
+	<p>Found @sortedRedirects.Count solvers.</p>
+	@foreach (var redirect in sortedRedirects)
+	{
+		<RedirectButton Destination="@redirect.Destination" Color="#303031">
+			<h2>@redirect.Title</h2>
+			<p>@redirect.Description</p>
+		</RedirectButton>
+	}
+}
+
+@code {
+
+	private List<Redirect> redirects = new();
+	private List<Redirect> sortedRedirects = new();
+
+	protected override void OnInitialized()
+	{
+		redirects = new List<Redirect>
+		{
+		new("solvers/Statistics", "Statistics", "Calculate the Mean, Median, Mode, Variance and Standard Deviation from a data set."),
+		new("solvers/QuadraticEquation", "Quadratic Equation", "Calculate the roots of a quadratic equation."),
+		new("solvers/Vectors", "Vector Operations", "Compute operations between vectors such as Cross Products, Dot Products, Angle between Vectors, Length and addition"),
+		new("solvers/Matrix", "Matrix Operations", "Compute operations between matrices such as Determinant, Inverse, Transpose, Rank and LU decomposition."),
+		};
+		base.OnInitialized();
+	}
+
+	class Redirect
+	{
+		public string Destination { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; }
+
+		public Redirect(string destination, string title, string description)
+		{
+			Destination = destination;
+			Title = title;
+			Description = description;
+		}
+	}
+
+	string searchTerm = "";
+
+	List<Redirect> ApplySearchFilter(List<Redirect> redirects, string searchTerm)
+	{
+		if (!string.IsNullOrEmpty(searchTerm))
+		{
+			searchTerm = searchTerm.ToLower();
+			redirects = redirects.Where(r =>
+				r.Title.ToLower().Contains(searchTerm) ||
+				r.Description.ToLower().Contains(searchTerm))
+				.ToList();
+		}
+		return redirects;
+	}
+}

@@ -1,0 +1,150 @@
+﻿@page "/solvers/Vectors"
+@using MathJaxBlazor
+@using TMath
+@using TMath.Numerics.LinearAlgebra
+
+<style>
+	.page{
+		overflow: hidden;
+	}
+</style>
+
+<PageTitle>Vector Operations</PageTitle>
+
+
+
+<h3>Vector Operations</h3>
+
+<br />
+
+<p>
+	<Equation Value="\vec{v} =" TeXDisplay=false /> <CustomNumber Array="v" index="0" /><CustomNumber Array="v" index="1" /><CustomNumber Array="v" index="2" />
+</p>
+<p>
+	<Equation Value="\vec{u} =" TeXDisplay=false /> <CustomNumber Array="u" index="0" /><CustomNumber Array="u" index="1" /><CustomNumber Array="u" index="2" />
+</p>
+
+<Divider />
+
+<CustomButton OnClick="Add"><Equation Value="\vec{v} + \vec{u}" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="Subtract"><Equation Value="\vec{v} - \vec{u}" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="DotProduct"><Equation Value="\vec{v} \cdot \vec{u}" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="CrossProduct"><Equation Value="\vec{v} \times \vec{u}" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="MagnitudeV"><Equation Value="\left|\vec{v}\right|" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="MagnitudeU"><Equation Value="\left|\vec{u}\right|" TeXDisplay=false /></CustomButton>
+<CustomButton OnClick="Angle"><Equation Value="\theta" TeXDisplay=false /></CustomButton>
+
+<Divider />
+@if (!string.IsNullOrWhiteSpace(output))
+{
+	<h2>
+		<Equation Value="@output" TeXDisplay=false />
+	</h2>
+	<Divider />
+}
+
+@if (!string.IsNullOrWhiteSpace(output))
+{
+	<h2>Step by step solution</h2>
+	<h3>
+		<Equation Value="@stepbystep" TeXDisplay=false />
+	</h3>
+}
+
+@code
+{
+	private string output;
+	private string stepbystep;
+	private ArrayReference<double> v = new(new double[3]);
+	private ArrayReference<double> u = new(new double[3]);
+
+	private void Add()
+	{
+		TVector3<double> vector1 = new(v.array);
+		TVector3<double> vector2 = new(u.array);
+
+		TVector3<double> result = vector1 + vector2;
+
+		output = $"\\vec{{v}} + \\vec{{u}} = ({result.X}, {result.Y}, {result.Z})";
+		stepbystep =
+			$@"\vec{{v}} + \vec{{u}} = ({v[0]}, {v[1]}, {v[2]}) + ({u[0]}, {u[1]}, {u[2]})
+								   = ({v[0]} + {u[0]}, {v[1]} + {u[1]}, {v[2]} + {u[2]})
+						           = ({result.X}, {result.Y}, {result.Z})";
+	}
+	private void Subtract()
+	{
+		TVector3<double> vector1 = new(v.array);
+		TVector3<double> vector2 = new(u.array);
+
+		TVector3<double> result = vector1 - vector2;
+
+		output = $"\\vec{{v}} - \\vec{{u}} = ({result.X}, {result.Y}, {result.Z})";
+		stepbystep =
+		$@"\vec{{v}} + \vec{{u}} = ({v[0]}, {v[1]}, {v[2]}) + ({u[0]}, {u[1]}, {u[2]})
+								   = ({v[0]} - {u[0]}, {v[1]} - {u[1]}, {v[2]} - {u[2]})
+						           = ({result.X}, {result.Y}, {result.Z})";
+	}
+	private void DotProduct()
+	{
+		TVector3<double> vector1 = new(v.array);
+		TVector3<double> vector2 = new(u.array);
+
+		double result = vector1.DotProduct(vector2);
+
+		output = $"\\vec{{v}} \\cdot \\vec{{u}} = {result}";
+		stepbystep =
+		$@"\vec{{v}} \cdot \vec{{u}} = {v[0]} * {u[0]} + {v[1]} * {u[1]} + {v[2]} * {u[2]}
+									 = {result}";
+	}
+
+	private void CrossProduct()
+	{
+		TVector3<double> vector1 = new(v.array);
+		TVector3<double> vector2 = new(u.array);
+
+		TVector3<double> result = vector1.CrossProduct(vector2);
+
+		output = $"\\vec{{v}} \\times \\vec{{u}} = ({result.X}, {result.Y}, {result.Z})";
+		stepbystep = @$"\vec{{v}} \times \vec{{u}} = ({v[1]} * {u[2]} - {v[2]} * {u[1]}, {v[2]} * {u[0]} - {v[0]} * {u[2]}, {v[0]} * {u[1]} - {v[1]} * {u[0]})";
+
+
+	}
+
+	private void MagnitudeV()
+	{
+		TVector3<double> vector1 = new(v.array);
+
+		double result = vector1.Length;
+
+		output = $"\\left|\\vec{{v}}\\right| = {result}";
+
+		stepbystep = $@"|\vec{{v}}| = \sqrt{{ {v[0]}^2 + {v[1]}^2 + {v[2]}^2}} = {result}";
+	}
+
+	private void MagnitudeU()
+	{
+		TVector3<double> vector1 = new(u.array);
+
+		double result = vector1.Length;
+
+		output = $"\\left|\\vec{{u}}\\right| = {result}";
+		stepbystep = $@"|\vec{{u}}| = \sqrt{{ {u[0]}^2 + {u[1]}^2 + {u[2]}^2}} = {result}";
+	}
+
+	private void Angle()
+	{
+		TVector3<double> v1 = new(v.array);
+		TVector3<double> v2 = new(u.array);
+
+		double result = TFunctions.Acos(v1.DotProduct(v2) / (v1.Length * v2.Length));
+
+		output = $"\\theta = {TFunctions.Rad2Deg(result)}° = {result} \\mathrm{{rad}}";
+		stepbystep = $@"\begin{{align*}} \cos{{\theta}} &= \frac{{\vec{{v}} \cdot \vec{{u}}}}{{|\vec{{v}}| \cdot |\vec{{u}}|}}\\
+									   &=\frac{{{v1.DotProduct(v2)} }}{{ {v1.Length} \cdot {v2.Length}}}\\
+									   &=\frac{{{v1.DotProduct(v2)} }}{{ {v1.Length * v2.Length}}}\\  
+									   &={v1.DotProduct(v2) / (v1.Length * v2.Length)}\\
+									   \theta &= \arccos({v1.DotProduct(v2) / (v1.Length * v2.Length)}) = {TFunctions.Rad2Deg(result)}° \end{{align*}}";
+									   
+
+	}
+}

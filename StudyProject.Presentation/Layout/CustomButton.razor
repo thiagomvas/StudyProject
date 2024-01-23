@@ -1,0 +1,26 @@
+﻿@inherits ComponentBase
+
+<style>
+    .custom-button {
+        cursor: pointer;
+        display: inline-block;
+        color: white;
+        padding: 12px;
+        border-radius: 5px;
+        margin: 10px 0 10px 0;
+        border: none;
+        height: fit-content;
+    }
+</style>
+
+<button style="background-color: @Color; width: @Width;" class="custom-button" @onclick="OnClick">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string Color { get; set; } = "#303031";
+    [Parameter] public string Width { get; set; } = "fit-content";
+}
