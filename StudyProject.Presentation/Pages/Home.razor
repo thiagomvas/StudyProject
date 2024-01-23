@@ -5,7 +5,6 @@
 @using StudyProject.Application.Articles.Commands.Get
 @using StudyProject.Application.Common.Builders
 @using StudyProject.Core.ArticleAggregate
-@inject ArticleCommandInvoker invoker;
 
 
 <PageTitle>Home</PageTitle>
@@ -67,12 +66,11 @@ Testing: $a^2 + b^2 = c^2$ is the Pythagorean Theorem
 """";
         Article a = new ArticleBuilder().WithTitle("Bar").WithContent(text).Build();
         article = a;
-        await invoker.CreateArticleAsync(new CreateArticleCommand(a));
     }
 
     private async void GetArticle()
     {
-        article = await invoker.GetArticleAsync(new GetArticleCommand(SearchId));
+
     }
 
 }
