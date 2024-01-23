@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-yis2dNdJ6e9R472mcuwUOsxBPCQX3snSMmHAL3zu2D8=",
+      "hash": "sha256-0v9feoM0cBK\/S+0TySXIi3tmCHK73ToZDyqu\/lA5YBY=",
       "url": "css\/app.css"
     },
     {
@@ -25,7 +25,7 @@
       "url": "icon-512.png"
     },
     {
-      "hash": "sha256-t2Qq6iqYAWg7tdXxAe6XCxvHywKi1rN3qQuEwh8MDOs=",
+      "hash": "sha256-mb1Vpb\/6ziv\/UNL9TitEY6ZFrZ83vQl5VgIdqm1NNos=",
       "url": "index.html"
     },
     {
@@ -65,7 +65,7 @@
       "url": "_framework\/icudt_no_CJK.dat.br"
     },
     {
-      "hash": "sha256-xh3rqgDuLWPF0moDqGY9fSIw1W+32qxxtQz\/Nf2RURY=",
+      "hash": "sha256-z1LaTftgAVoiO6IPnl0VmkWAzSLFE0111uWFXVtvgpc=",
       "url": "_framework\/blazor.boot.json.br"
     },
     {
@@ -85,11 +85,11 @@
       "url": "_framework\/Microsoft.AspNetCore.Components.Forms.wasm.br"
     },
     {
-      "hash": "sha256-ycMkSyVQrxvmbFb+ZzyyrFzkRhQoiHk1gvi218RizFY=",
+      "hash": "sha256-yYKPMZVuB44l\/mp7+DlEztP1jHX+OC7Ay8zvLvetjBc=",
       "url": "_framework\/Microsoft.AspNetCore.Components.wasm.br"
     },
     {
-      "hash": "sha256-N3gxIGYvKJyUvT\/2OZmZjuPcv6Xu\/z9NWW9kjZOikdg=",
+      "hash": "sha256-algR0QT6QSmUDelCZHtXN1YvxUkLAISak1s6d4opeOo=",
       "url": "_framework\/Microsoft.AspNetCore.Components.Web.wasm.br"
     },
     {
@@ -189,19 +189,19 @@
       "url": "_framework\/SQLitePCLRaw.provider.e_sqlite3.wasm.br"
     },
     {
-      "hash": "sha256-QO5JNWJelJ3w67MAwnioxYepNi3nnR9Rx6VJj6dlTjk=",
+      "hash": "sha256-\/WYxe8JYT7O2sOvGig6ApSV\/yEWtOpOKkxuyRW0TQuE=",
       "url": "_framework\/StudyProject.Application.wasm.br"
     },
     {
-      "hash": "sha256-nmOlZ7uMrbQ9+4S48PNaYj8C+BxSRdI6o4tDU92J\/sw=",
+      "hash": "sha256-rU\/5ufadvI4BAthrWvLSl55EOrg63rYc5qVzS4mXhq4=",
       "url": "_framework\/StudyProject.Core.wasm.br"
     },
     {
-      "hash": "sha256-Hk2vOTPFYg5UP+HOmyx3rNcVQ7BBcub91dVD7L6HrIU=",
+      "hash": "sha256-omNcaBfVk3llrzg9JQotzhZEztQnHBGhQyj70zRNdXo=",
       "url": "_framework\/StudyProject.Infrastructure.wasm.br"
     },
     {
-      "hash": "sha256-NdvZiUp+zC01+gOrNdxeX39SD2fwoTid4jiKTa8Xs2g=",
+      "hash": "sha256-9HTrts4Iorbg25I17uoKE0gY0gQRgeNGumBeKPCTUhA=",
       "url": "_framework\/StudyProject.Presentation.wasm.br"
     },
     {
@@ -381,7 +381,7 @@
       "url": "_framework\/TMath.wasm.br"
     },
     {
-      "hash": "sha256-6K2KiWuth5nUF4aC4NGwcBX176umk+8SpLudNcqdyec=",
+      "hash": "sha256-JZdiNDcrP87b20XyaQq9BqB1t\/ai7WL4ps7Y8sJ7cIA=",
       "url": "StudyProject.Presentation.styles.css"
     },
     {
@@ -401,5 +401,5 @@
       "url": "brotliloader.min.js"
     }
   ],
-  "version": "DFRc3ZJO"
+  "version": "2hVWYHYp"
 };

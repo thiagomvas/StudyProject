@@ -3,19 +3,55 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    background-color: #232323;
+    color: white;
 }
+
+.custom-input-field[b-ta34k9rix2] {
+    width: 50px;
+    height: fit-content;
+    background: #303031;
+    color: white;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+/* Hide the up and down arrows */
+.custom-input-field[b-ta34k9rix2]::-webkit-inner-spin-button,
+.custom-input-field[b-ta34k9rix2]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.custom-input-field[type="number"][b-ta34k9rix2] {
+    -moz-appearance: textfield;
+}
+
 
 main[b-ta34k9rix2] {
     flex: 1;
+    background-color: #232323;
 }
 
 .sidebar[b-ta34k9rix2] {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: #1a1a1a;
+    height: 100%;
+}
+
+
+/* Style odd rows with a different background color */
+tbody tr:nth-child(odd)[b-ta34k9rix2] {
+    background-color: #232323;
+}
+
+/* Style even rows with a different background color */
+tbody tr:nth-child(even)[b-ta34k9rix2] {
+    background-color: #1f1f1f;
 }
 
 .top-row[b-ta34k9rix2] {
-    background-color: #f7f7f7;
-    border-bottom: 1px solid #d6d5d5;
     justify-content: flex-end;
     height: 3.5rem;
     display: flex;

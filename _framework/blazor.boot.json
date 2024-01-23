@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "StudyProject.Presentation",
   "resources": {
-    "hash": "sha256-nDalF4wcLR0/D4sa6k+F7n3WlAKeEPST1SgLVlbSghE=",
+    "hash": "sha256-fc7TJM9uImdszoUuZWzZqKdvVdM4/1Hg5TKmiSS7iuw=",
     "jsModuleNative": {
       "dotnet.native.8.0.1.ytj3y297is.js": "sha256-qB9w6LAIvHgnin9aZN4jgLjuqmKThIkKC61aC6hCkJ0="
     },
@@ -19,8 +19,8 @@
     "assembly": {
       "MathJaxBlazor.wasm": "sha256-EXpYXqugNJtp1u5qnDKMDRhx03gSsum4RJdciSdjvh4=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-jSp1/jm1EODw2sRbmTqqz66cpJBdj9ThwOp/IZCXysU=",
-      "Microsoft.AspNetCore.Components.wasm": "sha256-FG0BJc7rhwaxgyqEWlczF5pjcyIRUzZc61qQSgtd6VY=",
-      "Microsoft.AspNetCore.Components.Web.wasm": "sha256-6KsRBnVwTq1ftQ+bUBdDXNIeECHRxRZ5wIcxbRgPuEg=",
+      "Microsoft.AspNetCore.Components.wasm": "sha256-PTT1X3GdQzMxmvqxzQZRNb5h6UJ3ImBbp1zm31I0R0Q=",
+      "Microsoft.AspNetCore.Components.Web.wasm": "sha256-l6LnqRn3Qr5WU72LLRtV0Pfav1raaiP/XSP/ovjU4ww=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-QRo9wN+gd5qqmZFiGyMTQbvqHCAt62nXolIZaL7npH4=",
       "Microsoft.Data.Sqlite.wasm": "sha256-F/xQyEdWt1UFLKCgbLTINtCV2NEqlEGq/UjPRxMnnaw=",
       "Microsoft.EntityFrameworkCore.Abstractions.wasm": "sha256-/H3Ox32fmDwIobPERNTegj439OvqDpite3NxkC896jI=",
@@ -45,10 +45,10 @@
       "SQLitePCLRaw.batteries_v2.wasm": "sha256-AymqXfJmredfnqn6PxQs3nqqNoMXiBDEqaT3b0605F8=",
       "SQLitePCLRaw.core.wasm": "sha256-5ncp/PNVntosOHmUwpvRVJZvvreYP08nlkqD9XgBkdA=",
       "SQLitePCLRaw.provider.e_sqlite3.wasm": "sha256-3TKRNpWG681LxI/l31HI8LuIjsCjG6XJ9dIEXu3m1zY=",
-      "StudyProject.Application.wasm": "sha256-+QHJKuvHLQBzg3DXZVGW17Kx50i/U5pAVd+sa7q3e8Q=",
-      "StudyProject.Core.wasm": "sha256-GBQPWSfFaP3BlEEXCGTYmXo5TwCkAN14+fDT3OaENZM=",
-      "StudyProject.Infrastructure.wasm": "sha256-hOBAPS/+LtrX4DDipZT5ZE+H/VJlRJwNYEZEXBF6Sec=",
-      "StudyProject.Presentation.wasm": "sha256-thziJl3gDcvmfw6wssPqSfCayd79cBXl0xf4xagczZg=",
+      "StudyProject.Application.wasm": "sha256-VNX3MljR234+++bibQ0kjwIWkm+KvvFTlAq+xiDmqAM=",
+      "StudyProject.Core.wasm": "sha256-8Gi4H10j8GK3DgmH9iu1BBdVl1kq/xRbAjMVKs3t+uo=",
+      "StudyProject.Infrastructure.wasm": "sha256-U7p2fAo+l0Z2swFk+C/bu100tk2tRpIM8tMY3JKoW7I=",
+      "StudyProject.Presentation.wasm": "sha256-z0oyduQlbBc/VvET5N0iFZG8nkfbYJnp4Ky3bjKvvCY=",
       "System.Collections.Concurrent.wasm": "sha256-NZerNs2rAET7ieqE8TIbyWAu2JQoiwXmuhPqydgy4CE=",
       "System.Collections.Immutable.wasm": "sha256-SzoG6qiFyakbmw479K/NvdXpM2XBBnO7L69A0pAxo3U=",
       "System.Collections.NonGeneric.wasm": "sha256-Y8SPnHnf4a9TmuwGVBYGMpOn4HJMYCeFTdrZ4NpIQ0w=",
