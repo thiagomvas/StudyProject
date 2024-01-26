@@ -43,14 +43,19 @@
 	<div style="text-align: center; margin-top: 20px;">
 		<h4>Matrix A: <input type="number" class="custom-input-field" @bind-value="RowsA" /> x <input type="number" class="custom-input-field" @bind-value="ColumnsA" /></h4>
 		<div style="display: inline-block;">
-			@for (int i = 0; i < rowsA; i++)
-			{
-				<div>
-					@for (int j = 0; j < columnsA; j++)
-					{
-						<CustomNumber Array="@a" index="i * rowsA + j" />
-					}
-				</div>
+			@{
+				int indexA = 0;
+				@for (int i = 0; i < rowsA; i++)
+				{
+					<div>
+						@for (int j = 0; j < columnsA; j++)
+						{
+							<CustomNumber Array="@a" index="indexA" />
+							indexA++;
+						}
+					</div>
+				}
+
 			}
 		</div>
 
@@ -70,14 +75,19 @@
 	<div style="text-align: center; margin-top: 20px;">
 		<h4>Matrix B: <input type="number" class="custom-input-field" @bind-value="RowsB" /> x <input type="number" class="custom-input-field" @bind-value="ColumnsB" /></h4>
 		<div style="display: inline-block;">
-			@for (int i = 0; i < rowsB; i++)
-			{
-				<div>
-					@for (int j = 0; j < columnsB; j++)
-					{
-						<CustomNumber Array="@b" index="i * rowsB + j" />
-					}
-				</div>
+			@{
+				int indexB = 0;
+				@for (int i = 0; i < rowsB; i++)
+				{
+					<div>
+						@for (int j = 0; j < columnsB; j++)
+						{
+							<CustomNumber Array="@b" index="indexB" />
+							indexB++;
+						}
+					</div>
+				}
+
 			}
 		</div>
 
@@ -97,8 +107,9 @@
 
 </div>
 <Divider />
-
-<!--<CustomButton Width="150px" OnClick="Identity">Identity <input type="number" class="custom-input-field" @bind-value="identitySize" /></CustomButton> -->
+<CustomButton OnClick="@Add"><Equation Value="A + B"/></CustomButton>
+<CustomButton OnClick="@Subtract"><Equation Value="A - B"/></CustomButton>
+<CustomButton OnClick="@Multiply"><Equation Value="A \cdot B"/></CustomButton>
 <Divider />
 <Equation Value="@output" TeXDisplay="false" />
 <Divider />
@@ -167,6 +178,33 @@
 			b = new ArrayReference<double>(new double[rowsB * columnsB]);
 		}
 	}
+
+	private void Add()
+	{
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> sum = matrixA + matrixB;
+		output = $@"{matrixA.ToLaTeX()} + {matrixB.ToLaTeX()} = {sum.ToLaTeX()}";
+	}
+
+	private void Subtract()
+	{
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> difference = matrixA - matrixB;
+		output = $@"{matrixA.ToLaTeX()} - {matrixB.ToLaTeX()} = {difference.ToLaTeX()}";
+	}
+
+	private void Multiply()
+	{
+		Console.WriteLine(string.Join(',', a.array)); 
+		Console.WriteLine(string.Join(',', a.array)); 
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> product = matrixA * matrixB;
+		output = $@"{matrixA.ToLaTeX()} \cdot {matrixB.ToLaTeX()} = {product.ToLaTeX()}";
+	}
+
 
 	private void Transpose(TargetMatrix target)
 	{
