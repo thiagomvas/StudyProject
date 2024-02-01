@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "title": "Bhaskara's Formula",
+    "content": "In mathematics, the quadratic formula, also known as Bhaskara's formula, is a fundamental expression used to find the roots of a quadratic equation. Given a quadratic equation in the form $ax^2 + bx + c = 0$, where $a$, $b$, and $c$ are coefficients, the roots of the equation can be determined using the formula: $$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$ This formula provides a concise solution for finding the values of $x$ that satisfy the quadratic equation. The $\\pm$ symbol indicates that there are generally two solutions, accounting for both the positive and negative square root terms. The discriminant, $b^2 - 4ac$, plays a crucial role in determining the nature of the roots. When the discriminant is positive, the equation has two distinct real roots. If the discriminant is zero, there is one real root (a repeated root). When the discriminant is negative, the roots are complex conjugates, involving imaginary numbers."
+  },
+  {
+    "id": "2",
+    "title": "Integration",
+    "content": "Integration is a fundamental concept in calculus that involves finding the accumulated total of a quantity over a given interval. In the context of definite integrals, it represents the signed area under a curve between two specified points on a graph. The definite integral of a function $f(x)$ from $a$ to $b$ is denoted by: $$ \\int_{a}^{b} f(x) \\,dx $$ Geometrically, this integral represents the signed area between the curve $y = f(x)$ and the x-axis over the interval $[a, b]$. The result can be interpreted as the net change or total accumulation of the quantity described by the function over that interval. Integration involves various techniques, such as the antiderivative (indefinite integral) denoted as: $$ \\int f(x) \\,dx $$ This represents a family of functions whose derivative is equal to $f(x)$. The constant of integration, denoted by $C$, is introduced to account for all possible constant shifts within the family. Understanding integration is crucial for solving problems in physics, engineering, and various other fields where the concept of accumulated quantities plays a significant role."
+  },
+  {
+    "id": "3",
+    "title": "Title Three",
+    "content": "Content Three"
+  },
+  {
+    "id": "4",
+    "title": "Title Three",
+    "content": "Integration"
+  }
+]

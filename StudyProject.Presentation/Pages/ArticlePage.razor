@@ -4,10 +4,10 @@
 @using StudyProject.Application.Articles.Commands.Get
 @using StudyProject.Core.ArticleAggregate
 @using StudyProject.Infrastructure
+@using System.Text.RegularExpressions
+@using StudyProject.Infrastructure.DTOs
 @inject ArticleCommandInvoker invoker
-@inherits MathJaxContentComponent
-
-<MathJaxSettings Tex="@texSettings" />
+@inject HttpClient Http
 
 @if (article == null)
 {
@@ -15,23 +15,42 @@
 }
 else
 {
-    <h1>@article.Title</h1>
-    @((MarkupString)article.Content)
+	<h1>@article.Title</h1>
+	@foreach (Match match in Regex.Matches(article.Content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
+	{
+		string text = match.Value;
+		if (text.Contains("$$"))
+		{
+			<Equation Value="@text.Replace("$$", "")" />
+
+		}
+		else if (text.Contains('$'))
+		{
+			<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
+		}
+		else
+		{
+			@((MarkupString)text)
+		}
+	}
 
 }
 
 
 @code {
-    [Parameter] public string Id { get; set; }
+	[Parameter] public string Id { get; set; }
 
-    Article? article;
-    TexInputSettings texSettings = new();
+	Article? article;
 
-    protected override async Task OnInitializedAsync()
-    {
-        texSettings.InlineMath.Add(new string[] { "$", "$" });
-        GetArticleCommand command = new(Id);
-        article = invoker.GetArticleAsync(command).Result; 
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		var result = await Http.GetFromJsonAsync<ArticleDTO[]>("sample-data/article.json");
+		foreach(var a in result)
+		{
+			Console.WriteLine(a.id);
+			Console.WriteLine(a.content);
+		}
+		article = result.Where(a => a.id == Id).First().ToArticle();
+	}
 
 }
