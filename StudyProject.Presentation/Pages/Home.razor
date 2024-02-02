@@ -1,78 +1,10 @@
 ﻿@page "/"
 @using MathJaxBlazor
-@using StudyProject.Application.Articles.Commands
-@using StudyProject.Application.Articles.Commands.Create
-@using StudyProject.Application.Articles.Commands.Get
-@using StudyProject.Application.Common.Builders
-@using StudyProject.Core.ArticleAggregate
-@inject ArticleCommandInvoker invoker;
-
+@using StudyProject.Application
+@using StudyProject.Infrastructure.DTOs
+@inject HttpClient Http
+@inject DatabaseAccess DatabaseAccess
 
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
-
-<Equation Value="a^2 + b^2 = c^2"/>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Create Article</button>
-<InputText @bind-Value="SearchId" />
-<button class="btn btn-primary" @onclick="GetArticle">Search Article</button>
-
-
-<p>This is another test: <Equation Value="\pi \cdot r^2" TeXDisplay="false"/> is the area of a circle</p>
-
-@code {
-    // NOTE: If the page is redrawn the LaTeX breaks
-    TexInputSettings texSettings = new();
-
-    protected override Task OnInitializedAsync()
-    {
-        texSettings.InlineMath.Add(new string[] { "$", "$" });
-        IncrementCount();
-        return base.OnInitializedAsync();
-    }
-    private string SearchId;
-    private Article? article;
-
-    string text2 =
-    """"
-<h2> Hi ! </h2>
-<p> This is a test </p>
-<p>This is a second test: \(l^2 \) is the area of a square
-<p>This is a third test: $1 + 2 + 3 = 6$ </p>
-\[
-\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).
-\]
-
-"""";
-
-    private async void IncrementCount()
-    {
-        var text = 
-    """"
-<h2> Hi ! </h2>
-<p> This is a test </p>
-<p>This is a second test: \(l^2 \) is the area of a square
-<p>This is a third test: $1 + 2 + 3 = 6$ </p>
-$$ a/c=1000 $$
-
-\( a + b = c \)
-
-Testing: $a^2 + b^2 = c^2$ is the Pythagorean Theorem
-
-\[
-\frac{d}{dx}\left( \int_{0}^{x} f(u)\,du\right)=f(x).
-\]
-        
-"""";
-        Article a = new ArticleBuilder().WithTitle("Bar").WithContent(text).Build();
-        article = a;
-        await invoker.CreateArticleAsync(new CreateArticleCommand(a));
-    }
-
-    private async void GetArticle()
-    {
-        article = await invoker.GetArticleAsync(new GetArticleCommand(SearchId));
-    }
-
-}

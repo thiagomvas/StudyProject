@@ -1,4 +1,5 @@
-﻿using StudyProject.Application.Common.Interfaces;
+﻿using Newtonsoft.Json;
+using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
 using StudyProject.Infrastructure.DTOs;
 using System.Net.Http.Json;
@@ -30,7 +31,8 @@ namespace StudyProject.Infrastructure
 
 		public async Task AddArticleAsync(Article article)
 		{
-			await httpClient.PostAsJsonAsync($"https://wikiforum-6f73d-default-rtdb.firebaseio.com/articles/{article.Id}.json", article);
+			HttpContent content = new StringContent(JsonConvert.SerializeObject(article));
+			await httpClient.PostAsync($"https://wikiforum-6f73d-default-rtdb.firebaseio.com/articles/.json", content);
 		}
 	}
 }

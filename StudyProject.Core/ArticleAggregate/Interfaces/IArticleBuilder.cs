@@ -43,7 +43,6 @@ namespace StudyProject.Core.ArticleAggregate.Interfaces
         public IArticleBuilder WithTopics(Topic[] topics);
 
 
-        public IArticleBuilder WithId(HexId id);
         public IArticleBuilder WithId(string id);
 
         /// <summary>
