@@ -1,10 +1,11 @@
-﻿using StudyProject.Core.ArticleAggregate;
+﻿using StudyProject.Application.Common.Interfaces;
+using StudyProject.Core.ArticleAggregate;
 using StudyProject.Infrastructure.DTOs;
 using System.Net.Http.Json;
 
 namespace StudyProject.Infrastructure
 {
-	public class FirebaseContext
+	public class FirebaseContext : IDatabaseContext
 	{
 		private readonly HttpClient httpClient;
 
@@ -25,6 +26,11 @@ namespace StudyProject.Infrastructure
 			{
 				return Article.NotFound;
 			}
+		}
+
+		public async Task AddArticleAsync(Article article)
+		{
+			await httpClient.PostAsJsonAsync($"https://wikiforum-6f73d-default-rtdb.firebaseio.com/articles/{article.Id}.json", article);
 		}
 	}
 }

@@ -1,12 +1,9 @@
 ﻿@page "/article/{Id}"
 @using MathJaxBlazor
-@using StudyProject.Application.Articles.Commands
-@using StudyProject.Application.Articles.Commands.Get
+@using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
-@using StudyProject.Infrastructure
 @using System.Text.RegularExpressions
-@using StudyProject.Infrastructure.DTOs
-@inject FirebaseContext Context
+@inject DatabaseAccess db
 @inject HttpClient Http
 
 @if (article == null)
@@ -44,7 +41,7 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		article = await Context.GetArticleAsync(Id);
+		article = await db.GetArticleAsync(Id);
 	}
 
 }
