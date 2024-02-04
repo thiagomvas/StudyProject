@@ -17,9 +17,15 @@ namespace StudyProject.Application
 			return await databaseContext.GetArticleAsync(id);
 		}
 
-		public async Task AddArticleAsync(Article article)
+		public async Task<string> AddArticleAsync(Article article)
 		{
-			await databaseContext.AddArticleAsync(article);
+			var id = await databaseContext.AddArticleAsync(article);
+			return id; 
+		}
+
+		public async Task UpdateArticleAsync(string id, Article updatedArticle)
+		{
+			await databaseContext.UpdateArticleAsync(id, updatedArticle);
 		}
 	}
 }
