@@ -1,0 +1,151 @@
+﻿@page "/articleeditor"
+
+@using MathJaxBlazor
+@using StudyProject.Application
+@using StudyProject.Application.Common.Builders
+@using StudyProject.Core.ArticleAggregate
+@using System.Text.RegularExpressions
+@using StudyProject.Infrastructure
+
+
+@inject DatabaseAccess context;
+
+<h1>ArticleEditor</h1>
+
+<style>
+	.customtextarea {
+		width: 100%;
+		height: 700px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+
+	.customtext {
+		height: 50px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+
+	.previewbox {
+		width: 100%;
+		height: 100%;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+</style>
+
+<CustomButton OnClick="() => preview = !preview">Preview</CustomButton>
+
+<InputText class="customtext" @bind-Value="id" />
+
+<CustomButton OnClick="async () => await FetchArticle()">Fetch Article</CustomButton>
+
+
+@if (preview)
+{
+	<h2>Preview</h2>
+	<div class="previewbox">
+		<h2>@title</h2>
+		@foreach (Match match in Regex.Matches(content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
+		{
+			string text = match.Value;
+			if (text.Contains("$$"))
+			{
+				<Equation Value="@text.Replace("$$", "")" />
+			}
+			else if (text.Contains('$'))
+			{
+				<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
+			}
+			else
+			{
+				@((MarkupString)text.Replace("\n", "<br/>"))
+				;
+			}
+		}
+	</div>
+}
+else
+{
+	<h2>Editor</h2>
+	<InputText class="customtext" @bind-Value="title" />
+	<InputTextArea class="customtextarea" @bind-Value="content" />
+}
+
+<CustomButton OnClick="async () => await AddArticle()">Add Article</CustomButton>
+<CustomButton OnClick="async () => await UpdateArticle()">Update Article</CustomButton>
+<p>@logMessage</p>
+
+
+
+@code {
+	string title = "";
+	string content = "";
+	string id = "";
+	bool preview = false;
+
+	string logMessage = "";
+
+	private async Task AddArticle()
+	{
+		try
+		{
+			Article article = new ArticleBuilder().WithTitle(title).WithContent(content).Build();
+			string id = await context.AddArticleAsync(article);
+			logMessage = $"Article added - ID: {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to create a new article! Returned error: {e.Message}";
+		}
+	}
+
+	private async Task FetchArticle()
+	{
+		try
+		{
+			Article article = await context.GetArticleAsync(id);
+			title = article.Title;
+			content = article.Content;
+			logMessage = $"Article fetched - ID: {id}!";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to fetch article! Returned error: {e.Message}";
+		}
+	}
+
+	private async Task UpdateArticle()
+	{
+		if (id == string.Empty)
+		{
+			logMessage = "ID is empty!";
+			return;
+		}
+		try
+		{
+			Article article = new ArticleBuilder().WithTitle(title).WithContent(content).Build();
+			await context.UpdateArticleAsync(id, article);
+			logMessage = $"Article updated - ID: {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to update article! Returned error: {e.Message}";
+		}
+	}
+}
