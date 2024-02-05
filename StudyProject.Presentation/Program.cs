@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.EntityFrameworkCore;
 using StudyProject.Application;
 using StudyProject.Application.Articles.Commands;
 using StudyProject.Application.Common.Interfaces;
@@ -14,7 +13,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
 builder.Services.AddInfrastructure();
-builder.Services.AddScoped<DatabaseAccess>();
+
+builder.Services.AddScoped<DatabaseAccess>(); 
 
 await builder.Build().RunAsync();
 
