@@ -1,12 +1,10 @@
 ﻿@page "/article/{Id}"
 @using MathJaxBlazor
-@using Newtonsoft.Json
 @using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
 @using System.Text.RegularExpressions
 @inject DatabaseAccess db
 @inject HttpClient Http
-@inject IJSRuntime JSRuntime
 
 @if (article == null)
 {
@@ -58,6 +56,5 @@ else
 			await JSRuntime.InvokeVoidAsync("localStorage.setItem", $"article_{Id}", serializedArticle);
 		}
 	}
-
 
 }

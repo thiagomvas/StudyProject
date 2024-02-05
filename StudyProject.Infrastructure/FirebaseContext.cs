@@ -1,21 +1,19 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
+using StudyProject.Infrastructure.DTOs;
+using System.Net.Http.Json;
 
 namespace StudyProject.Infrastructure
 {
-    public class FirebaseContext : DbContext, IDatabaseContext
-    {
-        private readonly HttpClient httpClient;
-        private readonly FirebaseClient firebaseClient;
+	public class FirebaseContext : IDatabaseContext
+	{
+		private readonly HttpClient httpClient;
 
-        public FirebaseContext(FirebaseClient firebaseClient)
-        {
-            this.firebaseClient = firebaseClient;
-        }
+		public FirebaseContext(HttpClient httpClient)
+		{
+			this.httpClient = httpClient;
+		}
 
 
         public async Task<Article> GetArticleAsync(string id)
