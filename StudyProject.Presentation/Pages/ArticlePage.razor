@@ -1,12 +1,10 @@
 ﻿@page "/article/{Id}"
 @using MathJaxBlazor
-@using Newtonsoft.Json
 @using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
 @using System.Text.RegularExpressions
 @inject DatabaseAccess db
 @inject HttpClient Http
-@inject IJSRuntime JSRuntime
 
 @if (article == null)
 {
@@ -43,27 +41,7 @@ else
 
 	protected override async Task OnInitializedAsync()
 	{
-		// Check if the article is already in the local storage
-		string cachedArticle = await JSRuntime.InvokeAsync<string>("localStorage.getItem", $"article_{Id}");
-
-		if (!string.IsNullOrEmpty(cachedArticle))
-		{
-			// If the article is cached, deserialize it from the local storage
-			article = JsonConvert.DeserializeObject<Article>(cachedArticle);
-			Console.WriteLine("CACHED!!!!");
-		}
-		else
-		{
-
-			Console.WriteLine("NOT CACHED!!!!");
-			// If not cached, fetch the article from the server
-			article = await db.GetArticleAsync(Id);
-
-			// Serialize and store the article in the local storage for future use
-			string serializedArticle = JsonConvert.SerializeObject(article);
-			await JSRuntime.InvokeVoidAsync("localStorage.setItem", $"article_{Id}", serializedArticle);
-		}
+		article = await db.GetArticleAsync(Id);
 	}
-
 
 }

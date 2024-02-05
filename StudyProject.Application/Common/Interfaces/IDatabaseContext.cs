@@ -6,6 +6,6 @@ namespace StudyProject.Application.Common.Interfaces
     {
         Task<string> AddArticleAsync(Article article);
         Task<Article> GetArticleAsync(string id);
-        Task<bool> UpdateArticleAsync(string id, Article updatedArticle)
+        Task<bool> UpdateArticleAsync(string id, Article updatedArticle);
     }
 }

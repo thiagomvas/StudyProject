@@ -1,78 +1,38 @@
-﻿using Firebase.Database;
-using Firebase.Database.Query;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
+using StudyProject.Infrastructure.DTOs;
+using System.Net.Http.Json;
 
 namespace StudyProject.Infrastructure
 {
-    public class FirebaseContext : DbContext, IDatabaseContext
-    {
-        private readonly HttpClient httpClient;
-        private readonly FirebaseClient firebaseClient;
+	public class FirebaseContext : IDatabaseContext
+	{
+		private readonly HttpClient httpClient;
 
-        public FirebaseContext(FirebaseClient firebaseClient)
-        {
-            this.firebaseClient = firebaseClient;
-        }
-
-
-        public async Task<Article> GetArticleAsync(string id)
-        {
-            try
-            {
-                return await firebaseClient.Child($"articles/{id}").OnceSingleAsync<Article>();
-            }
-            catch 
-            {
-                Console.WriteLine("Couldn't find article with specified ID"); 
-            }
-
-            return Article.NotFound;
-
-        }
-
-        public async Task<string> AddArticleAsync(Article article)
-        {
-			try
-			{
-				var result = await firebaseClient.Child("articles").PostAsync(JsonConvert.SerializeObject(article));
-				return result.Key;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error adding article: {ex.Message}");
-			}
-			return string.Empty; 
+		public FirebaseContext(HttpClient httpClient)
+		{
+			this.httpClient = httpClient;
 		}
 
-		public async Task<bool> UpdateArticleAsync(string id, Article updatedArticle)
+		public async Task<Article> GetArticleAsync(string id)
 		{
-			try
+			var response = await httpClient.GetAsync($"https://wikiforum-6f73d-default-rtdb.firebaseio.com/articles/{id}.json");
+			if (response.IsSuccessStatusCode)
 			{
-				await firebaseClient.Child($"articles/{id}").PutAsync(updatedArticle);
-				return true;
+				var dto = await response.Content.ReadFromJsonAsync<ArticleDTO>();
+				return dto.ToArticle() ?? Article.NotFound;
 			}
-			catch (Exception ex)
+			else
 			{
-				Console.WriteLine($"Error updating article: {ex.Message}");
-				return false;
+				return Article.NotFound;
 			}
 		}
 
-		public async Task<bool> DeleteArticleAsync(string id)
+		public async Task AddArticleAsync(Article article)
 		{
-			try
-			{
-				await firebaseClient.Child($"articles/{id}").DeleteAsync();
-				return true;
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error deleting article: {ex.Message}");
-				return false;
-			}
+			HttpContent content = new StringContent(JsonConvert.SerializeObject(article));
+			await httpClient.PostAsync($"https://wikiforum-6f73d-default-rtdb.firebaseio.com/articles/.json", content);
 		}
 	}
 }
