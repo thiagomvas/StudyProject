@@ -9,8 +9,6 @@
 <input type="text" @bind="searchTerm" placeholder="Search solvers..." />
 
 @{
-	Console.WriteLine("Well hello there");
-
 	sortedRedirects = ApplySearchFilter(redirects, searchTerm);
 
 	sortedRedirects.Sort((x, y) => x.Title.CompareTo(y.Title));
