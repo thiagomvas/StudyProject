@@ -1,37 +1,26 @@
 ﻿@page "/article/{Id}"
 @using MathJaxBlazor
+@using Newtonsoft.Json
 @using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
 @using System.Text.RegularExpressions
+@using StudyProject.Presentation.Pages
 @inject DatabaseAccess db
+@inject IJSRuntime JSRuntime
 @inject HttpClient Http
+
 
 @if (article == null)
 {
 	<p><em>Loading...</em></p>
+	<PageTitle>Loading...</PageTitle>
 }
 else
 {
-	<h1>@article.Title</h1>
-	@foreach (Match match in Regex.Matches(article.Content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
-	{
-		string text = match.Value;
-		if (text.Contains("$$"))
-		{
-			<Equation Value="@text.Replace("$$", "")" />
-
-		}
-		else if (text.Contains('$'))
-		{
-			<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
-		}
-		else
-		{
-			@((MarkupString)text)
-		}
-	}
-
+	<ArticleViewer Article="article"/>
+	<PageTitle>@article.Title</PageTitle>
 }
+
 
 
 @code {

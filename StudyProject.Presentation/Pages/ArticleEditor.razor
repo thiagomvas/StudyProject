@@ -5,12 +5,13 @@
 @using StudyProject.Application.Common.Builders
 @using StudyProject.Core.ArticleAggregate
 @using System.Text.RegularExpressions
+@using StudyProject.Core.Models
 @using StudyProject.Infrastructure
-
 
 @inject DatabaseAccess context;
 
-<h1>ArticleEditor</h1>
+<PageTitle>Article Editor</PageTitle>
+
 
 <style>
 	.customtextarea {
@@ -60,31 +61,18 @@
 {
 	<h2>Preview</h2>
 	<div class="previewbox">
-		<h2>@title</h2>
-		@foreach (Match match in Regex.Matches(content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
-		{
-			string text = match.Value;
-			if (text.Contains("$$"))
-			{
-				<Equation Value="@text.Replace("$$", "")" />
-			}
-			else if (text.Contains('$'))
-			{
-				<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
-			}
-			else
-			{
-				@((MarkupString)text.Replace("\n", "<br/>"))
-				;
-			}
-		}
+		<ArticlePreview Article="article" />
 	</div>
 }
 else
 {
 	<h2>Editor</h2>
-	<InputText class="customtext" @bind-Value="title" />
-	<InputTextArea class="customtextarea" @bind-Value="content" />
+	<InputText class="customtext" @bind-Value="article.Title" />
+	<InputTextArea class="customtextarea" @bind-Value="article.Content" />
+	<h3>Classification</h3>
+	<div>Disciplines: <InputText class="customtext" @bind-Value="disciplines" /></div>
+	<div>Subjects: <InputText class="customtext" @bind-Value="subjecs" /></div>
+	<div>Topics: <InputText class="customtext" @bind-Value="topics" /></div>
 }
 
 <CustomButton OnClick="async () => await AddArticle()">Add Article</CustomButton>
@@ -94,10 +82,13 @@ else
 
 
 @code {
-	string title = "";
-	string content = "";
+	Article article = new();
 	string id = "";
 	bool preview = false;
+
+	string disciplines = "";
+	string topics = "";
+	string subjecs = "";
 
 	string logMessage = "";
 
@@ -105,7 +96,10 @@ else
 	{
 		try
 		{
-			Article article = new ArticleBuilder().WithTitle(title).WithContent(content).Build();
+			article.DisciplineIds = disciplines.Split(',').Select(x => x.Trim()).ToArray();
+			article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
+			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
+
 			string id = await context.AddArticleAsync(article);
 			logMessage = $"Article added - ID: {id}";
 		}
@@ -119,9 +113,10 @@ else
 	{
 		try
 		{
-			Article article = await context.GetArticleAsync(id);
-			title = article.Title;
-			content = article.Content;
+			article = await context.GetArticleAsync(id);
+			disciplines = string.Join(", ", article.DisciplineIds);
+			topics = string.Join(", ", article.TopicIds);
+			subjecs = string.Join(", ", article.SubjectIds);
 			logMessage = $"Article fetched - ID: {id}!";
 		}
 		catch (Exception e)
@@ -139,7 +134,9 @@ else
 		}
 		try
 		{
-			Article article = new ArticleBuilder().WithTitle(title).WithContent(content).Build();
+			article.DisciplineIds = disciplines.Split(',').Select(x => x.Trim()).ToArray();
+			article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
+			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
 			await context.UpdateArticleAsync(id, article);
 			logMessage = $"Article updated - ID: {id}";
 		}
