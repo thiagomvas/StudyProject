@@ -1,37 +1,49 @@
 ﻿@page "/article/{Id}"
 @using MathJaxBlazor
-@using StudyProject.Application.Articles.Commands
-@using StudyProject.Application.Articles.Commands.Get
+@using Newtonsoft.Json
+@using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
-@using StudyProject.Infrastructure
-@inject ArticleCommandInvoker invoker
-@inherits MathJaxContentComponent
+@using System.Text.RegularExpressions
+@using StudyProject.Presentation.Pages
+@inject DatabaseAccess db
+@inject IJSRuntime JSRuntime
+@inject HttpClient Http
 
-<MathJaxSettings Tex="@texSettings" />
 
 @if (article == null)
 {
-    <p><em>Loading...</em></p>
+	<p><em>Loading...</em></p>
+	<PageTitle>Loading...</PageTitle>
 }
 else
 {
-    <h1>@article.Title</h1>
-    @((MarkupString)article.Content)
-
+	<ArticleViewer Article="article"/>
+	<PageTitle>@article.Title</PageTitle>
 }
 
 
+
 @code {
-    [Parameter] public string Id { get; set; }
+	[Parameter] public string Id { get; set; }
 
-    Article? article;
-    TexInputSettings texSettings = new();
+	Article? article;
 
-    protected override async Task OnInitializedAsync()
-    {
-        texSettings.InlineMath.Add(new string[] { "$", "$" });
-        GetArticleCommand command = new(Id);
-        article = invoker.GetArticleAsync(command).Result; 
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		string cachedArticle = await JSRuntime.InvokeAsync<string>("localStorage.getItem", $"article_{Id}");
+
+		if (!string.IsNullOrEmpty(cachedArticle))
+		{
+			article = JsonConvert.DeserializeObject<Article>(cachedArticle);
+		}
+		else
+		{
+
+			article = await db.GetArticleAsync(Id);
+
+			string serializedArticle = JsonConvert.SerializeObject(article);
+			await JSRuntime.InvokeVoidAsync("localStorage.setItem", $"article_{Id}", serializedArticle);
+		}
+	}
 
 }

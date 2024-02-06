@@ -10,7 +10,7 @@ namespace StudyProject.Core.ArticleAggregate
         /// <summary>
         /// Gets or sets the ID of the article.
         /// </summary>
-        public HexId Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the article.
@@ -25,28 +25,24 @@ namespace StudyProject.Core.ArticleAggregate
         /// <summary>
         /// Gets or sets the disciplines associated with the article.
         /// </summary>
-        public Discipline[] Disciplines { get; set; } = new Discipline[0];
+        public string[] DisciplineIds { get; set; } = new string[0];
 
         /// <summary>
         /// Gets or sets the subjects associated with the article.
         /// </summary>
-        public Subject[] Subjects { get; set; } = new Subject[0];
+        public string[] SubjectIds { get; set; } = new string[0];
 
         /// <summary>
         /// Gets or sets the topics associated with the article.
         /// </summary>
-        public Topic[] Topics { get; set; } = new Topic[0];
+        public string[] TopicIds { get; set; } = new string[0];
 
         public static readonly Article NotFound = new Article
         {
-            Id = new HexId("0x000000"),
+            Id = "0",
             Title = "Oops! Article Not Found",
             Content = "The article you are looking for could not be found. Please try again later.",
         };
 
-        public Article() 
-        { 
-            Id = HexId.NewHexId();
-        }
     }
 }

@@ -1,0 +1,31 @@
+﻿@using MathJaxBlazor
+@using StudyProject.Core.ArticleAggregate
+@using System.Text.RegularExpressions
+
+
+<h1>@Article.Title</h1>
+@foreach (Match match in Regex.Matches(Article.Content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
+{
+	string text = match.Value;
+	if (text.Contains("$$"))
+	{
+		<Equation Value="@text.Replace("$$", "")" />
+	}
+	else if (text.Contains('$'))
+	{
+		<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
+	}
+	else
+	{
+		@((MarkupString)text.Replace("\n", "<br/>"));
+	}
+}
+
+@code {
+	[Parameter] public Article Article { get; set; }
+	protected override void OnInitialized()
+	{
+		Console.WriteLine($"Title: {Article.Title}");
+		base.OnInitialized();
+	}
+}

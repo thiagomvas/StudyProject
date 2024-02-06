@@ -1,0 +1,148 @@
+﻿@page "/editor"
+
+@using MathJaxBlazor
+@using StudyProject.Application
+@using StudyProject.Application.Common.Builders
+@using StudyProject.Core.ArticleAggregate
+@using System.Text.RegularExpressions
+@using StudyProject.Core.Models
+@using StudyProject.Infrastructure
+
+@inject DatabaseAccess context;
+
+<PageTitle>Article Editor</PageTitle>
+
+
+<style>
+	.customtextarea {
+		width: 100%;
+		height: 700px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+
+	.customtext {
+		height: 50px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+
+	.previewbox {
+		width: 100%;
+		height: 100%;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: #303031;
+		font-size: 16px;
+		resize: none;
+		color: white;
+	}
+</style>
+
+<CustomButton OnClick="() => preview = !preview">Preview</CustomButton>
+
+<InputText class="customtext" @bind-Value="id" />
+
+<CustomButton OnClick="async () => await FetchArticle()">Fetch Article</CustomButton>
+
+
+@if (preview)
+{
+	<h2>Preview</h2>
+	<div class="previewbox">
+		<ArticleViewer Article="article" />
+	</div>
+}
+else
+{
+	<h2>Editor</h2>
+	<InputText class="customtext" @bind-Value="article.Title" />
+	<InputTextArea class="customtextarea" @bind-Value="article.Content" />
+	<h3>Classification</h3>
+	<div>Disciplines: <InputText class="customtext" @bind-Value="disciplines" /></div>
+	<div>Subjects: <InputText class="customtext" @bind-Value="subjecs" /></div>
+	<div>Topics: <InputText class="customtext" @bind-Value="topics" /></div>
+}
+
+<CustomButton OnClick="async () => await AddArticle()">Add Article</CustomButton>
+<CustomButton OnClick="async () => await UpdateArticle()">Update Article</CustomButton>
+<p>@logMessage</p>
+
+
+
+@code {
+	Article article = new();
+	string id = "";
+	bool preview = false;
+
+	string disciplines = "";
+	string topics = "";
+	string subjecs = "";
+
+	string logMessage = "";
+
+	private async Task AddArticle()
+	{
+		try
+		{
+			article.DisciplineIds = disciplines.Split(',').Select(x => x.Trim()).ToArray();
+			article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
+			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
+
+			string id = await context.AddArticleAsync(article);
+			logMessage = $"Article added - ID: {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to create a new article! Returned error: {e.Message}";
+		}
+	}
+
+	private async Task FetchArticle()
+	{
+		try
+		{
+			article = await context.GetArticleAsync(id);
+			disciplines = string.Join(", ", article.DisciplineIds);
+			topics = string.Join(", ", article.TopicIds);
+			subjecs = string.Join(", ", article.SubjectIds);
+			logMessage = $"Article fetched - ID: {id}!";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to fetch article! Returned error: {e.Message}";
+		}
+	}
+
+	private async Task UpdateArticle()
+	{
+		if (id == string.Empty)
+		{
+			logMessage = "ID is empty!";
+			return;
+		}
+		try
+		{
+			article.DisciplineIds = disciplines.Split(',').Select(x => x.Trim()).ToArray();
+			article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
+			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
+			await context.UpdateArticleAsync(id, article);
+			logMessage = $"Article updated - ID: {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Failed to update article! Returned error: {e.Message}";
+		}
+	}
+}

@@ -29,26 +29,19 @@ namespace StudyProject.Application.Common.Builders
         /// <inheritdoc/>
         public IArticleBuilder WithDisciplines(Discipline[] disciplines)
         {
-            article.Disciplines = disciplines;
-            return this;
-        }
-
-        public IArticleBuilder WithId(HexId id)
-        {
-            article.Id = id;
             return this;
         }
 
         public IArticleBuilder WithId(string id)
         {
-            article.Id = new HexId(id);
+            article.Id = id;
             return this;
         }
+
 
         /// <inheritdoc/>
         public IArticleBuilder WithSubjects(Subject[] subjects)
         {
-            article.Subjects = subjects;
             return this;
         }
 
@@ -62,7 +55,6 @@ namespace StudyProject.Application.Common.Builders
         /// <inheritdoc/>
         public IArticleBuilder WithTopics(Topic[] topics)
         {
-            article.Topics = topics;
             return this;
         }
     }

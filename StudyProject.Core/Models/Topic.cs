@@ -4,8 +4,8 @@ namespace StudyProject.Core.Models
 {
     public class Topic : IClassification
     {
-        public HexId Id { get; }
-        public string Name { get; }
-        public string Description { get; }
-    }
+        public string Id { get; init; } = string.Empty;
+        public string Name { get; init; } = string.Empty;
+		public string Description { get; init; } = string.Empty;
+	}
 }
