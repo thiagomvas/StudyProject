@@ -25,17 +25,17 @@ namespace StudyProject.Core.ArticleAggregate
         /// <summary>
         /// Gets or sets the disciplines associated with the article.
         /// </summary>
-        public Discipline[] Disciplines { get; set; } = new Discipline[0];
+        public string[] DisciplineIds { get; set; } = new string[0];
 
         /// <summary>
         /// Gets or sets the subjects associated with the article.
         /// </summary>
-        public Subject[] Subjects { get; set; } = new Subject[0];
+        public string[] SubjectIds { get; set; } = new string[0];
 
         /// <summary>
         /// Gets or sets the topics associated with the article.
         /// </summary>
-        public Topic[] Topics { get; set; } = new Topic[0];
+        public string[] TopicIds { get; set; } = new string[0];
 
         public static readonly Article NotFound = new Article
         {
