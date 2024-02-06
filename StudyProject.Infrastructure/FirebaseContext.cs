@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Firebase.Database;
+using Newtonsoft.Json;
 using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
 using StudyProject.Infrastructure.DTOs;
@@ -8,11 +9,11 @@ namespace StudyProject.Infrastructure
 {
 	public class FirebaseContext : IDatabaseContext
 	{
-		private readonly HttpClient httpClient;
+		private readonly FirebaseClient firebaseClient;
 
-		public FirebaseContext(HttpClient httpClient)
+		public FirebaseContext(FirebaseClient firebaseClient)
 		{
-			this.httpClient = httpClient;
+			this.firebaseClient = firebaseClient;
 		}
 
 
@@ -49,7 +50,7 @@ namespace StudyProject.Infrastructure
         {
             try
             {
-                await firebaseClient.Child($"articles/{id}").PutAsync(updatedArticle);
+                await firebaseClient.Child($"articles/{id}").PutAsync(JsonConvert.SerializeObject(updatedArticle));
                 return true;
             }
             catch (Exception ex)
