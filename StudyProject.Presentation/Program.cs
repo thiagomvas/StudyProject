@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using StudyProject.Application;
-using StudyProject.Application.Articles.Commands;
-using StudyProject.Application.Common.Interfaces;
 using StudyProject.Infrastructure;
 using StudyProject.Presentation;
 
