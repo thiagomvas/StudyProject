@@ -93,7 +93,7 @@
 
 		output = $"\\vec{{v}} \\cdot \\vec{{u}} = {result}";
 		stepbystep =
-		$@"\vec{{v}} \cdot \vec{{u}} = {v[0]} * {u[0]} + {v[1]} * {u[1]} + {v[2]} * {u[2]}
+				$@"\vec{{v}} \cdot \vec{{u}} = {v[0]} \cdot {u[0]} + {v[1]} \cdot {u[1]} + {v[2]} \cdot {u[2]}
 									 = {result}";
 	}
 
@@ -105,7 +105,7 @@
 		TVector3<double> result = vector1.CrossProduct(vector2);
 
 		output = $"\\vec{{v}} \\times \\vec{{u}} = ({result.X}, {result.Y}, {result.Z})";
-		stepbystep = @$"\vec{{v}} \times \vec{{u}} = ({v[1]} * {u[2]} - {v[2]} * {u[1]}, {v[2]} * {u[0]} - {v[0]} * {u[2]}, {v[0]} * {u[1]} - {v[1]} * {u[0]})";
+		stepbystep = @$"\vec{{v}} \times \vec{{u}} = ({v[1]} \cdot {u[2]} - {v[2]} \cdot {u[1]}, {v[2]} \cdot {u[0]} - {v[0]} \cdot {u[2]}, {v[0]} \cdot {u[1]} - {v[1]} \cdot {u[0]})";
 
 
 	}
@@ -118,7 +118,7 @@
 
 		output = $"\\left|\\vec{{v}}\\right| = {result}";
 
-		stepbystep = $@"|\vec{{v}}| = \sqrt{{ {v[0]}^2 + {v[1]}^2 + {v[2]}^2}} = {result}";
+		stepbystep = $@"|\vec{{v}}| = \sqrt{{ ({v[0]})^2 + ({v[1]})^2 + ({v[2]})^2}} = {result}";
 	}
 
 	private void MagnitudeU()
@@ -128,7 +128,7 @@
 		double result = vector1.Length;
 
 		output = $"\\left|\\vec{{u}}\\right| = {result}";
-		stepbystep = $@"|\vec{{u}}| = \sqrt{{ {u[0]}^2 + {u[1]}^2 + {u[2]}^2}} = {result}";
+		stepbystep = $@"|\vec{{u}}| = \sqrt{{ ({u[0]})^2 + ({u[1]})^2 + ({u[2]})^2}} = {result}";
 	}
 
 	private void Angle()
