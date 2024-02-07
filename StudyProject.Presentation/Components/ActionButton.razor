@@ -1,25 +1,23 @@
-﻿@inherits ComponentBase
-
-<button class="action-button">
-	@ChildContent
+﻿<button class="action-button" style="background-color: @DefaultColor; color: @TextColor;" @onmouseover="OnMouseOver" @onmouseout="OnMouseOut" @onclick="OnClick">
+    @ChildContent
 </button>
 
 @code {
-	[Parameter] public RenderFragment ChildContent { get; set; }
-	[Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
 
-	[Parameter] public string DefaultColor { get; set; } = Theme.Default.ForegroundColor;
-	[Parameter] public string HoverColor { get; set; } = Theme.Default.PrimaryColor;
-	[Parameter] public string TextColor { get; set; } = Theme.Default.TextColor;
+    [Parameter] public string DefaultColor { get; set; } = Theme.Default.ForegroundColor;
+    [Parameter] public string HoverColor { get; set; } = Theme.Default.PrimaryColor;
+    [Parameter] public string TextColor { get; set; } = Theme.Default.TextColor;
+
+    private void OnMouseOver()
+    {
+        DefaultColor = HoverColor;
+    }
+
+    private void OnMouseOut()
+    {
+        DefaultColor = Theme.Default.ForegroundColor;
+    }
 }
 
-<style>
-	.action-button {
-		background-color: @DefaultColor;
-		color: @TextColor;
-	}
-
-		.action-button:hover {
-			background-color: @HoverColor;
-		}
-</style>
