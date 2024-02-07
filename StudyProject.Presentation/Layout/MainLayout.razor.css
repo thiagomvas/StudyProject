@@ -2,7 +2,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #232323;
     color: white;
 }
 
@@ -31,11 +30,9 @@
 
 main {
     flex: 1;
-    background-color: #232323;
 }
 
 .sidebar {
-    background-color: #1a1a1a;
     height: 100%;
 }
 
