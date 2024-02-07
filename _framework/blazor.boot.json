@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "StudyProject.Presentation",
   "resources": {
-    "hash": "sha256-XP0uZNdIxXse+I3R5I+G1RR2ayFDqOc6oB3joWz2+AU=",
+    "hash": "sha256-W5YQc9OPrZBOypSi7hH3Hk1WBrNFkipt+lbVbc5qgeY=",
     "jsModuleNative": {
       "dotnet.native.8.0.1.ytj3y297is.js": "sha256-O8t500DMYg9iHb8I8OVJDmnMTqROaDMizTalhAGippM="
     },
@@ -50,10 +50,10 @@
       "SQLitePCLRaw.batteries_v2.wasm": "sha256-AymqXfJmredfnqn6PxQs3nqqNoMXiBDEqaT3b0605F8=",
       "SQLitePCLRaw.core.wasm": "sha256-5ncp/PNVntosOHmUwpvRVJZvvreYP08nlkqD9XgBkdA=",
       "SQLitePCLRaw.provider.e_sqlite3.wasm": "sha256-3TKRNpWG681LxI/l31HI8LuIjsCjG6XJ9dIEXu3m1zY=",
-      "StudyProject.Application.wasm": "sha256-T606iOntHdi6sIck3Z39a5XDJDIt4gMdCE4t1HX5rag=",
-      "StudyProject.Core.wasm": "sha256-wLiSszTDqXmVgxRSBaEge2+YjBMtGBkd/DZrMwZ7Uno=",
-      "StudyProject.Infrastructure.wasm": "sha256-cmhGummGxyMv+diDHyFbR+spAA1LCXW9ry5hEMqT/1I=",
-      "StudyProject.Presentation.wasm": "sha256-JDvBCLWPC1AQB0dkcnQbH+pweAznQ24AyAMcaPZMoec=",
+      "StudyProject.Application.wasm": "sha256-qnHf+cewFNYfPY6WpMWCP84GIs27++hqkUqebr2oAE4=",
+      "StudyProject.Core.wasm": "sha256-4PkWFjhkVCvdMgk+DKK/eSPrI4UWtCh0oUSQ/rfs2Yg=",
+      "StudyProject.Infrastructure.wasm": "sha256-2Tn+lncnj6kE56f4STnLZrZmpUIazRpInet29TDIigk=",
+      "StudyProject.Presentation.wasm": "sha256-Am10H/D9ma+NmTQlri8pD6F1uvLwcbESJLmc2g/P0xM=",
       "System.Collections.Concurrent.wasm": "sha256-EfFlQBKUAxblXgPsICNBNSm8yCie3jl9oX7O70iyIys=",
       "System.Collections.Immutable.wasm": "sha256-SzoG6qiFyakbmw479K/NvdXpM2XBBnO7L69A0pAxo3U=",
       "System.Collections.NonGeneric.wasm": "sha256-TK6vKTiiU7vpc9xAVa6tFcjzDkYWR6LVqI2ataqqo6I=",
