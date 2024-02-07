@@ -3,7 +3,7 @@
 @using StudyProject.Application.Common.Builders
 @using System.Numerics
 @using TMath.Numerics
-@using TMath.Numerics.LinearAlgebra
+@using TMath.Numerics.AdvancedMath.LinearAlgebra
 @using TMath.Numerics.Models
 @using MathJaxBlazor
 
@@ -40,194 +40,160 @@
 <h3>Matrix Operations</h3>
 
 <div style="max-width: 75%; display: flex; justify-content: space-between;">
+	<div style="text-align: center; margin-top: 20px;">
+		<h4>Matrix A: <input type="number" class="custom-input-field" @bind-value="RowsA" /> x <input type="number" class="custom-input-field" @bind-value="ColumnsA" /></h4>
+		<div style="display: inline-block;">
+			@{
+				int indexA = 0;
+				@for (int i = 0; i < rowsA; i++)
+				{
+					<div>
+						@for (int j = 0; j < columnsA; j++)
+						{
+							<CustomNumber Array="@a" index="indexA" />
+							indexA++;
+						}
+					</div>
+				}
 
-	<div style="display: grid; grid-template-columns: repeat(@arrayASize, 50px); gap: 10px;">
-		@for (int i = 0; i < arrayASize * arrayASize; i++)
-		{
-			<CustomNumber Array="@a" index="@i" />
-		}
+			}
+		</div>
 
-		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize + 1)">+</CustomButton>
-		<CustomButton Width="50px" OnClick="() => ResizeArrayA(arrayASize - 1)">-</CustomButton>
-		<CustomButton OnClick="TransposeA">Transpose</CustomButton>
+		<div style="margin-top: 10px;">
+			<div style="display: flex; justify-content: center;">
+				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transpose</CustomButton>
+				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">LU Decomposition</CustomButton>
+				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inverse</CustomButton>
+			</div>
+			<div style="display: flex; justify-content: center;">
+				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinant</CustomButton>
+				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Rank</CustomButton>
+				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Row Echelon</CustomButton>
+			</div>
+		</div>
+	</div>
+	<div style="text-align: center; margin-top: 20px;">
+		<h4>Matrix B: <input type="number" class="custom-input-field" @bind-value="RowsB" /> x <input type="number" class="custom-input-field" @bind-value="ColumnsB" /></h4>
+		<div style="display: inline-block;">
+			@{
+				int indexB = 0;
+				@for (int i = 0; i < rowsB; i++)
+				{
+					<div>
+						@for (int j = 0; j < columnsB; j++)
+						{
+							<CustomNumber Array="@b" index="indexB" />
+							indexB++;
+						}
+					</div>
+				}
+
+			}
+		</div>
+
+		<div style="margin-top: 10px;">
+			<div style="display: flex; justify-content: center;">
+				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transpose</CustomButton>
+				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">LU Decomposition</CustomButton>
+				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inverse</CustomButton>
+			</div>
+			<div style="display: flex; justify-content: center;">
+				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinant</CustomButton>
+				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Rank</CustomButton>
+				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Row Echelon</CustomButton>
+			</div>
+		</div>
 	</div>
 
-
-	<div style="display: grid; grid-template-columns: repeat(@arrayBSize, 50px); gap: 10px;">
-		@for (int i = 0; i < arrayBSize * arrayBSize; i++)
-		{
-			<CustomNumber Array="@b" index="@i" />
-		}
-		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize + 1)">+</CustomButton>
-		<CustomButton Width="50px" OnClick="() => ResizeArrayB(arrayBSize - 1)">-</CustomButton>
-		<CustomButton OnClick="TransposeB">Transpose</CustomButton>
-	</div>
 </div>
-<Divider />
 
-<CustomButton Width="150px" OnClick="MultiplyA">A * <input type="number" class="custom-input-field" @bind-value="AtimesScalar" /></CustomButton>
-<CustomButton Width="150px" OnClick="MultiplyB">B *<input type="number" class="custom-input-field" @bind-value="BtimesScalar" /></CustomButton>
-<CustomButton Width="100px" OnClick="Add"><Equation Value="A + B"/></CustomButton>
-<CustomButton Width="100px" OnClick="Subtract"><Equation Value="A - B" /></CustomButton>
-<CustomButton Width="100px" OnClick="Multiply"><Equation Value="A \cdot B" /> </CustomButton>
-<CustomButton Width="150px" OnClick="Identity">Identity <input type="number" class="custom-input-field" @bind-value="identitySize" /></CustomButton>
 <Divider />
-<h2><Equation Value="@output" TeXDisplay="false" /></h2>
+<CustomButton OnClick="@Add"><Equation Value="A + B" /></CustomButton>
+<CustomButton OnClick="@Subtract"><Equation Value="A - B" /></CustomButton>
+<CustomButton OnClick="@Multiply"><Equation Value="A \cdot B" /></CustomButton>
 <Divider />
-<h2>Step by Step</h2>
+<Equation Value="@output" TeXDisplay="false" />
+<Divider />
+<h3>Step by Step</h3>
 <Equation Value="@stepbystep" TeXDisplay="false" />
 
 
 @code {
-	bool init = false;
-	int arrayASize = 3;
-	int arrayBSize = 3;
-	int identitySize = 3;
-	int AtimesScalar = 2;
-	int BtimesScalar = 2;
+	#region Fields and Properties
+	int rowsA = 3, rowsB = 3, columnsA = 3, columnsB = 3;
 
-
-	protected override void OnInitialized()
+	int RowsA
 	{
-		init = true;
-		base.OnInitialized();
-	}
-
-	private void ResizeArrayA(int newvalue)
-	{
-		if (newvalue <= 0)
-			return;
-		arrayASize = newvalue;
-		a = new(new double[newvalue * newvalue]);
-	}
-	private void ResizeArrayB(int newvalue)
-	{
-		if (newvalue <= 0)
-			return;
-		arrayBSize = newvalue;
-		b = new(new double[newvalue * newvalue]);
-	}
-
-	ArrayReference<double> a = new(new double[9]);
-	ArrayReference<double> b = new(new double[9]);
-
-
-	string output;
-	string stepbystep;
-
-	private void MultiplyA()
-	{
-		TMatrix<double> m = new TMatrix<double>(arrayASize, arrayASize, a.array);
-		TMatrix<double> result = m * AtimesScalar;
-		output = $"{AtimesScalar} * {MatrixToLatex(m)} = {MatrixToLatex(result)}";
-
-		StringBuilder sb = new();
-		sb.Append("""\begin{pmatrix}""");
-		for (int i = 0; i < result.Rows; i++)
+		get => rowsA;
+		set
 		{
-			for (int j = 0; j < result.Columns; j++)
-			{
-				sb.Append($"{AtimesScalar} * {m[i, j]}");
-				if (j + 1 < result.Columns)
-				{
-					sb.Append(" & ");
-				}
-			}
-			sb.Append("""\\""");
+			rowsA = value;
+			Resize(TargetMatrix.MatrixA);
 		}
-		sb.Append("""\end{pmatrix}""");
-
-		stepbystep = $"\\begin{{align*}} {AtimesScalar} * {MatrixToLatex(m)} &= {sb.ToString()}\\\\ &= {MatrixToLatex(result)} \\end{{align*}}";
 	}
 
-
-	private void MultiplyB()
+	int RowsB
 	{
-		TMatrix<double> m = new TMatrix<double>(arrayASize, arrayASize, b.array);
-		TMatrix<double> result = m * BtimesScalar;
-		output = $"{AtimesScalar} * {MatrixToLatex(m)} = {MatrixToLatex(result)}";
-
-		StringBuilder sb = new();
-		sb.Append("""\begin{pmatrix}""");
-		for (int i = 0; i < result.Rows; i++)
+		get => rowsB;
+		set
 		{
-			for (int j = 0; j < result.Columns; j++)
-			{
-				sb.Append($"{BtimesScalar} * {m[i, j]}");
-				if (j + 1 < result.Columns)
-				{
-					sb.Append(" & ");
-				}
-			}
-			sb.Append("""\\""");
+			rowsB = value;
+			Resize(TargetMatrix.MatrixB);
 		}
-		sb.Append("""\end{pmatrix}""");
-
-		stepbystep = $"\\begin{{align*}} {BtimesScalar} * {MatrixToLatex(m)} &= {sb.ToString()}\\\\ &= {MatrixToLatex(result)} \\end{{align*}}";
 	}
 
-	private void Identity()
+	int ColumnsA
 	{
-		TMatrix<int> matrix = TMatrix<int>.Identity(identitySize);
-
-		output = $@"I = {MatrixToLatex(matrix)}";
-		stepbystep = $@"\text{{Simply create a {identitySize}x{identitySize} matrix where all the elements in the diagonal are 1, and the rest are 0}}";
-	}
-
-	private void TransposeA()
-	{
-		var matrixA = new TMatrix<double>(arrayASize, arrayASize);
-
-		for (int i = 0; i < arrayASize * arrayASize; i++)
+		get => columnsA;
+		set
 		{
-			matrixA[i / arrayASize, i % arrayASize] = a[i];
+			columnsA = value;
+			Resize(TargetMatrix.MatrixA);
 		}
-
-
-		var result = matrixA.Transpose();
-
-		output = MatrixToLatex(result);
 	}
 
-	private void TransposeB()
+	int ColumnsB
 	{
-		var matrixB = new TMatrix<double>(arrayBSize, arrayBSize);
-
-		for (int i = 0; i < arrayBSize * arrayBSize; i++)
+		get => columnsB;
+		set
 		{
-			matrixB[i / arrayBSize, i % arrayBSize] = b[i];
+			columnsB = value;
+			Resize(TargetMatrix.MatrixB);
 		}
+	}
 
-		var result = matrixB.Transpose();
+	ArrayReference<double> a = new(new double[9]), b = new(new double[9]);
+	string output = "", stepbystep = "";
+	private enum TargetMatrix { MatrixA, MatrixB }
 
-		output = MatrixToLatex(result);
+	#endregion
+
+	private void Resize(TargetMatrix target)
+	{
+		if (target == TargetMatrix.MatrixA)
+		{
+			a = new ArrayReference<double>(new double[rowsA * columnsA]);
+		}
+		else
+		{
+			b = new ArrayReference<double>(new double[rowsB * columnsB]);
+		}
 	}
 
 	private void Add()
 	{
-		int max = Math.Max(arrayASize, arrayBSize);
-		var matrixA = new TMatrix<double>(max, max);
-		var matrixB = new TMatrix<double>(max, max);
-
-		for (int i = 0; i < max * max; i++)
-		{
-			matrixA[i / max, i % max] = a[i];
-			matrixB[i / max, i % max] = b[i];
-		}
-
-		var result = matrixA + matrixB;
-
-		output = $"A + B = {MatrixToLatex(result)}";
-
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> sum = matrixA + matrixB;
 
 		StringBuilder sb = new();
 		sb.Append("""\begin{pmatrix}""");
-		for (int i = 0; i < result.Rows; i++)
+		for (int i = 0; i < sum.Rows; i++)
 		{
-			for (int j = 0; j < result.Columns; j++)
+			for (int j = 0; j < sum.Columns; j++)
 			{
 				sb.Append($"{matrixA[i, j]} + {matrixB[i, j]}");
-				if (j + 1 < result.Columns)
+				if (j + 1 < sum.Columns)
 				{
 					sb.Append(" & ");
 				}
@@ -235,34 +201,27 @@
 			sb.Append("""\\""");
 		}
 		sb.Append("""\end{pmatrix}""");
+		stepbystep = $@"\begin{{align*}} {matrixA.ToLaTeX()} + {matrixB.ToLaTeX()} &= {sb.ToString()} \\ &= {sum.ToLaTeX()} \end{{align*}}";
 
-		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
+		output = $@"{matrixA.ToLaTeX()} + {matrixB.ToLaTeX()} = {sum.ToLaTeX()}";
 	}
 
 	private void Subtract()
 	{
-		int max = Math.Max(arrayASize, arrayBSize);
-		var matrixA = new TMatrix<double>(max, max);
-		var matrixB = new TMatrix<double>(max, max);
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> difference = matrixA - matrixB;
+		output = $@"{matrixA.ToLaTeX()} - {matrixB.ToLaTeX()} = {difference.ToLaTeX()}";
 
-		for (int i = 0; i < max * max; i++)
-		{
-			matrixA[i / max, i % max] = a[i];
-			matrixB[i / max, i % max] = b[i];
-		}
-
-		var result = matrixA - matrixB;
-
-		output = $"A - B = {MatrixToLatex(result)}";
 
 		StringBuilder sb = new();
 		sb.Append("""\begin{pmatrix}""");
-		for (int i = 0; i < result.Rows; i++)
+		for (int i = 0; i < difference.Rows; i++)
 		{
-			for (int j = 0; j < result.Columns; j++)
+			for (int j = 0; j < difference.Columns; j++)
 			{
 				sb.Append($"{matrixA[i, j]} - {matrixB[i, j]}");
-				if (j + 1 < result.Columns)
+				if (j + 1 < difference.Columns)
 				{
 					sb.Append(" & ");
 				}
@@ -270,25 +229,18 @@
 			sb.Append("""\\""");
 		}
 		sb.Append("""\end{pmatrix}""");
-
-		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
+		stepbystep = $@"\begin{{align*}} {matrixA.ToLaTeX()} - {matrixB.ToLaTeX()} &= {sb.ToString()} \\ &= {difference.ToLaTeX()} \end{{align*}}";
 	}
 
 	private void Multiply()
 	{
-		int max = Math.Max(arrayASize, arrayBSize);
-		var matrixA = new TMatrix<double>(max, max);
-		var matrixB = new TMatrix<double>(max, max);
+		Console.WriteLine(string.Join(',', a.array));
+		Console.WriteLine(string.Join(',', a.array));
+		TMatrix<double> matrixA = new TMatrix<double>(rowsA, columnsA, a.array);
+		TMatrix<double> matrixB = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> product = matrixA * matrixB;
+		output = $@"{matrixA.ToLaTeX()} \cdot {matrixB.ToLaTeX()} = {product.ToLaTeX()}";
 
-		for (int i = 0; i < max * max; i++)
-		{
-			matrixA[i / max, i % max] = a[i];
-			matrixB[i / max, i % max] = b[i];
-		}
-
-		var result = matrixA * matrixB;
-
-		output = MatrixToLatex(result);
 
 		StringBuilder sb = new();
 
@@ -304,7 +256,7 @@
 					if (k + 1 < matrixA.Columns)
 						sb.Append(" + ");
 				}
-				if (j + 1 < result.Columns)
+				if (j + 1 < product.Columns)
 				{
 					sb.Append(" & ");
 				}
@@ -313,31 +265,109 @@
 		}
 
 		sb.Append("""\end{pmatrix}""");
-		stepbystep = $@"\begin{{align*}} {MatrixToLatex(matrixA)} * {MatrixToLatex(matrixB)} &= {sb.ToString()}\\ &= {MatrixToLatex(result)} \end{{align*}}";
-
+		stepbystep = $@"\begin{{align*}} {matrixA.ToLaTeX()} * {matrixB.ToLaTeX()} &= {sb.ToString()}\\ &= {product.ToLaTeX()} \end{{align*}}";
 	}
 
-	private string MatrixToLatex<T>(TMatrix<T> input)
-	where T : INumber<T>
+
+	private void Transpose(TargetMatrix target)
 	{
-		StringBuilder sb = new();
-		sb.Append("""\begin{pmatrix}""");
-		for (int i = 0; i < input.Rows; i++)
-		{
-			for (int j = 0; j < input.Columns; j++)
-			{
-				sb.Append(input[i, j]);
-				if (j + 1 < input.Columns)
-				{
-					sb.Append(" & ");
-				}
-			}
-			sb.Append("""\\""");
-		}
-		sb.Append("""\end{pmatrix}""");
-		return sb.ToString();
+		TMatrix<double> matrix;
+		if (target == TargetMatrix.MatrixA)
+			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+		TMatrix<double> transposed = matrix.Transpose();
+		output = $"{matrix.ToLaTeX()}^T = {transposed.ToLaTeX()}";
+		stepbystep = @"\text{Simply 'rotate' the matrix so that the columns and rows are now swapped}";
 	}
 
+	private void LUDecomposition(TargetMatrix target)
+	{
+		TMatrix<double> matrix;
+		if (target == TargetMatrix.MatrixA)
+			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+		TLinearAlgebra.LUDecomposition(matrix, out var u, out var l, out var p, out var steps);
+		output = $@"{p.ToLaTeX()} \cdot {matrix.ToLaTeX()} = {l.RoundValues(5).ToLaTeX()} \cdot {u.RoundValues(5).ToLaTeX()}";
+
+		StringBuilder sb = new();
+		sb.Append(@"\begin{align*}");
+		sb.Append("&");
+		foreach(var s in steps)
+		{
+			sb.Append($"{s.CurrentState.ToLaTeX()} {SanitizeLatex(s.NextOperation)}\\\\ &\\sim ");
+		}
+		sb.Append(u.ToLaTeX());
+		sb.Append(@"\end{align*}");
+		stepbystep = sb.ToString();
+	}
+
+	private void Inverse(TargetMatrix target)
+	{
+		try
+		{
+			TMatrix<double> matrix;
+			if (target == TargetMatrix.MatrixA)
+				matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+			else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+			TMatrix<double> inverse = TLinearAlgebra.Inverse(matrix);
+			output = $@"{matrix.ToLaTeX()}^{{-1}} = {inverse.ToLaTeX()}";
+		}
+		catch (ArgumentException)
+		{
+			output = $@"\text{{Matrix must be invertible, that is, }} det(M) \neq 0";
+		}
+	}
+
+	private void Rank(TargetMatrix target)
+	{
+		TMatrix<double> matrix;
+		if (target == TargetMatrix.MatrixA)
+			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+		var rank = TLinearAlgebra.Rank(matrix);
+		output = $@"\text{{Rank of }} {matrix.ToLaTeX()} = {rank}";
+		stepbystep = @"\text{The rank of a matrix is the number of rows in it's row echelon form with an element different than 0}";
+	}
+
+	private void Determinant(TargetMatrix target)
+	{
+		TMatrix<double> matrix;
+		if (target == TargetMatrix.MatrixA)
+			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+		double determinant = TLinearAlgebra.Determinant(matrix);
+		output = $@"{matrix.ToLaTeX("vmatrix")} = {determinant}";
+	}
+
+	private void RowEchelonForm(TargetMatrix target)
+	{
+		TMatrix<double> matrix;
+		if (target == TargetMatrix.MatrixA)
+			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
+		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
+		var rowEchelon = TLinearAlgebra.RowEchelon(matrix, out var steps);
+		output = $@"\text{{Row Echelon Form of }} {matrix.ToLaTeX()} = {rowEchelon.ToLaTeX()}";
+
+		StringBuilder sb = new();
+		sb.Append(@"\begin{align*}");
+		sb.Append("&");
+		foreach (var s in steps)
+		{
+			sb.Append($"{s.CurrentState.ToLaTeX()} {SanitizeLatex(s.NextOperation)}\\\\ &\\sim ");
+		}
+		sb.Append(rowEchelon.ToLaTeX());
+		sb.Append(@"\end{align*}");
+		stepbystep = sb.ToString();
+	}
+
+	private string SanitizeLatex(string tex)
+	{
+		if(tex.Contains("Swap", StringComparison.InvariantCultureIgnoreCase))
+		{
+			return $@"\text{{{tex}}}";
+		}
+		return tex.Replace("l", "l_").Replace("<--", "\\leftarrow").Replace("*", "\\cdot");
+	}
 }
 
 
