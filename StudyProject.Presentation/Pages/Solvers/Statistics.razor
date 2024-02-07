@@ -41,13 +41,13 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 					<td>Most frequent value in data set</td>
 				</tr>
 				<tr>
-					<td>Variance</td>
-					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n} " /></td>
+					<td>Sample Variance</td>
+					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 				<tr>
-					<td>Standard Deviation</td>
-					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n}}" /></td>
+					<td>Sample Standard Deviation</td>
+					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n - 1}}" /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 				<tr>
@@ -56,13 +56,13 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 				<tr>
-					<td>Sample Variance</td>
-					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
+					<td>Population Variance</td>
+					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n} " /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 				<tr>
-					<td>Sample Standard Deviation</td>
-					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n - 1}}" /></td>
+					<td>Population Standard Deviation</td>
+					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n}}" /></td>
 					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
 				</tr>
 			</tbody>
@@ -115,6 +115,14 @@ else
 				<td>@stats.Sum</td>
 			</tr>
 			<tr>
+				<td>Sample Variance</td>
+				<td>@stats.SampleVariance</td>
+			</tr>
+			<tr>
+				<td>Sample Standard Deviation</td>
+				<td>@stats.SampleStandardDeviation</td>
+			</tr>
+			<tr>
 				<td>Largest</td>
 				<td>@stats.Largest</td>
 			</tr>
@@ -123,24 +131,16 @@ else
 				<td>@stats.Smallest</td>
 			</tr>
 			<tr>
-				<td>Variance</td>
+				<td>Population Variance</td>
 				<td>@stats.Variance</td>
 			</tr>
 			<tr>
-				<td>Standard Deviation</td>
+				<td>Population Standard Deviation</td>
 				<td>@stats.StandardDeviation</td>
 			</tr>
 			<tr>
 				<td>Geometric Mean</td>
 				<td>@stats.GeometricMean</td>
-			</tr>
-			<tr>
-				<td>Sample Standard Deviation</td>
-				<td>@stats.SampleStandardDeviation</td>
-			</tr>
-			<tr>
-				<td>Sample Variance</td>
-				<td>@stats.SampleVariance</td>
 			</tr>
 		</tbody>
 	</table>
