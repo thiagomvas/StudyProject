@@ -23,10 +23,10 @@ else
 	<p>Found @sortedRedirects.Count solvers.</p>
 	@foreach (var redirect in sortedRedirects)
 	{
-		<RedirectButton Destination="@redirect.Destination" Color="#303031" Width="100%">
+		<RedirectPanel Destination="@redirect.Destination">
 			<h2>@redirect.Title</h2>
 			<p>@redirect.Description</p>
-		</RedirectButton>
+		</RedirectPanel>
 	}
 }
 
