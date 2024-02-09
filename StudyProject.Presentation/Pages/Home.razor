@@ -4,11 +4,16 @@
 
 <h1>Hello, world!</h1>
 
-<ActionButton>Hello World</ActionButton>
 
 <br />
+<Row JustifyContent="flex-start">
+	<ActionButton OnClick="@(() => Theme.Default.DarkMode = !Theme.Default.DarkMode)">Hello World</ActionButton>
+	<Chip>Chip!</Chip>
+	<Chip Color="#9b2948" TextColor="#9b2948">Foo</Chip>
+	<Chip Color="#ff7251" TextColor="#ff7251">Bar</Chip>
+</Row>
 
-<Chip>Chip!</Chip>
-<Chip Color="#9b2948" TextColor="#9b2948">Foo</Chip>
-<Chip Color="#ff7251" TextColor="#ff7251">Bar</Chip>
+<Divider/>
+
 <Chip Color="#ffca7b" TextColor="#ffca7b">Baz</Chip>
+
