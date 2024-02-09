@@ -31,7 +31,7 @@
 				}
 				else
 				{
-					return "#393646";
+					return "#F1EAFF";
 				}
 			} 
 		}
@@ -46,7 +46,7 @@
 				}
 				else
 				{
-					return "#4F4557";
+					return "#E5D4FF";
 				}
 			} 
 		}
@@ -61,7 +61,7 @@
 				}
 				else
 				{
-					return "#6D5D6E";
+					return "#D0A2F7";
 				}
 			} 
 		}
