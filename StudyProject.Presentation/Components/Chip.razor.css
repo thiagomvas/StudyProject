@@ -4,6 +4,11 @@
     background-color: transparent; 
     border-radius: 25px;
     margin: 5px;
+    transition: background-color 0.1s;
+}
+
+.chip:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .icon {
