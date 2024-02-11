@@ -14,7 +14,7 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 <div>
 	@if (showFormulas)
 	{
-		<CustomButton OnClick="() => showFormulas = !showFormulas">Hide Formulas</CustomButton>
+		<ActionButton OnClick="() => showFormulas = !showFormulas">Hide Formulas</ActionButton>
 		<table>
 			<thead>
 				<tr>
@@ -70,17 +70,18 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 	}
 	else
 	{
-		<CustomButton OnClick="() => showFormulas = !showFormulas">Show Formulas</CustomButton>
+		<ActionButton OnClick="() => showFormulas = !showFormulas">Show Formulas</ActionButton>
 	}
 </div>
 
 
+
 <br />
 <div>
-	<InputText style="width=75%" @bind-Value="input" placeholder="Enter your dataset" />
+	<InputText class="input-text" @bind-Value="input" placeholder="Enter your dataset" />
 </div>
 <br />
-<CustomButton OnClick="CalculateData">Compute values</CustomButton>
+<ActionButton OnClick="CalculateData">Compute values</ActionButton>
 <Divider />
 <br />
 @if (stats == null)

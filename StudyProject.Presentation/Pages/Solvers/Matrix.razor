@@ -17,8 +17,8 @@
 	.custom-input-field {
 		width: 30px;
 		height: fit-content;
-		background: #282424;
-		color: white;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
 		appearance: none;
 		border: none;
 		border-radius: 5px;
@@ -50,7 +50,7 @@
 					<div>
 						@for (int j = 0; j < columnsA; j++)
 						{
-							<CustomNumber Array="@a" index="indexA" />
+							<ArrayNumberInputField Array="@a" index="indexA" />
 							indexA++;
 						}
 					</div>
@@ -61,14 +61,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transpose</CustomButton>
-				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">LU Decomposition</CustomButton>
-				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inverse</CustomButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transpose</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">LU Decomposition</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inverse</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinant</CustomButton>
-				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Rank</CustomButton>
-				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Row Echelon</CustomButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinant</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Rank</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Row Echelon</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -82,7 +82,7 @@
 					<div>
 						@for (int j = 0; j < columnsB; j++)
 						{
-							<CustomNumber Array="@b" index="indexB" />
+							<ArrayNumberInputField Array="@b" index="indexB" />
 							indexB++;
 						}
 					</div>
@@ -93,14 +93,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transpose</CustomButton>
-				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">LU Decomposition</CustomButton>
-				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inverse</CustomButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transpose</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">LU Decomposition</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inverse</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinant</CustomButton>
-				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Rank</CustomButton>
-				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Row Echelon</CustomButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinant</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Rank</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Row Echelon</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -108,9 +108,9 @@
 </div>
 
 <Divider />
-<CustomButton OnClick="@Add"><Equation Value="A + B" /></CustomButton>
-<CustomButton OnClick="@Subtract"><Equation Value="A - B" /></CustomButton>
-<CustomButton OnClick="@Multiply"><Equation Value="A \cdot B" /></CustomButton>
+<ActionButton OnClick="@Add"><Equation Value="A + B" /></ActionButton>
+<ActionButton OnClick="@Subtract"><Equation Value="A - B" /></ActionButton>
+<ActionButton OnClick="@Multiply"><Equation Value="A \cdot B" /></ActionButton>
 <Divider />
 <Equation Value="@output" TeXDisplay="false" />
 <Divider />

@@ -18,21 +18,21 @@
 <br />
 
 <p>
-	<Equation Value="\vec{v} =" TeXDisplay=false /> <CustomNumber Array="v" index="0" /><CustomNumber Array="v" index="1" /><CustomNumber Array="v" index="2" />
+	<Equation Value="\vec{v} =" TeXDisplay=false /> <ArrayNumberInputField Array="v" index="0" /><ArrayNumberInputField Array="v" index="1" /><ArrayNumberInputField Array="v" index="2" />
 </p>
 <p>
-	<Equation Value="\vec{u} =" TeXDisplay=false /> <CustomNumber Array="u" index="0" /><CustomNumber Array="u" index="1" /><CustomNumber Array="u" index="2" />
+	<Equation Value="\vec{u} =" TeXDisplay=false /> <ArrayNumberInputField Array="u" index="0" /><ArrayNumberInputField Array="u" index="1" /><ArrayNumberInputField Array="u" index="2" />
 </p>
 
 <Divider />
 
-<CustomButton OnClick="Add"><Equation Value="\vec{v} + \vec{u}" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="Subtract"><Equation Value="\vec{v} - \vec{u}" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="DotProduct"><Equation Value="\vec{v} \cdot \vec{u}" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="CrossProduct"><Equation Value="\vec{v} \times \vec{u}" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="MagnitudeV"><Equation Value="\left|\vec{v}\right|" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="MagnitudeU"><Equation Value="\left|\vec{u}\right|" TeXDisplay=false /></CustomButton>
-<CustomButton OnClick="Angle"><Equation Value="\theta" TeXDisplay=false /></CustomButton>
+<ActionButton OnClick="Add"><Equation Value="\vec{v} + \vec{u}" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="Subtract"><Equation Value="\vec{v} - \vec{u}" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="DotProduct"><Equation Value="\vec{v} \cdot \vec{u}" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="CrossProduct"><Equation Value="\vec{v} \times \vec{u}" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="MagnitudeV"><Equation Value="\left|\vec{v}\right|" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="MagnitudeU"><Equation Value="\left|\vec{u}\right|" TeXDisplay=false /></ActionButton>
+<ActionButton OnClick="Angle"><Equation Value="\theta" TeXDisplay=false /></ActionButton>
 
 <Divider />
 @if (!string.IsNullOrWhiteSpace(output))
