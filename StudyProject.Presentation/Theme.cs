@@ -3,7 +3,7 @@
 	public class Theme
 	{
 		private static Theme instance;
-		public bool DarkMode = false;
+		public bool DarkMode = true;
 
 		private Theme()
 		{
@@ -21,7 +21,6 @@
 				return instance;
 			}
 		}
-
 		public string BackgroundColor { 
 			get
 			{
@@ -61,7 +60,7 @@
 				}
 				else
 				{
-					return "#D0A2F7";
+					return "#D7A8FF";
 				}
 			} 
 		}
