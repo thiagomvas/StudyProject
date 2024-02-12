@@ -6,7 +6,7 @@
 <h1>Solvers</h1>
 <p>This page contains all the solvers and formula applications in the website.</p>
 
-<input type="text" @bind="searchTerm" placeholder="Search solvers..." />
+<input class="input-text" type="text" @bind="searchTerm" placeholder="Search solvers..." />
 
 @{
 	sortedRedirects = ApplySearchFilter(redirects, searchTerm);

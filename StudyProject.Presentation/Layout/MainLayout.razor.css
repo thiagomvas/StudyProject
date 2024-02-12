@@ -4,17 +4,6 @@
     flex-direction: column;
 }
 
-.custom-input-field {
-    width: 50px;
-    height: fit-content;
-    background: #303031;
-    color: white;
-    appearance: none;
-    border: none;
-    border-radius: 5px;
-    padding: 0px 5px 0px 5px;
-}
-
 /* Hide the up and down arrows */
 .custom-input-field::-webkit-inner-spin-button,
 .custom-input-field::-webkit-outer-spin-button {
@@ -35,16 +24,6 @@ main {
     height: 100%;
 }
 
-
-/* Style odd rows with a different background color */
-tbody tr:nth-child(odd) {
-    background-color: #232323;
-}
-
-/* Style even rows with a different background color */
-tbody tr:nth-child(even) {
-    background-color: #1f1f1f;
-}
 
 .top-row {
     justify-content: flex-end;
