@@ -10,7 +10,7 @@
 
 @inject DatabaseAccess context;
 
-<PageTitle>Article Editor</PageTitle>
+<PageTitle>Editor</PageTitle>
 
 
 <style>
@@ -55,7 +55,7 @@
 </style>
 
 
-<InputText class="customtext" @bind-Value="id" placeholder="Article id" />
+<InputText class="customtext" @bind-Value="id" placeholder="ID do artigo" />
 
 <ActionButton OnClick="async () => await FetchArticle()">Fetch Article</ActionButton>
 
@@ -66,7 +66,7 @@
 {
 	case Tab.Editor:
 		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
-		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guide</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
 		<h2>Editor</h2>
 		<InputText class="customtext" @bind-Value="article.Title" placeholder="Article Title" />
 		<InputTextArea class="customtextarea" @bind-Value="article.Content" placeholder="@loremipsum" />
@@ -79,7 +79,7 @@
 		break;
 	case Tab.Preview:
 		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
-		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guide</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
 		<h2>Preview</h2>
 		<div class="previewbox">
 			<ArticleViewer Article="article" />
@@ -228,7 +228,7 @@
 			disciplines = string.Join(", ", article.DisciplineIds);
 			topics = string.Join(", ", article.TopicIds);
 			subjecs = string.Join(", ", article.SubjectIds);
-			logMessage = $"Article fetched - ID: {id}!";
+			logMessage = $"Article fetched - ID: {id}";
 		}
 		catch (Exception e)
 		{

@@ -1,12 +1,12 @@
-﻿@page "/solvers"
+﻿@page "/calculadoras"
 @inject NavigationManager navManager;
 
-<PageTitle>Solvers</PageTitle>
+<PageTitle>Calculadoras e Algoritmos</PageTitle>
 
-<h1>Solvers</h1>
-<p>This page contains all the solvers and formula applications in the website.</p>
+<h1>Calculadoras e Algoritmos</h1>
+<p>Essa pagina contem todas as aplicações de formulas e algoritmos implementados nesse site.</p>
 
-<input class="input-text" type="text" @bind="searchTerm" placeholder="Search solvers..." />
+<input class="input-text" type="text" @bind="searchTerm" placeholder="Busque calculadoras e algoritmos..." />
 
 @{
 	sortedRedirects = ApplySearchFilter(redirects, searchTerm);
@@ -39,9 +39,9 @@ else
 	{
 		redirects = new List<Redirect>
 		{
-		new("solvers/Statistics", "Statistics", "Calculate the Mean, Median, Mode, Variance, Standard Deviation and more from a data set."),
-		new("solvers/Vectors", "Vector Operations", "Compute operations between vectors such as Cross Products, Dot Products, Angle between Vectors, Length and addition"),
-		new("solvers/Matrix", "Matrix Operations", "Compute operations between matrices such as Determinant, Inverse, Transpose, Rank and LU decomposition."),
+		new("solvers/Estatistica", "Estatisica", "Calcule a média, mediana, modo, variança e desvio padrão (amostral e populacional) e média geométrica"),
+		new("solvers/Vetores", "Vetores", "Calcule a soma, subtração, produto escalar e vetorial e angulo entre dois vetores, alem do módulo de um vetor"),
+		new("solvers/Matriz", "Matrizes", "Calcule e faça operações em matrizes como inversa, Decomposição LU, determinante, transposta, forma escada e posto."),
 		};
 		base.OnInitialized();
 	}

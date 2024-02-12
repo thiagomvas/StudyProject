@@ -1,4 +1,4 @@
-﻿@page "/solvers/Matrix"
+﻿@page "/solvers/Matriz"
 @using System.Text
 @using StudyProject.Application.Common.Builders
 @using System.Numerics
@@ -61,14 +61,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transpose</ActionButton>
-				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">LU Decomposition</ActionButton>
-				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inverse</ActionButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transposta</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">Decomposição LU</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inversa</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinant</ActionButton>
-				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Rank</ActionButton>
-				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Row Echelon</ActionButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinante</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Posto</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Forma Escada</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -93,14 +93,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transpose</ActionButton>
-				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">LU Decomposition</ActionButton>
-				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inverse</ActionButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transposta</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">Decomposição LU</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inversa</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinant</ActionButton>
-				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Rank</ActionButton>
-				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Row Echelon</ActionButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinante</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Posto</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Forma Escada</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -114,7 +114,7 @@
 <Divider />
 <Equation Value="@output" TeXDisplay="false" />
 <Divider />
-<h3>Step by Step</h3>
+<h3>Passo a passo</h3>
 <Equation Value="@stepbystep" TeXDisplay="false" />
 
 
@@ -277,7 +277,7 @@
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		TMatrix<double> transposed = matrix.Transpose();
 		output = $"{matrix.ToLaTeX()}^T = {transposed.ToLaTeX()}";
-		stepbystep = @"\text{Simply 'rotate' the matrix so that the columns and rows are now swapped}";
+		stepbystep = @"\text{ A transposta é resultado da troca ordenada das linhas pelas colunas da matriz original. }";
 	}
 
 	private void LUDecomposition(TargetMatrix target)
@@ -325,8 +325,8 @@
 			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		var rank = TLinearAlgebra.Rank(matrix);
-		output = $@"\text{{Rank of }} {matrix.ToLaTeX()} = {rank}";
-		stepbystep = @"\text{The rank of a matrix is the number of rows in it's row echelon form with an element different than 0}";
+		output = $@"\text{{Posto de }} {matrix.ToLaTeX()} = {rank}";
+		stepbystep = @"\text{O posto de uma matriz é o número de linhas não-nulas da matriz em causa, quando escrita na forma escalonada por linhas.}";
 	}
 
 	private void Determinant(TargetMatrix target)
@@ -346,7 +346,7 @@
 			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		var rowEchelon = TLinearAlgebra.RowEchelon(matrix, out var steps);
-		output = $@"\text{{Row Echelon Form of }} {matrix.ToLaTeX()} = {rowEchelon.ToLaTeX()}";
+		output = $@"\text{{Forma escada de }} {matrix.ToLaTeX()} = {rowEchelon.ToLaTeX()}";
 
 		StringBuilder sb = new();
 		sb.Append(@"\begin{align*}");

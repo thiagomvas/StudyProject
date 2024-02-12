@@ -1,13 +1,13 @@
-﻿@page "/solvers/Statistics"
+﻿@page "/solvers/Estatistica"
 @using TMath
 @using TMath.Numerics
 @using TMath.Numerics.Models
 @using MathJaxBlazor
 
-<PageTitle>Statistics Calculator</PageTitle>
+<PageTitle>Calculadora de estatistica</PageTitle>
 
-<h3>Statistics</h3>
-Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> and <b>Variance</b> from a data set.
+<h3>Estatisticas</h3>
+Calcule a média, médiana, modo, variança e desvio padrão (amostral e populacional) e média geométrica
 
 <br />
 
@@ -18,7 +18,7 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 		<table>
 			<thead>
 				<tr>
-					<th>Name</th>
+					<th>Nome</th>
 					<th>Formula</th>
 					<th>Info</th>
 					<!-- Add more header cells if needed -->
@@ -26,51 +26,51 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 			</thead>
 			<tbody>
 				<tr>
-					<td>Mean</td>
+					<td>Média</td>
 					<td><Equation Value=" \overline{x} = \frac{1}{n} \sum_{i=i}^{n} x_{i} " /></td>
 					<td></td>
 				</tr>
 				<tr>
-					<td>Median</td>
+					<td>Mediana</td>
 					<td><Equation Value=" med(X) = \left \{\begin{align*}  &X\left [ \frac{n+1}{2}\right] &\text{if n is odd} \\ &\frac{X[\frac{n}{2}] + X[\frac{n}{2} + 1]}{2} &\text{if n is even}\\ \end{align*} \right." /></td>
-					<td><Equation Value="X =" TeXDisplay="false" /> ordered list of values in data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="X =" TeXDisplay="false" /> lista ordenada de valores <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>
-					<td>Mode</td>
+					<td>Modo</td>
 					<td>There is no formula</td>
-					<td>Most frequent value in data set</td>
+					<td>Valor mais frequente na lista</td>
 				</tr>
 				<tr>
-					<td>Sample Variance</td>
+					<td>Variança Amostral</td>
 					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n - 1} " /></td>
-					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> valor na lista <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> média da lista <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>
-					<td>Sample Standard Deviation</td>
+					<td>Desvio Padrão Amostral</td>
 					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n - 1}}" /></td>
-					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> valor na lista <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> média da lista <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>
-					<td>Geometric Mean</td>
+					<td>média Geométrica</td>
 					<td><Equation Value="\overline{x}_{geom} = \left(\prod_{i=1}^{n} x_{i}\right)^{\frac{1}{n}} = \sqrt[n]{x_1 \cdot x_2 \cdot \cdots \cdot x_n}" /></td>
-					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> valor na lista <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>
-					<td>Population Variance</td>
+					<td>Variança Populacional</td>
 					<td><Equation Value="\sigma^2 = \frac{\sum (x_i - \overline{x})^2}{n} " /></td>
-					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> valor na lista <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> média da lista <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>
-					<td>Population Standard Deviation</td>
+					<td>Desvio Padrão Populacional</td>
 					<td><Equation Value="\sigma = \sqrt{\frac{\sum (x_i - \overline{x})^2}{n}}" /></td>
-					<td><Equation Value="x_i =" TeXDisplay="false" /> value in data set <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> mean of data set <br /> <Equation Value="n =" TeXDisplay="false" /> number of values in data set </td>
+					<td><Equation Value="x_i =" TeXDisplay="false" /> valor na lista <br /> <Equation Value="\overline{x} =" TeXDisplay="false" /> média da lista <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 			</tbody>
 		</table>
 	}
 	else
 	{
-		<ActionButton OnClick="() => showFormulas = !showFormulas">Show Formulas</ActionButton>
+		<ActionButton OnClick="() => showFormulas = !showFormulas">Mostrar formulas</ActionButton>
 	}
 </div>
 
@@ -78,16 +78,16 @@ Calculate <b>Mean</b>, <b>Median</b>, <b>Mode</b>,  <b>Standard Deviation</b> an
 
 <br />
 <div>
-	<InputText class="input-text" @bind-Value="input" placeholder="Enter your dataset" />
+	<InputText class="input-text" @bind-Value="input" placeholder="Digite seus valores" />
 </div>
 <br />
-<ActionButton OnClick="CalculateData">Compute values</ActionButton>
+<ActionButton OnClick="CalculateData">Computar resultados</ActionButton>
 <Divider />
 <br />
 @if (stats == null)
 {
-	<p>Enter your data set separated by a ,</p>
-	<p>Example: 1, 2, 3, 4, 5 (space not required)</p>
+	<p>Escreva seus valores separados de uma vírgula (,), espaços não são necessários</p>
+	<p>Por exemplo: 1, 2, 3, 4, 5</p>
 }
 else
 {
@@ -96,51 +96,51 @@ else
 		</thead>
 		<tbody>
 			<tr>
-				<td>Mean</td>
+				<td>Média</td>
 				<td>@stats.Mean</td>
 			</tr>
 			<tr>
-				<td>Median</td>
+				<td>Mediana</td>
 				<td>@stats.Median</td>
 			</tr>
 			<tr>
-				<td>Range</td>
+				<td>Intervalo</td>
 				<td>@stats.Range</td>
 			</tr>
 			<tr>
-				<td>Mode</td>
+				<td>Modo</td>
 				<td>@stats.Mode</td>
 			</tr>
 			<tr>
-				<td>Sum</td>
+				<td>Soma</td>
 				<td>@stats.Sum</td>
 			</tr>
 			<tr>
-				<td>Sample Variance</td>
+				<td>Variança Amostral</td>
 				<td>@stats.SampleVariance</td>
 			</tr>
 			<tr>
-				<td>Sample Standard Deviation</td>
+				<td>Desvio Padrão Amostral</td>
 				<td>@stats.SampleStandardDeviation</td>
 			</tr>
 			<tr>
-				<td>Largest</td>
+				<td>Maior elemento</td>
 				<td>@stats.Largest</td>
 			</tr>
 			<tr>
-				<td>Smallest</td>
+				<td>Menor elemento</td>
 				<td>@stats.Smallest</td>
 			</tr>
 			<tr>
-				<td>Population Variance</td>
+				<td>Variança Populacional</td>
 				<td>@stats.Variance</td>
 			</tr>
 			<tr>
-				<td>Population Standard Deviation</td>
+				<td>Desvio Padrão Populacional</td>
 				<td>@stats.StandardDeviation</td>
 			</tr>
 			<tr>
-				<td>Geometric Mean</td>
+				<td>Média Geométrica</td>
 				<td>@stats.GeometricMean</td>
 			</tr>
 		</tbody>
