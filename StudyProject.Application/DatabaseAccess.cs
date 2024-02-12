@@ -27,5 +27,10 @@ namespace StudyProject.Application
 		{
 			await databaseContext.UpdateArticleAsync(id, updatedArticle);
 		}
+
+		public async Task<DateTime> GetArticleLastEditAsync(string id)
+		{
+			return await databaseContext.GetArticleLastEditAsync(id);
+		}
 	}
 }

@@ -6,11 +6,9 @@
 <h1>@Article.Title</h1>
 
 <Row>
-	@foreach ((string tag, int index) in Article.SubjectIds.Select((tag, index) => (tag, index)))
+	@foreach (string tag in tags)
 	{
-	<Chip Color="@GetGradientColor()">@tag</Chip>
-
-
+		<Chip Color="@GetGradientColor()">@tag</Chip>
 	}
 </Row>
 
@@ -35,21 +33,26 @@
 	}
 }
 
+<Divider />
+
+<em>Last editted: @Article.LastEdit</em>
+
 @code {
 	[Parameter] public Article Article { get; set; }
+	string[] tags;
 	protected override void OnInitialized()
 	{
-		Console.WriteLine($"Title: {Article.Title}");
-		Console.WriteLine($"Subject Ids: {string.Join(",", Article.SubjectIds)}");
+		tags = Article.DisciplineIds.Concat(Article.SubjectIds).Concat(Article.TopicIds).Where(e => !string.IsNullOrWhiteSpace(e)).ToArray();
 		base.OnInitialized();
 	}
 
-	private int index;
+	private int index = 0;
 	private string GetGradientColor()
 	{
 		int hue = 15 + index * 10; // Adjusted for warmer colors
 		int saturation = 80; // Adjust saturation as needed
 		int lightness = 60; // Adjust lightness as needed
+		index++;
 		return $"hsl({hue}, {saturation}%, {lightness}%)";
 	}
 }
