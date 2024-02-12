@@ -2,6 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 /* Hide the up and down arrows */
@@ -18,10 +19,6 @@
 
 main {
     flex: 1;
-}
-
-.sidebar {
-    height: 100%;
 }
 
 

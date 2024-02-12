@@ -1,12 +1,8 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     background-color: #ffffff;
-}
-
-.sidebar {
     height: 100%;
 }
-
 h1:focus {
     outline: none;
 }
