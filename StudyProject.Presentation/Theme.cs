@@ -3,7 +3,7 @@
 	public class Theme
 	{
 		private static Theme instance;
-		public bool DarkMode = true;
+		public bool DarkMode = false;
 
 		private Theme()
 		{
