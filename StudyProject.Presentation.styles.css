@@ -1,21 +1,80 @@
+/* /Components/ActionButton.razor.rz.scp.css */
+.action-button[b-h9tpyjzrw7] {
+    border: none;
+    color: white;
+    padding: 12px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.15s linear;
+    border-radius: 5px;
+}
+
+.action-button:hover[b-h9tpyjzrw7] {
+
+}
+/* /Components/ArrayNumberInputField.razor.rz.scp.css */
+.custom-input[b-txg3n86m7z] {
+    width: 50px;
+    height: fit-content;
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 5px 0px 5px;
+}
+
+    /* Hide the up and down arrows */
+    .custom-input[b-txg3n86m7z]::-webkit-inner-spin-button,
+    .custom-input[b-txg3n86m7z]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .custom-input[type="number"][b-txg3n86m7z] {
+        -moz-appearance: textfield;
+    }
+/* /Components/Chip.razor.rz.scp.css */
+.chip[b-qsn6mya4mx] {
+    display: inline-block;
+    padding: 5px 12px;
+    background-color: transparent; 
+    border-radius: 25px;
+    margin: 5px;
+    transition: background-color 0.1s;
+}
+
+.chip:hover[b-qsn6mya4mx] {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.icon[b-qsn6mya4mx] {
+    display: inline-block;
+    width: 10px; /* Adjust size as needed */
+    height: 10px; /* Adjust size as needed */
+    border-radius: 50%; /* Make it a circle */
+    margin-right: 5px;
+}
+/* /Components/RedirectPanel.razor.rz.scp.css */
+
+.panel[b-momd290md4] {
+    cursor: pointer;
+    display: inline-block;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 10px 0 10px 0;
+    border: none;
+    text-align: left;
+    transition: all 0.15s;
+}
 /* /Layout/MainLayout.razor.rz.scp.css */
 .page[b-ta34k9rix2] {
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #232323;
-    color: white;
-}
-
-.custom-input-field[b-ta34k9rix2] {
-    width: 50px;
-    height: fit-content;
-    background: #303031;
-    color: white;
-    appearance: none;
-    border: none;
-    border-radius: 5px;
-    padding: 0px 5px 0px 5px;
+    height: 100%;
 }
 
 /* Hide the up and down arrows */
@@ -32,24 +91,8 @@
 
 main[b-ta34k9rix2] {
     flex: 1;
-    background-color: #232323;
 }
 
-.sidebar[b-ta34k9rix2] {
-    background-color: #1a1a1a;
-    height: 100%;
-}
-
-
-/* Style odd rows with a different background color */
-tbody tr:nth-child(odd)[b-ta34k9rix2] {
-    background-color: #232323;
-}
-
-/* Style even rows with a different background color */
-tbody tr:nth-child(even)[b-ta34k9rix2] {
-    background-color: #1f1f1f;
-}
 
 .top-row[b-ta34k9rix2] {
     justify-content: flex-end;
@@ -171,12 +214,12 @@ tbody tr:nth-child(even)[b-ta34k9rix2] {
     }
 
 .nav-item[b-bgrs3u40xi]  a.active {
-    background-color: rgba(255,255,255,0.37);
+    background-color: rgba(255,255,255,0.1);
     color: white;
 }
 
 .nav-item[b-bgrs3u40xi]  a:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.05);
     color: white;
 }
 

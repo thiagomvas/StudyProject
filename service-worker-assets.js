@@ -1,7 +1,7 @@
 ﻿self.assetsManifest = {
   "assets": [
     {
-      "hash": "sha256-0v9feoM0cBK\/S+0TySXIi3tmCHK73ToZDyqu\/lA5YBY=",
+      "hash": "sha256-75qc\/w5\/Imbj1oQK0kScpltkHF3bEI844zaXAuf5Jnc=",
       "url": "css\/app.css"
     },
     {
@@ -65,7 +65,7 @@
       "url": "_framework\/icudt_no_CJK.dat.br"
     },
     {
-      "hash": "sha256-rIcgxaxxzQvGU5gW+41+2i3yfzEfNmUhG5yaCmKjMlI=",
+      "hash": "sha256-KE9utAKBdWWqv+9+B4L0QHqtTVensumoBgJXtu2oBPo=",
       "url": "_framework\/blazor.boot.json.br"
     },
     {
@@ -209,19 +209,19 @@
       "url": "_framework\/SQLitePCLRaw.provider.e_sqlite3.wasm.br"
     },
     {
-      "hash": "sha256-dR1\/Ikd81ukVUAvvq\/6eacflDePIP8brhyql45r0GEw=",
+      "hash": "sha256-Dqhr114UfHqY6u6tTXrnvd0ODYeXGR\/C7x1mEkb7Kt4=",
       "url": "_framework\/StudyProject.Application.wasm.br"
     },
     {
-      "hash": "sha256-s\/zGXHFJFmdXeyBsCfLmy+YO0TqGsOBi4OWxh9NcC0M=",
+      "hash": "sha256-5ckwxMzD3G7eAAMD0oZBxq7G\/4Z8U0Ggj4yVJ6IyiP8=",
       "url": "_framework\/StudyProject.Core.wasm.br"
     },
     {
-      "hash": "sha256-\/LL6IWe2ErUVOe0AzMnt0\/80f8EiLkP\/Z18yUzc7jqg=",
+      "hash": "sha256-xr11HlsYWVDjxR9xGsAueR5XjjYq8ARySNknTy\/PMjc=",
       "url": "_framework\/StudyProject.Infrastructure.wasm.br"
     },
     {
-      "hash": "sha256-78\/dGvAjMGYf6FTss07CRRkW11s+whSCiD6hc0Gj\/kg=",
+      "hash": "sha256-WsOxsW+TUEZMlGCLedwWzt1Y1QAB9vPEvvA1yP148e4=",
       "url": "_framework\/StudyProject.Presentation.wasm.br"
     },
     {
@@ -441,7 +441,7 @@
       "url": "_framework\/TMath.wasm.br"
     },
     {
-      "hash": "sha256-JZdiNDcrP87b20XyaQq9BqB1t\/ai7WL4ps7Y8sJ7cIA=",
+      "hash": "sha256-Xa+ZKHqE5O4e9XS1yW0IoLimGf1IxJss1kUveTK8K4A=",
       "url": "StudyProject.Presentation.styles.css"
     },
     {
@@ -461,5 +461,5 @@
       "url": "brotliloader.min.js"
     }
   ],
-  "version": "Xt5zcmW9"
+  "version": "YeKiFqw7"
 };
