@@ -10,7 +10,7 @@
 
 @inject DatabaseAccess context;
 
-<PageTitle>Article Editor</PageTitle>
+<PageTitle>Editor</PageTitle>
 
 
 <style>
@@ -20,10 +20,11 @@
 		padding: 12px 20px;
 		box-sizing: border-box;
 		border-radius: 4px;
-		background-color: #303031;
+		background-color: @Theme.Default.ForegroundColor;
 		font-size: 16px;
 		resize: none;
-		color: white;
+		color: @Theme.Default.TextColor;
+		border: none;
 	}
 
 	.customtext {
@@ -31,10 +32,12 @@
 		padding: 12px 20px;
 		box-sizing: border-box;
 		border-radius: 4px;
-		background-color: #303031;
+		background-color: @Theme.Default.ForegroundColor;
 		font-size: 16px;
 		resize: none;
-		color: white;
+		color: @Theme.Default.TextColor;
+		border: none;
+		margin: 10px 0;
 	}
 
 	.previewbox {
@@ -43,40 +46,140 @@
 		padding: 12px 20px;
 		box-sizing: border-box;
 		border-radius: 4px;
-		background-color: #303031;
+		background-color: @Theme.Default.ForegroundColor;
 		font-size: 16px;
 		resize: none;
-		color: white;
+		color: @Theme.Default.TextColor;
+		border: none;
 	}
 </style>
 
-<CustomButton OnClick="() => preview = !preview">Preview</CustomButton>
 
-<InputText class="customtext" @bind-Value="id" />
+<InputText class="customtext" @bind-Value="id" placeholder="ID do artigo" />
 
-<CustomButton OnClick="async () => await FetchArticle()">Fetch Article</CustomButton>
+<ActionButton OnClick="async () => await FetchArticle()">Fetch Article</ActionButton>
+
+<br />
 
 
-@if (preview)
+@switch (selectedTab)
 {
-	<h2>Preview</h2>
-	<div class="previewbox">
-		<ArticleViewer Article="article" />
-	</div>
-}
-else
-{
-	<h2>Editor</h2>
-	<InputText class="customtext" @bind-Value="article.Title" />
-	<InputTextArea class="customtextarea" @bind-Value="article.Content" />
-	<h3>Classification</h3>
-	<div>Disciplines: <InputText class="customtext" @bind-Value="disciplines" /></div>
-	<div>Subjects: <InputText class="customtext" @bind-Value="subjecs" /></div>
-	<div>Topics: <InputText class="customtext" @bind-Value="topics" /></div>
+	case Tab.Editor:
+		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
+		<h2>Editor</h2>
+		<InputText class="customtext" @bind-Value="article.Title" placeholder="Article Title" />
+		<InputTextArea class="customtextarea" @bind-Value="article.Content" placeholder="@loremipsum" />
+		<h3>Classification</h3>
+		<div>Disciplines: <InputText class="customtext" @bind-Value="disciplines" /></div>
+		<div>Subjects: <InputText class="customtext" @bind-Value="subjecs" /></div>
+		<div>Topics: <InputText class="customtext" @bind-Value="topics" /></div>
+		<ActionButton OnClick="async () => await AddArticle()">Add Article</ActionButton>
+		<ActionButton OnClick="async () => await UpdateArticle()">Update Article</ActionButton>
+		break;
+	case Tab.Preview:
+		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
+		<h2>Preview</h2>
+		<div class="previewbox">
+			<ArticleViewer Article="article" />
+		</div>
+		break;
+	case Tab.Guide:
+		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
+		<h2>Guia de edição</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Grupo</th>
+					<th>Sintaxe</th>
+					<th>Resultado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>LaTeX</td>
+					<td><code>$a^2 + b^2 = c^2$</code> <br /> <code>$$a^2 + b^2 = c^2$$</code></td>
+					<td> Lorem Ipsum <Equation Value="a^2 + b^2 = c^2" TeXDisplay="false" /> <br /> Lorem Ipsum <Equation Value="a^2 + b^2 = c^2" TeXDisplay="true" /> </td>
+				</tr>
+				<tr>
+					<td>Negrito</td>
+					<td><code>&lt;strong&gt;</code></td>
+					<td><strong>Lorem Ipsum</strong></td>
+				</tr>
+				<tr>
+					<td>Italico</td>
+					<td><code>&lt;em&gt;</code></td>
+					<td><em>Lorem Ipsum</em></td>
+				</tr>
+				<tr>
+					<td>Sublinhado</td>
+					<td><code>&lt;u&gt;</code></td>
+					<td><u>Lorem Ipsum</u></td>
+				</tr>
+				<tr>
+					<td>Tachado</td>
+					<td><code>&lt;s&gt;</code></td>
+					<td><s>Lorem Ipsum</s></td>
+				</tr>
+				<tr>
+					<td>Link</td>
+					<td><code>&lt;a href="https://www.lipsum.com/"&gt;</code></td>
+					<td><a href="https://www.lipsum.com/">Lorem Ipsum</a></td>
+				</tr>
+				<tr>
+					<td>Imagem</td>
+					<td><code>&lt;img src="https://t.ly/-5UqW"&gt;</code></td>
+					<td><img style="max-height:64px; max-width:64px;" src="https://devblogs.microsoft.com/dotnet/wp-content/uploads/sites/16/2019/04/BrandBlazor_nohalo_1000x.png" alt="Lorem Ipsum" /></td>
+				</tr>
+				<tr>
+					<td>Titulos</td>
+					<td><code>&lt;h1&gt;</code> <code>&lt;h2&gt;</code> <code>&lt;h3&gt;</code> <code>&lt;h4&gt;</code> <code>&lt;h5&gt;</code> <code>&lt;h6&gt;</code></td>
+					<td><h1>Titulo 1</h1> <h2>Titulo 2</h2> <h3>Titulo 3</h3> <h4>Titulo 4</h4> <h5>Titulo 5</h5> <h6>Titulo 6</h6></td>
+				</tr>
+				<tr>
+					<td>Lista</td>
+					<td><code>&lt;ul&gt;</code> <code>&lt;ol&gt;</code> <code>&lt;li&gt;</code></td>
+					<td>
+						<ul>
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+						</ul>
+						<ol>
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+						</ol>
+					</td>
+				</tr>
+				<tr>
+					<td>Tabela</td>
+					<td><code>&lt;table&gt;</code> <code>&lt;tr&gt;</code> <code>&lt;th&gt;</code> <code>&lt;td&gt;</code></td>
+					<td>
+						<table>
+							<tr>
+								<th>Header 1</th>
+								<th>Header 2</th>
+							</tr>
+							<tr>
+								<td>Row 1, Cell 1</td>
+								<td>Row 1, Cell 2</td>
+							</tr>
+							<tr>
+								<td>Row 2, Cell 1</td>
+								<td>Row 2, Cell 2</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		break;
 }
 
-<CustomButton OnClick="async () => await AddArticle()">Add Article</CustomButton>
-<CustomButton OnClick="async () => await UpdateArticle()">Update Article</CustomButton>
 <p>@logMessage</p>
 
 
@@ -91,6 +194,14 @@ else
 	string subjecs = "";
 
 	string logMessage = "";
+
+	private void TogglePreview()
+	{
+		article.DisciplineIds = disciplines.Split(',').Select(x => x.Trim()).ToArray();
+		article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
+		article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
+		preview = !preview;
+	}
 
 	private async Task AddArticle()
 	{
@@ -117,7 +228,7 @@ else
 			disciplines = string.Join(", ", article.DisciplineIds);
 			topics = string.Join(", ", article.TopicIds);
 			subjecs = string.Join(", ", article.SubjectIds);
-			logMessage = $"Article fetched - ID: {id}!";
+			logMessage = $"Article fetched - ID: {id}";
 		}
 		catch (Exception e)
 		{
@@ -145,4 +256,8 @@ else
 			logMessage = $"Failed to update article! Returned error: {e.Message}";
 		}
 	}
+
+	private const string loremipsum = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+	private enum Tab { Editor, Preview, Guide }
+	private Tab selectedTab = Tab.Editor;
 }

@@ -1,12 +1,103 @@
 ﻿<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
+	<Found Context="routeData">
+		<RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+		<FocusOnNavigate RouteData="@routeData" Selector="h1" />
+	</Found>
+	<NotFound>
+		<PageTitle>Not found</PageTitle>
+		<LayoutView Layout="@typeof(MainLayout)">
+			<p role="alert">Sorry, there's nothing at this address.</p>
+		</LayoutView>
+	</NotFound>
 </Router>
+
+<style>
+	main {
+		background-color: @Theme.Default.BackgroundColor;
+		color: @Theme.Default.TextColor;
+		height: 100%;
+	}
+
+	.page {
+		background-color: @Theme.Default.BackgroundColor;
+		height: 100%;
+	}
+
+	.page-content {
+		background-color: @Theme.Default.BackgroundColor;
+		padding: 16px;
+		margin-left: 200px;
+		padding-bottom: 50%;
+	}
+
+	.page-sidebar {
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
+		position: fixed;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 200px; /* Adjust the width as needed */
+		padding-top: 20px; /* Adjust padding as needed */
+		margin-right: 200px;
+		display: flex;
+		flex-direction: column;
+		align-items: center; /* Center items horizontally */
+	}
+
+		.page-sidebar img {
+			width: 25px;
+			height: 25px;
+		}
+
+	.navbar-brand {
+		color: @Theme.Default.TextColor;
+	}
+
+	.nav-item-text {
+		color: @Theme.Default.TextColor;
+	}
+
+
+	.input-text {
+		width: 70%;
+		height: 30px;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
+		border: none;
+		border-radius: 5px;
+		padding: 8px;
+	}
+
+
+	table {
+		border-collapse: collapse;
+		width: 100%;
+		border-radius: 5px;
+		color: @Theme.Default.TextColor;
+	}
+
+	th, td {
+		border: 0.5px solid @Theme.Default.ForegroundColor;
+		padding: 8px;
+		text-align: left;
+	}
+
+	thead {
+		background-color: @Theme.Default.ForegroundColor;
+		color: white;
+	}
+
+	/* Style odd rows with a different background color */
+	tbody tr:nth-child(odd) {
+		background-color: @Theme.Default.PrimaryColor;
+	}
+
+	/* Style even rows with a different background color */
+	tbody tr:nth-child(even) {
+		background-color: @Theme.Default.ForegroundColor;
+	}
+</style>
+
+@code {
+}

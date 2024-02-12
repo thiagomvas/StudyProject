@@ -12,8 +12,8 @@
 
 @if (article == null)
 {
-	<p><em>Loading...</em></p>
-	<PageTitle>Loading...</PageTitle>
+	<p><em>Carregando...</em></p>
+	<PageTitle>Carregando...</PageTitle>
 }
 else
 {
@@ -31,11 +31,14 @@ else
 	protected override async Task OnInitializedAsync()
 	{
 		string cachedArticle = await JSRuntime.InvokeAsync<string>("localStorage.getItem", $"article_{Id}");
+		DateTime LastEdit = await db.GetArticleLastEditAsync(Id);
+
 
 		if (!string.IsNullOrEmpty(cachedArticle))
-		{
 			article = JsonConvert.DeserializeObject<Article>(cachedArticle);
-		}
+
+		if (article != null && article.LastEdit == LastEdit)
+			Console.WriteLine("Article is up to date");
 		else
 		{
 
@@ -44,6 +47,7 @@ else
 			string serializedArticle = JsonConvert.SerializeObject(article);
 			await JSRuntime.InvokeVoidAsync("localStorage.setItem", $"article_{Id}", serializedArticle);
 		}
+
 	}
 
 }

@@ -37,6 +37,8 @@ namespace StudyProject.Core.ArticleAggregate
         /// </summary>
         public string[] TopicIds { get; set; } = new string[0];
 
+        public DateTime LastEdit { get; set; } = DateTime.Now;
+
         public static readonly Article NotFound = new Article
         {
             Id = "0",

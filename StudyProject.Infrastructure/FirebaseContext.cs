@@ -1,4 +1,5 @@
 ﻿using Firebase.Database;
+using Firebase.Database.Query;
 using Newtonsoft.Json;
 using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
@@ -36,8 +37,9 @@ namespace StudyProject.Infrastructure
         {
             try
             {
-                var result = await firebaseClient.Child("articles").PostAsync(JsonConvert.SerializeObject(article));
-                return result.Key;
+                string id = CreateId(article.Title);
+                await firebaseClient.Child("articles").Child(id).PutAsync(article);
+                return id;
             }
             catch (Exception ex)
             {
@@ -48,6 +50,7 @@ namespace StudyProject.Infrastructure
 
         public async Task<bool> UpdateArticleAsync(string id, Article updatedArticle)
         {
+            updatedArticle.LastEdit = DateTime.Now;
             try
             {
                 await firebaseClient.Child($"articles/{id}").PutAsync(JsonConvert.SerializeObject(updatedArticle));
@@ -73,5 +76,22 @@ namespace StudyProject.Infrastructure
                 return false;
             }
         }
-    }
+
+		public async Task<DateTime> GetArticleLastEditAsync(string id)
+		{
+			try
+			{
+				return await firebaseClient.Child($"articles/{id}/LastEdit").OnceSingleAsync<DateTime>();
+			}
+			catch
+			{
+				Console.WriteLine("Couldn't find article with specified ID");
+			}
+
+			return DateTime.Now;
+
+		}
+
+        public string CreateId(string name) => name.Replace(" ", "-").ToLower();
+	}
 }

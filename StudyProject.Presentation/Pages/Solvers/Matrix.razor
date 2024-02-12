@@ -1,4 +1,4 @@
-﻿@page "/solvers/Matrix"
+﻿@page "/solvers/Matriz"
 @using System.Text
 @using StudyProject.Application.Common.Builders
 @using System.Numerics
@@ -7,7 +7,7 @@
 @using TMath.Numerics.Models
 @using MathJaxBlazor
 
-<PageTitle>Matrix Operations</PageTitle>
+<PageTitle>Operações com matrizes</PageTitle>
 
 <style>
 	.page {
@@ -17,8 +17,8 @@
 	.custom-input-field {
 		width: 30px;
 		height: fit-content;
-		background: #282424;
-		color: white;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
 		appearance: none;
 		border: none;
 		border-radius: 5px;
@@ -50,7 +50,7 @@
 					<div>
 						@for (int j = 0; j < columnsA; j++)
 						{
-							<CustomNumber Array="@a" index="indexA" />
+							<ArrayNumberInputField Array="@a" index="indexA" />
 							indexA++;
 						}
 					</div>
@@ -61,14 +61,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transpose</CustomButton>
-				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">LU Decomposition</CustomButton>
-				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inverse</CustomButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixA))">Transposta</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixA))">Decomposição LU</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixA))">Inversa</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinant</CustomButton>
-				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Rank</CustomButton>
-				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Row Echelon</CustomButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixA))">Determinante</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixA))">Posto</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixA))">Forma Escada</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -82,7 +82,7 @@
 					<div>
 						@for (int j = 0; j < columnsB; j++)
 						{
-							<CustomNumber Array="@b" index="indexB" />
+							<ArrayNumberInputField Array="@b" index="indexB" />
 							indexB++;
 						}
 					</div>
@@ -93,14 +93,14 @@
 
 		<div style="margin-top: 10px;">
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transpose</CustomButton>
-				<CustomButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">LU Decomposition</CustomButton>
-				<CustomButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inverse</CustomButton>
+				<ActionButton OnClick="@(() => Transpose(TargetMatrix.MatrixB))">Transposta</ActionButton>
+				<ActionButton OnClick="@(() => LUDecomposition(TargetMatrix.MatrixB))">Decomposição LU</ActionButton>
+				<ActionButton OnClick="@(() => Inverse(TargetMatrix.MatrixB))">Inversa</ActionButton>
 			</div>
 			<div style="display: flex; justify-content: center;">
-				<CustomButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinant</CustomButton>
-				<CustomButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Rank</CustomButton>
-				<CustomButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Row Echelon</CustomButton>
+				<ActionButton OnClick="@(() => Determinant(TargetMatrix.MatrixB))">Determinante</ActionButton>
+				<ActionButton OnClick="@(() => Rank(TargetMatrix.MatrixB))">Posto</ActionButton>
+				<ActionButton OnClick="@(() => RowEchelonForm(TargetMatrix.MatrixB))">Forma Escada</ActionButton>
 			</div>
 		</div>
 	</div>
@@ -108,13 +108,13 @@
 </div>
 
 <Divider />
-<CustomButton OnClick="@Add"><Equation Value="A + B" /></CustomButton>
-<CustomButton OnClick="@Subtract"><Equation Value="A - B" /></CustomButton>
-<CustomButton OnClick="@Multiply"><Equation Value="A \cdot B" /></CustomButton>
+<ActionButton OnClick="@Add"><Equation Value="A + B" /></ActionButton>
+<ActionButton OnClick="@Subtract"><Equation Value="A - B" /></ActionButton>
+<ActionButton OnClick="@Multiply"><Equation Value="A \cdot B" /></ActionButton>
 <Divider />
 <Equation Value="@output" TeXDisplay="false" />
 <Divider />
-<h3>Step by Step</h3>
+<h3>Passo a passo</h3>
 <Equation Value="@stepbystep" TeXDisplay="false" />
 
 
@@ -277,7 +277,7 @@
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		TMatrix<double> transposed = matrix.Transpose();
 		output = $"{matrix.ToLaTeX()}^T = {transposed.ToLaTeX()}";
-		stepbystep = @"\text{Simply 'rotate' the matrix so that the columns and rows are now swapped}";
+		stepbystep = @"\text{ A transposta é resultado da troca ordenada das linhas pelas colunas da matriz original. }";
 	}
 
 	private void LUDecomposition(TargetMatrix target)
@@ -314,7 +314,7 @@
 		}
 		catch (ArgumentException)
 		{
-			output = $@"\text{{Matrix must be invertible, that is, }} det(M) \neq 0";
+			output = $@"\text{{Matrix deve ser inversivel, isto é, }} det(M) \neq 0";
 		}
 	}
 
@@ -325,8 +325,8 @@
 			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		var rank = TLinearAlgebra.Rank(matrix);
-		output = $@"\text{{Rank of }} {matrix.ToLaTeX()} = {rank}";
-		stepbystep = @"\text{The rank of a matrix is the number of rows in it's row echelon form with an element different than 0}";
+		output = $@"\text{{Posto de }} {matrix.ToLaTeX()} = {rank}";
+		stepbystep = @"\text{O posto de uma matriz é o número de linhas não-nulas da matriz em causa, quando escrita na forma escalonada por linhas.}";
 	}
 
 	private void Determinant(TargetMatrix target)
@@ -346,7 +346,7 @@
 			matrix = new TMatrix<double>(rowsA, columnsA, a.array);
 		else matrix = new TMatrix<double>(rowsB, columnsB, b.array);
 		var rowEchelon = TLinearAlgebra.RowEchelon(matrix, out var steps);
-		output = $@"\text{{Row Echelon Form of }} {matrix.ToLaTeX()} = {rowEchelon.ToLaTeX()}";
+		output = $@"\text{{Forma escada de }} {matrix.ToLaTeX()} = {rowEchelon.ToLaTeX()}";
 
 		StringBuilder sb = new();
 		sb.Append(@"\begin{align*}");

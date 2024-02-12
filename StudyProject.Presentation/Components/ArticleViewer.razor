@@ -4,6 +4,17 @@
 
 
 <h1>@Article.Title</h1>
+
+<Row>
+	@foreach (string tag in tags)
+	{
+		<Chip Color="@GetGradientColor()">@tag</Chip>
+	}
+</Row>
+
+<br />
+
+
 @foreach (Match match in Regex.Matches(Article.Content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
 {
 	string text = match.Value;
@@ -17,15 +28,30 @@
 	}
 	else
 	{
-		@((MarkupString)text.Replace("\n", "<br/>"));
+		@((MarkupString)text.Replace(Environment.NewLine, "<br/>"));
 	}
 }
 
+<Divider />
+
+<em>Editado pela ultima vez em: @Article.LastEdit</em>
+
 @code {
 	[Parameter] public Article Article { get; set; }
+	string[] tags;
 	protected override void OnInitialized()
 	{
-		Console.WriteLine($"Title: {Article.Title}");
+		tags = Article.DisciplineIds.Concat(Article.SubjectIds).Concat(Article.TopicIds).Where(e => !string.IsNullOrWhiteSpace(e)).ToArray();
 		base.OnInitialized();
+	}
+
+	private int index = 0;
+	private string GetGradientColor()
+	{
+		int hue = 15 + index * 10; // Adjusted for warmer colors
+		int saturation = 80; // Adjust saturation as needed
+		int lightness = 60; // Adjust lightness as needed
+		index++;
+		return $"hsl({hue}, {saturation}%, {lightness}%)";
 	}
 }

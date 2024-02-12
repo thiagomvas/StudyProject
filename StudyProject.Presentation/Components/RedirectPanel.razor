@@ -1,0 +1,30 @@
+﻿@inherits ComponentBase
+
+
+<button class="panel" @onclick="Navigate">
+    @ChildContent
+</button>
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string Destination { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public string Width { get; set; } = "100%";
+
+    private void Navigate()
+    {
+        NavigationManager.NavigateTo(Destination);
+    }
+}
+
+<style>
+   .panel {
+       background-color: @Theme.Default.ForegroundColor;
+       color: @Theme.Default.TextColor;
+       width: @Width;
+   }
+
+.panel:hover {
+	   background-color: @Theme.Default.PrimaryColor;
+   }
+</style>

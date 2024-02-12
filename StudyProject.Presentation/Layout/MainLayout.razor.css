@@ -2,19 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: #232323;
-    color: white;
-}
-
-.custom-input-field {
-    width: 50px;
-    height: fit-content;
-    background: #303031;
-    color: white;
-    appearance: none;
-    border: none;
-    border-radius: 5px;
-    padding: 0px 5px 0px 5px;
+    height: 100%;
 }
 
 /* Hide the up and down arrows */
@@ -31,24 +19,8 @@
 
 main {
     flex: 1;
-    background-color: #232323;
 }
 
-.sidebar {
-    background-color: #1a1a1a;
-    height: 100%;
-}
-
-
-/* Style odd rows with a different background color */
-tbody tr:nth-child(odd) {
-    background-color: #232323;
-}
-
-/* Style even rows with a different background color */
-tbody tr:nth-child(even) {
-    background-color: #1f1f1f;
-}
 
 .top-row {
     justify-content: flex-end;
