@@ -14,7 +14,7 @@ Calcule a média, médiana, modo, variança e desvio padrão (amostral e populac
 <div>
 	@if (showFormulas)
 	{
-		<ActionButton OnClick="() => showFormulas = !showFormulas">Hide Formulas</ActionButton>
+		<ActionButton OnClick="() => showFormulas = !showFormulas">Ocultar formulas</ActionButton>
 		<table>
 			<thead>
 				<tr>
@@ -32,7 +32,7 @@ Calcule a média, médiana, modo, variança e desvio padrão (amostral e populac
 				</tr>
 				<tr>
 					<td>Mediana</td>
-					<td><Equation Value=" med(X) = \left \{\begin{align*}  &X\left [ \frac{n+1}{2}\right] &\text{if n is odd} \\ &\frac{X[\frac{n}{2}] + X[\frac{n}{2} + 1]}{2} &\text{if n is even}\\ \end{align*} \right." /></td>
+					<td><Equation Value=" med(X) = \left \{\begin{align*}  &X\left [ \frac{n+1}{2}\right] &\text{para n impar} \\ &\frac{X[\frac{n}{2}] + X[\frac{n}{2} + 1]}{2} &\text{para n par}\\ \end{align*} \right." /></td>
 					<td><Equation Value="X =" TeXDisplay="false" /> lista ordenada de valores <br /> <Equation Value="n =" TeXDisplay="false" /> número de valores da lista </td>
 				</tr>
 				<tr>

@@ -16,11 +16,11 @@
 
 @if (sortedRedirects.Count == 0)
 {
-	<p>No solvers found.</p>
+	<p>Nenhuma calculadora ou algoritmo encontrado</p>
 }
 else
 {
-	<p>Found @sortedRedirects.Count solvers.</p>
+	<p>Encontrados @sortedRedirects.Count calculadoras/algoritmos.</p>
 	@foreach (var redirect in sortedRedirects)
 	{
 		<RedirectPanel Destination="@redirect.Destination">
