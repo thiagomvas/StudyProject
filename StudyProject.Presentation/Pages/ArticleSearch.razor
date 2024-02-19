@@ -1,0 +1,58 @@
+﻿@page "/articles"
+@using StudyProject.Application
+@using StudyProject.Core.ArticleAggregate
+@inject DatabaseAccess databaseAccess
+
+<PageTitle>Busca</PageTitle>
+
+<input class="input-text" type="text" @bind="searchTerm" placeholder="Busque anotações por titulo..." />
+
+<ActionButton OnClick="async () => await SearchArticles()"><Icon IconName="search"/></ActionButton>
+
+@if (searchResults != null)
+{
+	<div>
+		<h4>Encontrados:</h4>
+		@foreach (var article in searchResults)
+		{
+			<RedirectPanel Destination="@($"article/{databaseAccess.CreateId(article.Title)}")">
+				<h2>@article.Title</h2>
+
+				@foreach (var tag in article.DisciplineIds.Concat(article.SubjectIds).Concat(article.TopicIds))
+				{
+					<Chip Color="@GetGradientColor()">@tag</Chip>
+				}
+			</RedirectPanel>
+		}
+	</div>
+}
+
+@code {
+	private string searchTerm;
+	private Article[] searchResults;
+
+	private async Task SearchArticles()
+	{
+		if (!string.IsNullOrWhiteSpace(searchTerm))
+		{
+			// Use databaseAccess to search for articles
+			searchResults = await databaseAccess.SearchArticlesAsync(searchTerm);
+		}
+		else
+		{
+			// Clear searchResults if the search term is empty
+			searchResults = null;
+		}
+	}
+
+
+	private int index = 0;
+	private string GetGradientColor()
+	{
+		int hue = 15 + index * 10; // Adjusted for warmer colors
+		int saturation = 80; // Adjust saturation as needed
+		int lightness = 60; // Adjust lightness as needed
+		index++;
+		return $"hsl({hue}, {saturation}%, {lightness}%)";
+	}
+}

@@ -46,6 +46,7 @@ else
 
 			string serializedArticle = JsonConvert.SerializeObject(article);
 			await JSRuntime.InvokeVoidAsync("localStorage.setItem", $"article_{Id}", serializedArticle);
+			Console.WriteLine("Downloaded article and saved to local storage");
 		}
 
 	}
