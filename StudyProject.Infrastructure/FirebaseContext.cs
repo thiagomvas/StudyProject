@@ -93,5 +93,19 @@ namespace StudyProject.Infrastructure
 		}
 
         public string CreateId(string name) => name.Replace(" ", "-").ToLower();
+
+		public async Task<Article[]> SearchArticlesAsync(string query)
+		{
+            var response = await firebaseClient.Child("articles")
+                .OrderByKey()
+                .StartAt(CreateId(query))
+                .EndAt(query + "\uf8ff")
+                .OnceAsync<Article>();
+
+            var result = response.Select(e => e.Object).ToArray();
+
+
+            return result;
+		}
 	}
 }
