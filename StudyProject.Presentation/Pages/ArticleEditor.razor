@@ -55,9 +55,9 @@
 </style>
 
 
-<InputText class="customtext" @bind-Value="id" placeholder="ID do artigo" />
+<InputText class="customtext" @bind-Value="id" placeholder="ID da anotação" />
 
-<ActionButton OnClick="async () => await FetchArticle()">Fetch Article</ActionButton>
+<ActionButton OnClick="async () => await FetchArticle()">Puxar anotação</ActionButton>
 
 <br />
 
@@ -70,12 +70,12 @@
 		<h2>Editor</h2>
 		<InputText class="customtext" @bind-Value="article.Title" placeholder="Article Title" />
 		<InputTextArea class="customtextarea" @bind-Value="article.Content" placeholder="@loremipsum" />
-		<h3>Classification</h3>
-		<div>Disciplines: <InputText class="customtext" @bind-Value="disciplines" /></div>
-		<div>Subjects: <InputText class="customtext" @bind-Value="subjecs" /></div>
-		<div>Topics: <InputText class="customtext" @bind-Value="topics" /></div>
-		<ActionButton OnClick="async () => await AddArticle()">Add Article</ActionButton>
-		<ActionButton OnClick="async () => await UpdateArticle()">Update Article</ActionButton>
+		<h3>Classificação</h3>
+		<div>Disciplina: <InputText class="customtext" @bind-Value="disciplines" placeholder="Matematica, fisica..." /></div>
+		<div>Matéria: <InputText class="customtext" @bind-Value="subjecs" placeholder="Cálculo, Algebra linear..."/></div>
+		<div>Topicos: <InputText class="customtext" @bind-Value="topics" placeholder="Limites, derivadas, energia cinética..." /></div>
+		<ActionButton OnClick="async () => await AddArticle()">Adicionar anotação</ActionButton>
+		<ActionButton OnClick="async () => await UpdateArticle()">Atualizar anotação</ActionButton>
 		break;
 	case Tab.Preview:
 		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
@@ -212,11 +212,11 @@
 			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
 
 			string id = await context.AddArticleAsync(article);
-			logMessage = $"Article added - ID: {id}";
+			logMessage = $"Criou artigo com ID {id}";
 		}
 		catch (Exception e)
 		{
-			logMessage = $"Failed to create a new article! Returned error: {e.Message}";
+			logMessage = $"Erro criando anotação no banco de dados! Mensagem de erro: {e.Message}";
 		}
 	}
 
@@ -228,11 +228,11 @@
 			disciplines = string.Join(", ", article.DisciplineIds);
 			topics = string.Join(", ", article.TopicIds);
 			subjecs = string.Join(", ", article.SubjectIds);
-			logMessage = $"Article fetched - ID: {id}";
+			logMessage = $"Artigo puxado com ID {id}";
 		}
 		catch (Exception e)
 		{
-			logMessage = $"Failed to fetch article! Returned error: {e.Message}";
+			logMessage = $"Erro puxando a anotação! Mensagem de erro: {e.Message}";
 		}
 	}
 
@@ -240,7 +240,7 @@
 	{
 		if (id == string.Empty)
 		{
-			logMessage = "ID is empty!";
+			logMessage = "ID está vazio! (Coloque um titulo)";
 			return;
 		}
 		try
@@ -249,11 +249,11 @@
 			article.TopicIds = topics.Split(',').Select(x => x.Trim()).ToArray();
 			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
 			await context.UpdateArticleAsync(id, article);
-			logMessage = $"Article updated - ID: {id}";
+			logMessage = $"Artigo atualizado com ID {id}";
 		}
 		catch (Exception e)
 		{
-			logMessage = $"Failed to update article! Returned error: {e.Message}";
+			logMessage = $"Erro atualizando a anotação! Erro: {e.Message}";
 		}
 	}
 
