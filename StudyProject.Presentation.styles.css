@@ -1,3 +1,4 @@
+/* /App.razor.rz.scp.css */
 /* /Components/ActionButton.razor.rz.scp.css */
 .action-button[b-h9tpyjzrw7] {
     border: none;
@@ -70,12 +71,7 @@
     transition: all 0.15s;
 }
 /* /Layout/MainLayout.razor.rz.scp.css */
-.page[b-ta34k9rix2] {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+
 
 /* Hide the up and down arrows */
 .custom-input-field[b-ta34k9rix2]::-webkit-inner-spin-button,
