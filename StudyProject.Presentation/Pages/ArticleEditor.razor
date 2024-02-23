@@ -68,7 +68,7 @@
 		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
 		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
 		<h2>Editor</h2>
-		<InputText class="customtext" @bind-Value="article.Title" placeholder="Article Title" />
+		<InputText class="customtext" @bind-Value="article.Title" placeholder="Titulo" />
 		<InputTextArea class="customtextarea" @bind-Value="article.Content" placeholder="@loremipsum" />
 		<h3>Classificação</h3>
 		<div>Disciplina: <InputText class="customtext" @bind-Value="disciplines" placeholder="Matematica, fisica..." /></div>

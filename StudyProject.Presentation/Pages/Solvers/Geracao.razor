@@ -1,0 +1,78 @@
+﻿@page "/solvers/Geracao"
+@using TMath
+@using TMath.Numerics
+
+<h2>Geração de valores</h2>
+Gere diversos valores tais como numeros aleatorios, sequencias aleatorias ou conhecidas.
+<Divider />
+
+<h4>Valores com decimais: <InputCheckbox @bind-Value="decimals" /> </h4>
+
+@if(decimals)
+{
+	<p>Gerar valores aleatorios com <InputNumber class="custom-input" @bind-Value="casasDecimais" /> casas decimais</p>
+}
+
+<Divider />
+<h4>Numero aleatório entre <InputNumber class="custom-input" @bind-Value="numMinimo" /> e <InputNumber class="custom-input" @bind-Value="numMaximo" /></h4>
+<ActionButton OnClick="GerarNumeroAleatorio">Gerar numero aleatorio</ActionButton>
+<p>@numAleatorio</p>
+
+<Divider />
+
+<h4>Sequencia aleatória com <InputNumber class="custom-input" @bind-Value="numElementos" /> elementos, entre <InputNumber class="custom-input" @bind-Value="numMinimoSeq" /> e <InputNumber class="custom-input" @bind-Value="numMaximoSeq" /></h4>
+
+<ActionButton OnClick="GerarSequenciaAleatoria">Gerar sequencia aleatória</ActionButton>
+<p style="width: 50%; word-wrap: break-word;">@sequenciaAleatoria</p>
+
+<Divider />
+<h4>Sequencia dos <InputNumber class="custom-input" @bind-Value="numPrimos" /> primeiros numeros primos</h4>
+<ActionButton OnClick="GerarPrimos">Gerar sequencia de primos</ActionButton>
+<p style="width: 50%; word-wrap: break-word;">@sequenciaPrimos</p>
+
+
+@code
+{
+	private TGeneration generator = new TGeneration();
+
+	private bool decimals = false;
+	private int casasDecimais = 0;
+
+	private string numAleatorio = "";
+	int numMinimo = 0, numMaximo = 100;
+	private void GerarNumeroAleatorio() => numAleatorio = TFunctions.Round(generator.RandomNumber<double>(numMinimo, numMaximo), casasDecimais).ToString();
+
+	private string sequenciaAleatoria = "";
+	int numElementos = 10, numMinimoSeq = 0, numMaximoSeq = 100;
+	private void GerarSequenciaAleatoria() => sequenciaAleatoria = string.Join(',', generator.RandomArray<double>(numElementos, numMinimoSeq, numMaximoSeq).Select(x => TFunctions.Round(x, casasDecimais)));
+
+	private string sequenciaPrimos = "";
+	int numPrimos = 10;
+	private void GerarPrimos() => sequenciaPrimos = string.Join(',', generator.PrimeSequence<int>(numPrimos));
+	
+}
+
+
+<style>
+	.custom-input {
+		width: 100px;
+		height: fit-content;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
+		appearance: none;
+		border: none;
+		border-radius: 5px;
+		padding: 0px 5px 0px 5px;
+	}
+
+		/* Hide the up and down arrows */
+		.custom-input::-webkit-inner-spin-button,
+		.custom-input::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		.custom-input[type="number"] {
+			-moz-appearance: textfield;
+		}
+</style>
