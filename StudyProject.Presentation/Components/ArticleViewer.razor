@@ -43,7 +43,7 @@
 
 <Divider />
 
-<em>Editado pela ultima vez em: @Article.LastEdit</em>
+<em>Editado pela ultima vez em: @Article.LastEdit.ToString("dd/MM/yyyy HH:mm:ss")</em>
 
 @code {
 	[Parameter] public Article Article { get; set; }
