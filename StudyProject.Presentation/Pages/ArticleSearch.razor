@@ -1,4 +1,4 @@
-﻿@page "/articles"
+﻿@page "/anotacao"
 @using StudyProject.Application
 @using StudyProject.Core.ArticleAggregate
 @inject DatabaseAccess databaseAccess
@@ -15,7 +15,7 @@
 		<h4>Encontrados:</h4>
 		@foreach (var article in searchResults)
 		{
-			<RedirectPanel Destination="@($"article/{databaseAccess.CreateId(article.Title)}")">
+			<RedirectPanel Destination="@($"anotacao/{databaseAccess.CreateId(article.Title)}")">
 				<h2>@article.Title</h2>
 
 				@foreach (var tag in article.DisciplineIds.Concat(article.SubjectIds).Concat(article.TopicIds))

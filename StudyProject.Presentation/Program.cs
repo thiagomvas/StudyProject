@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using StudyProject.Application;
 using StudyProject.Infrastructure;
 using StudyProject.Presentation;
+using StudyProject.Presentation.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -13,6 +14,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddInfrastructure();
 builder.Services.AddScoped<DatabaseAccess>(); 
+builder.Services.AddScoped<BrowserService>();
 
 await builder.Build().RunAsync();
 

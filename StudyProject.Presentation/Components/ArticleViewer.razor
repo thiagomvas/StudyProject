@@ -14,27 +14,36 @@
 
 <br />
 
-
-@foreach (Match match in Regex.Matches(Article.Content, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
+@foreach (var line in Article.Content.Split(Environment.NewLine))
 {
-	string text = match.Value;
-	if (text.Contains("$$"))
+	if (line.Trim().StartsWith("#"))
 	{
-		<Equation Value="@text.Replace("$$", "")" />
+		@((MarkupString)MarkdownTitleToHeader(line))
+		continue;
 	}
-	else if (text.Contains('$'))
+	foreach (Match match in Regex.Matches(line, @"(\$\$.*?\$\$|\$[^$]*\$)|([^$]+)"))
 	{
-		<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
-	}
-	else
-	{
-		@((MarkupString)text.Replace(Environment.NewLine, "<br/>"));
+		string text = match.Value;
+		if (text.Contains("$$"))
+		{
+			<Equation Value="@text.Replace("$$", "")" />
+			continue;
+		}
+		if (text.Contains('$'))
+		{
+			<Equation Value="@text.Replace('$', ' ')" TeXDisplay=false />
+			continue;
+		}
+
+		text = MarkdownToHtml(text);
+
+		@((MarkupString)text)
 	}
 }
 
 <Divider />
 
-<em>Editado pela ultima vez em: @Article.LastEdit</em>
+<em>Editado pela ultima vez em: @Article.LastEdit.ToString("dd/MM/yyyy HH:mm:ss")</em>
 
 @code {
 	[Parameter] public Article Article { get; set; }
@@ -54,4 +63,62 @@
 		index++;
 		return $"hsl({hue}, {saturation}%, {lightness}%)";
 	}
+
+	private string MarkdownTitleToHeader(string line)
+	{
+		int count = 0;
+		foreach (char c in line)
+		{
+			if (c == '#')
+			{
+				count++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		return $"<h{count}>{line.TrimStart('#')}</h{count}>";
+
+	}
+
+	static string MarkdownToHtml(string markdownText)
+	{
+		string htmlText = ConvertBoldToHtml(markdownText);
+		htmlText = ConvertItalicToHtml(htmlText);
+		htmlText = ConvertUnderlineToHtml(htmlText);
+		htmlText = ConvertStrikethroughToHtml(htmlText);
+		return htmlText;
+	}
+
+	static string ConvertBoldToHtml(string markdownText)
+	{
+		// Regular expression to match Markdown bold syntax
+		string boldPattern = @"\*\*(.*?)\*\*";
+		return Regex.Replace(markdownText, boldPattern, "<b>$1</b>");
+	}
+
+	static string ConvertItalicToHtml(string markdownText)
+	{
+		// Regular expression to match Markdown italic syntax
+		string italicPattern = @"\*(.*?)\*";
+		return Regex.Replace(markdownText, italicPattern, "<i>$1</i>");
+	}
+
+	static string ConvertUnderlineToHtml(string markdownText)
+	{
+		// Regular expression to match Markdown underline syntax
+		string underlinePattern = @"__(.*?)__";
+		return Regex.Replace(markdownText, underlinePattern, "<u>$1</u>");
+	}
+
+	static string ConvertStrikethroughToHtml(string markdownText)
+	{
+		// Regular expression to match Markdown strikethrough syntax
+		string strikethroughPattern = @"~~(.*?)~~";
+		return Regex.Replace(markdownText, strikethroughPattern, "<s>$1</s>");
+	}
+
+
+
 }

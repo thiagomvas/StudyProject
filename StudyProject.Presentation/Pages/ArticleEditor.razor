@@ -68,7 +68,7 @@
 		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
 		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
 		<h2>Editor</h2>
-		<InputText class="customtext" @bind-Value="article.Title" placeholder="Article Title" />
+		<InputText class="customtext" @bind-Value="article.Title" placeholder="Titulo" />
 		<InputTextArea class="customtextarea" @bind-Value="article.Content" placeholder="@loremipsum" />
 		<h3>Classificação</h3>
 		<div>Disciplina: <InputText class="customtext" @bind-Value="disciplines" placeholder="Matematica, fisica..." /></div>
@@ -105,22 +105,22 @@
 				</tr>
 				<tr>
 					<td>Negrito</td>
-					<td><code>&lt;strong&gt;</code></td>
+					<td><code>&lt;strong&gt; Lorem Ipsum &lt;/strong&gt;</code> <br /> <code>**Lorem Ipsum**</code></td>
 					<td><strong>Lorem Ipsum</strong></td>
 				</tr>
 				<tr>
 					<td>Italico</td>
-					<td><code>&lt;em&gt;</code></td>
+					<td><code>&lt;em&gt; Lorem Ipsum &lt;/em&gt;</code> <br /> <code>*Lorem Ipsum*</code></td>
 					<td><em>Lorem Ipsum</em></td>
 				</tr>
 				<tr>
 					<td>Sublinhado</td>
-					<td><code>&lt;u&gt;</code></td>
+					<td><code>&lt;u&gt; Lorem Ipsum &lt;/u&gt;</code> <br /> <code>__Lorem Ipsum__</code></td>
 					<td><u>Lorem Ipsum</u></td>
 				</tr>
 				<tr>
 					<td>Tachado</td>
-					<td><code>&lt;s&gt;</code></td>
+					<td><code>&lt;s&gt; Lorem Ipsum &lt;/s&gt;</code> <br /> <code>~~Lorem Ipsum~~</code></td>
 					<td><s>Lorem Ipsum</s></td>
 				</tr>
 				<tr>
@@ -135,12 +135,12 @@
 				</tr>
 				<tr>
 					<td>Titulos</td>
-					<td><code>&lt;h1&gt;</code> <code>&lt;h2&gt;</code> <code>&lt;h3&gt;</code> <code>&lt;h4&gt;</code> <code>&lt;h5&gt;</code> <code>&lt;h6&gt;</code></td>
+					<td><code>&lt;h1&gt; &lt;h2&gt; &lt;h3&gt; &lt;h4&gt; &lt;h5&gt; &lt;h6&gt;</code> <br /> <code> # ## ### #### ##### ######</code></td>
 					<td><h1>Titulo 1</h1> <h2>Titulo 2</h2> <h3>Titulo 3</h3> <h4>Titulo 4</h4> <h5>Titulo 5</h5> <h6>Titulo 6</h6></td>
 				</tr>
 				<tr>
 					<td>Lista</td>
-					<td><code>&lt;ul&gt;</code> <code>&lt;ol&gt;</code> <code>&lt;li&gt;</code></td>
+					<td><code>&lt;ul&gt; &lt;ol&gt; &lt;li&gt;</code></td>
 					<td>
 						<ul>
 							<li>Item 1</li>
