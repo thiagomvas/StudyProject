@@ -1,29 +1,53 @@
-﻿@inherits LayoutComponentBase
+﻿@using StudyProject.Presentation.Services
+@inherits LayoutComponentBase
+@inject BrowserService browser
 <div class="page">
-	<div class="page-sidebar">
-		<NavLink class="nav-link" href="articles">
-			<ActionButton> <Row><Icon IconName="note" /> Anotações</Row></ActionButton>
-		</NavLink>
-		<NavLink class="nav-link" href="calculadoras">
-			<ActionButton> <Row><Icon IconName="hashtag" /> Calculadoras</Row></ActionButton>
-		</NavLink>
-	</div>
+	@if (!collapseNavMenu || !shouldBeCollapsible)
+	{
+		<div class="page-sidebar">
+			@if(shouldBeCollapsible)
+			{
+				<ActionButton OnClick="ToggleNavMenu"><Icon IconName="list" /></ActionButton>
+			}
+
+			<NavLink class="nav-link" href="articles">
+				<ActionButton> <Row><Icon IconName="note" /> Anotações</Row></ActionButton>
+			</NavLink>
+			<NavLink class="nav-link" href="calculadoras">
+				<ActionButton> <Row><Icon IconName="hashtag" /> Calculadoras</Row></ActionButton>
+			</NavLink>
+		</div>
+	}
+	else
+	{
+		<ActionButton OnClick="ToggleNavMenu"><Icon IconName="list"/></ActionButton>
+	}
 
 	<main>
-
-		<article class="page-content">
+		<article class="page-content" style="margin-left: @(collapseNavMenu ? "70px" : "200px");">
 			@Body
-		</article>
-	</main>
-</div>
+			</article>
+		</main>
+	</div>
 
 @code {
+	protected override async Task OnInitializedAsync()
+	{
+		await GetDimensions();
+	}
+	private BrowserDimension dimension = new();
 	private bool collapseNavMenu = true;
+	private bool shouldBeCollapsible => dimension.Width < 800;
 
-	private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
 	private void ToggleNavMenu()
 	{
-		collapseNavMenu = !collapseNavMenu;
+		if(shouldBeCollapsible) 
+			collapseNavMenu = !collapseNavMenu;
+	}
+
+	private async Task GetDimensions()
+	{
+		dimension = await browser.GetDimensions();
 	}
 }

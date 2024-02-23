@@ -1,9 +1,4 @@
-.page {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
+
 
 /* Hide the up and down arrows */
 .custom-input-field::-webkit-inner-spin-button,
