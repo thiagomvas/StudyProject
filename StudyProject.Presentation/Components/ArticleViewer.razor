@@ -39,6 +39,7 @@
 
 		@((MarkupString)text)
 	}
+	<br />
 }
 
 <Divider />
@@ -46,6 +47,7 @@
 <em>Editado pela ultima vez em: @Article.LastEdit.ToString("dd/MM/yyyy HH:mm:ss")</em>
 
 @code {
+	int lineindex = 0;
 	[Parameter] public Article Article { get; set; }
 	string[] tags;
 	protected override void OnInitialized()
