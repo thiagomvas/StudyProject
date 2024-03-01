@@ -35,6 +35,7 @@ namespace StudyProject.Infrastructure
 
         public async Task<string> AddArticleAsync(Article article)
         {
+            article.LastEdit = DateTime.Now;
             try
             {
                 string id = CreateId(article.Title);
@@ -92,7 +93,7 @@ namespace StudyProject.Infrastructure
 
 		}
 
-        public string CreateId(string name) => name.Replace(" ", "-").ToLower();
+        public string CreateId(string name) => name.Trim().Replace(" ", "-").ToLower();
 
 		public async Task<Article[]> SearchArticlesAsync(string query)
 		{
