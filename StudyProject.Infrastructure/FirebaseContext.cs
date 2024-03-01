@@ -35,6 +35,7 @@ namespace StudyProject.Infrastructure
 
         public async Task<string> AddArticleAsync(Article article)
         {
+            article.LastEdit = DateTime.Now;
             try
             {
                 string id = CreateId(article.Title);
