@@ -92,7 +92,7 @@ namespace StudyProject.Infrastructure
 
 		}
 
-        public string CreateId(string name) => name.Replace(" ", "-").ToLower();
+        public string CreateId(string name) => name.Trim().Replace(" ", "-").ToLower();
 
 		public async Task<Article[]> SearchArticlesAsync(string query)
 		{
