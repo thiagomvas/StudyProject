@@ -22,7 +22,7 @@ namespace StudyProject.Application
 
 		public async Task<string> AddArticleAsync(Article article)
 		{
-			updatedArticle.LastEdit = DateTime.Now;
+			article.LastEdit = DateTime.Now;
 			var id = await databaseContext.AddArticleAsync(article);
 			return id; 
 		}

@@ -74,8 +74,7 @@
 		<div>Disciplina: <InputText class="customtext" @bind-Value="disciplines" placeholder="Matematica, fisica..." /></div>
 		<div>Matéria: <InputText class="customtext" @bind-Value="subjecs" placeholder="Cálculo, Algebra linear..."/></div>
 		<div>Topicos: <InputText class="customtext" @bind-Value="topics" placeholder="Limites, derivadas, energia cinética..." /></div>
-		<ActionButton OnClick="async () => await AddArticle()">Adicionar anotação</ActionButton>
-		<ActionButton OnClick="async () => await UpdateArticle()">Atualizar anotação</ActionButton>
+		<ActionButton OnClick="async () => await AddArticle()">Salvar anotação</ActionButton>
 		break;
 	case Tab.Preview:
 		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
@@ -212,7 +211,7 @@
 			article.SubjectIds = subjecs.Split(',').Select(x => x.Trim()).ToArray();
 
 			string id = await context.AddArticleAsync(article);
-			logMessage = $"Criou artigo com ID {id}";
+			logMessage = $"Artigo salvo com ID {id}\nUltima mudança salva: {article.LastEdit}";
 		}
 		catch (Exception e)
 		{
