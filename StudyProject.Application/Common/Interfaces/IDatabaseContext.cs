@@ -9,5 +9,7 @@ namespace StudyProject.Application.Common.Interfaces
         Task<bool> UpdateArticleAsync(string id, Article updatedArticle);
         Task<DateTime> GetArticleLastEditAsync(string id);
         Task<Article[]> SearchArticlesAsync(string query);
-    }
+        Task<string[]> GetArticleIdsAsync();
+
+	}
 }

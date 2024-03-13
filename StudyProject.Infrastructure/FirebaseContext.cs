@@ -108,5 +108,14 @@ namespace StudyProject.Infrastructure
 
             return result;
 		}
+
+        public async Task<string[]> GetArticleIdsAsync()
+        {
+            var response = await firebaseClient.Child("articles")
+                .Shallow()
+                .OnceAsync<string>();
+
+            return response.Select(e => e.Key).ToArray();
+        }
 	}
 }

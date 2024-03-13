@@ -42,5 +42,10 @@ namespace StudyProject.Application
 		{
 			return await databaseContext.SearchArticlesAsync(query);
 		}
+
+		public async Task<string[]> GetArticleIdsAsync()
+		{
+			return await databaseContext.GetArticleIdsAsync();
+		}
 	}
 }

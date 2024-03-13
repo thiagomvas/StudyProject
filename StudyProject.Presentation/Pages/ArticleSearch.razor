@@ -9,34 +9,39 @@
 
 <ActionButton OnClick="async () => await SearchArticles()"><Icon IconName="search"/></ActionButton>
 
-@if (searchResults != null)
+@if (results.Length > 0)
 {
 	<div>
 		<h4>Encontrados:</h4>
-		@foreach (var article in searchResults)
+		@foreach (var result in results)
 		{
-			<RedirectPanel Destination="@($"anotacao/{databaseAccess.CreateId(article.Title)}")">
-				<h2>@article.Title</h2>
-
-				@foreach (var tag in article.DisciplineIds.Concat(article.SubjectIds).Concat(article.TopicIds))
-				{
-					<Chip Color="@GetGradientColor()">@tag</Chip>
-				}
+			<RedirectPanel Destination="@($"anotacao/{databaseAccess.CreateId(result)}")">
+				<h2>@result</h2>
 			</RedirectPanel>
 		}
 	</div>
 }
 
+
 @code {
 	private string searchTerm;
 	private Article[] searchResults;
 
+	private string[] keys = new string[0];
+	private string[] results = new string[0];
 	private async Task SearchArticles()
 	{
+		if(keys.Length == 0) keys = await databaseAccess.GetArticleIdsAsync();
+
 		if (!string.IsNullOrWhiteSpace(searchTerm))
 		{
-			// Use databaseAccess to search for articles
-			searchResults = await databaseAccess.SearchArticlesAsync(searchTerm);
+			var beginsWith = keys.Where(k => k.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)).ToArray();
+			var contains = keys.Where(k => k.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToArray();
+			results = beginsWith.Union(contains)
+								.Order()
+								.Select(e => e.Replace('-', ' '))
+								.Select(s => char.ToUpper(s[0]) + s.Substring(1))
+								.ToArray();
 		}
 		else
 		{
