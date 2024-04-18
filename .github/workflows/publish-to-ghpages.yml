@@ -24,17 +24,7 @@ jobs:
       # Install dotnet wasm buildtools workload
       - name: Install .NET WASM Build Tools
         run: dotnet workload install wasm-tools
-
-      # Read current version
-      - name: Read current version
-        id: read-version
-        run: echo "::set-output name=version::$(cat version.txt)"
-
-      # Increment version
-      - name: Increment version
-        id: increment-version
-        run: echo $(( ${ { steps.read-version.outputs.version } } + 1 )) > version.txt
-
+          
       # Publishes Blazor project to the release-folder
       - name: Publish .NET Core Project
         run: dotnet publish StudyProject.Presentation/StudyProject.Presentation.csproj -c:Release -p:GHPages=true -o dist/Web --nologo
