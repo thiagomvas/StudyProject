@@ -6,8 +6,16 @@
 @if(exercise != null)
 {
     <h3>Questão:</h3>
-    <p>@exercise.Question</p>
-
+    <LatexViewer Content=@exercise.Question />
+    <Divider />
+    if(exercise.EnableFillInAnswer)
+    {
+        <h4>Resposta: <InputNumber class="custom-input" @bind-Value="answer" /> </h4>
+        <ActionButton OnClick="CheckAnswer">Verificar resposta</ActionButton>
+        <b>@answerLog</b>
+        <Divider />
+    }
+    <br />
     <ActionButton OnClick="@(() => showSolution = !showSolution)">
         Mostrar solução
     </ActionButton>
@@ -15,31 +23,73 @@
     <ActionButton OnClick="@(() => showHint = !showHint)">
         Mostrar dica
     </ActionButton>
+    <br />
 
     @if (showHint)
     {
         <h3>Dica:</h3>
-        <p>@exercise.Hint</p>
+        <LatexViewer Content=@exercise.Hint />
+        <br />
     }
 
     @if (showSolution)
     {
         <h3>Solução:</h3>
-        <p>@exercise.Solution</p>
+        <LatexViewer Content=@exercise.Solution />
     }
     
 }
 
 @code {
     [Parameter] public string Id { get; set; }
-
+    double answer;
     bool showSolution = false;
     bool showHint = false;
     private Exercise exercise;
+    string answerLog = "";
 
     protected override async Task OnInitializedAsync()
     {
         exercise = await db.GetExerciseAsync(Id);
     }
 
+    private void CheckAnswer()
+    {
+        if (exercise.AnswerValue == answer)
+        {
+            answerLog = "Resposta correta!";
+        }
+        else
+        {
+            answerLog = "Resposta incorreta!";
+        }
+    }
 }
+
+<style>
+
+    body {
+        font-size: 20px;
+    }
+
+    .custom-input {
+        width: 100px;
+        height: fit-content;
+        background: @Theme.Default.ForegroundColor;
+        color: @Theme.Default.TextColor;
+        appearance: none;
+        border: none;
+        border-radius: 5px;
+        padding: 0px 5px 0px 5px;
+    }
+
+        .custom-input::-webkit-inner-spin-button,
+        .custom-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .custom-input[type="number"] {
+            -moz-appearance: textfield;
+        }
+</style>
