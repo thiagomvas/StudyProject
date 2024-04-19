@@ -65,7 +65,7 @@
       "url": "_framework\/icudt_no_CJK.dat.br"
     },
     {
-      "hash": "sha256-9n9lURvitPqLDMPtbK9QMRHu5vpsF9RHagyRG4e1aKE=",
+      "hash": "sha256-O98lio9Cm82Q0HaZLD19liV5TT9uXwkdgdWE\/4Z+DII=",
       "url": "_framework\/blazor.boot.json.br"
     },
     {
@@ -209,19 +209,19 @@
       "url": "_framework\/SQLitePCLRaw.provider.e_sqlite3.wasm.br"
     },
     {
-      "hash": "sha256-leJXFbxXEs2sAB2rh8Bc+0NDAoBs\/T4\/8FrUHSiayTs=",
+      "hash": "sha256-pSlqBYxg3i4lQP\/l37MDvEXjNwftwqsk55SEu87GMvo=",
       "url": "_framework\/StudyProject.Application.wasm.br"
     },
     {
-      "hash": "sha256-E4LEtz3E0nZxy9n25QP+aXmpDaRe00Qd1XTN9vxnZDY=",
+      "hash": "sha256-D8Z+aQCF3MW5tX6OjqvqADdo5VjPUot9RrzIrrSTGjg=",
       "url": "_framework\/StudyProject.Core.wasm.br"
     },
     {
-      "hash": "sha256-2RwcSzS3cmVk8Bm0pBt08pqTxgbJjXfs23tVYpEvZT4=",
+      "hash": "sha256-YIt6OCoDjkZInZ+2Hg198LtwTBix\/wNKn3FfUqfU3YA=",
       "url": "_framework\/StudyProject.Infrastructure.wasm.br"
     },
     {
-      "hash": "sha256-yJraFYPbBtvkdNXgAmYZR1bU3ib9bi4ctykysbirDps=",
+      "hash": "sha256-iMrphQ3uXtABU9bG7NZUxlUGft9BAia7g0fSTtN2AhY=",
       "url": "_framework\/StudyProject.Presentation.wasm.br"
     },
     {
@@ -461,5 +461,5 @@
       "url": "brotliloader.min.js"
     }
   ],
-  "version": "jScFZyOj"
+  "version": "o948SfT3"
 };
