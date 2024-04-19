@@ -1,0 +1,89 @@
+﻿@using StudyProject.Core.Models
+@inherits ComponentBase
+
+
+<div class="panel">
+    <div @onclick="NavigateToNote">
+        <h5 class="title">@Node.Name</h5>
+        <p class="description">@Node.Description</p>
+    </div>
+    <div class="exercise-row">
+        @foreach (var exercise in Node.ExerciseIds)
+        {
+            <div class="exercise-item" @onclick="@(() => NavigateToExercise(exercise))">
+                <Icon IconName="pencil" />
+            </div>
+        }
+    </div>
+</div>
+@code {
+    [Inject] private NavigationManager NavigationManager { get; set; }
+
+    [Parameter] public string Destination { get; set; }
+    [Parameter] public string Width { get; set; } = "100%";
+    [Parameter] public StudyGuideNode? Node { get; set; }
+
+    private void NavigateToNote()
+    {
+        NavigationManager.NavigateTo($"anotacao/{Node.ArticleId}");
+    }
+    private void NavigateToExercise(string id)
+        {
+        NavigationManager.NavigateTo($"exercicio/{id}");
+    }
+}
+
+<style>
+    .panel {
+        background: linear-gradient(to bottom,@Theme.Default.PrimaryColor 20%,@Theme.Default.PrimaryColor 20% 50%,@Theme.Default.ForegroundColor 50% 80%,@Theme.Default.ForegroundColor 80%);
+        cursor: pointer;
+        color: @Theme.Default.TextColor;
+        width: @Width;
+        transition: transform 0.3s ease;
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+        .panel:hover {
+            transform: scale(1.1);
+        }
+
+    .title {
+        text-align: center;
+        font-weight: bold;
+        color: @Theme.Default.TextColor;
+    }
+
+    .description {
+        text-align: center;
+        font-style: italic;
+        color: @Theme.Default.SecondaryTextColor;
+    }
+
+
+    .exercise-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .exercise-item {
+        width: 35px;
+        height: 35px;
+        margin: 1px;
+        padding: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid @Theme.Default.BackgroundColor;
+        border-radius: 50%;
+        background-color: @Theme.Default.BackgroundColor;
+        color: @Theme.Default.TextColor;
+        transition: transform 0.3s ease;
+    }
+
+        .exercise-item:hover {
+            transform: scale(1.1);
+            background-color: @Theme.Default.PrimaryColor;
+        }
+</style>
