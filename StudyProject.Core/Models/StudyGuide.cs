@@ -12,5 +12,6 @@
         public int LineIndex { get; set; }
         public string Description { get; set; }
         public string ArticleId { get; set; }
+        public string[] ExerciseIds { get; set; } = [];
     }
 }

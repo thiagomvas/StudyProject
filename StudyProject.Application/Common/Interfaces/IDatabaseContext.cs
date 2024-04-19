@@ -12,7 +12,7 @@ namespace StudyProject.Application.Common.Interfaces
         Task<Article[]> SearchArticlesAsync(string query);
         Task<string[]> GetArticleIdsAsync();
 
-        Task<string[]> GetStudyGuideNamesAsync();
+        Task<string[]> GetStudyGuideIdsAsync();
         Task<StudyGuide> GetStudyGuideAsync(string name);
         Task<string> AddStudyGuideAsync(StudyGuide guide);
 

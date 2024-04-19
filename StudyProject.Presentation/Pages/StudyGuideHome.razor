@@ -4,30 +4,20 @@
 @using StudyProject.Core.Models
 @inject DatabaseAccess db
 
-<h3>StudyGuideHome</h3>
+@foreach(var guideId in guideIds)
+{
+    <RedirectPanel Destination="@($"guiadeestudos/{guideId}")">
+        <h3>@(db.GetNameFromId(guideId))</h3>
+    </RedirectPanel>
+
+}
 
 @code {
 
+    private string[] guideIds = new string[0];
     protected override async Task OnInitializedAsync()
     {
-        var foo = new StudyGuide();
-        foo.Name = "Calculo";
-        foo.Description = "Estudo de calculo no geral, vendo limites, derivadas e integrais";
-
-        var bar = new StudyGuideNode();
-        bar.Name = "Limites";
-        bar.Description = "Estudo de limites";
-        bar.ArticleId = "limites";
-
-        var bar2 = new StudyGuideNode();
-        bar2.Name = "Derivadas";
-        bar2.Description = "Estudo de derivadas";
-        bar2.ArticleId = "derivadas";
-        bar2.LineIndex = 1;
-
-        foo.Nodes = [bar, bar2];
-
-        await db.AddStudyGuideAsync(foo);
+        guideIds = await db.GetStudyGuideIdsAsync();
 
     }
 }

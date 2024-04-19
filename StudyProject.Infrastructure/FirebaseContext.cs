@@ -121,7 +121,7 @@ namespace StudyProject.Infrastructure
             return response.Select(e => e.Key).ToArray();
         }
 
-        public async Task<string[]> GetStudyGuideNamesAsync()
+        public async Task<string[]> GetStudyGuideIdsAsync()
         {
             var response = await firebaseClient.Child(studyGuidesPath)
                 .Shallow()

@@ -10,7 +10,7 @@ namespace StudyProject.Application
 
 
         public string CreateId(string name) => name.Replace(" ", "-").ToLower();
-
+		public string GetNameFromId(string id) => (char.ToUpper(id[0]) + id.Substring(1)).Replace("-", " ");
         public DatabaseAccess(IDatabaseContext databaseContext)
 		{
 			this.databaseContext = databaseContext;
@@ -49,9 +49,9 @@ namespace StudyProject.Application
 			return await databaseContext.GetArticleIdsAsync();
 		}
 
-        public async Task<string[]> GetStudyGuideNamesAsync()
+        public async Task<string[]> GetStudyGuideIdsAsync()
         {
-			return await databaseContext.GetStudyGuideNamesAsync();
+			return await databaseContext.GetStudyGuideIdsAsync();
         }
 
         public async Task<StudyGuide> GetStudyGuideAsync(string name)
