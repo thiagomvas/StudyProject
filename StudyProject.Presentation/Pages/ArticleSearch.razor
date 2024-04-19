@@ -29,6 +29,12 @@
 
 	private string[] keys = new string[0];
 	private string[] results = new string[0];
+
+	protected override async Task OnInitializedAsync()
+	{
+		await SearchArticles();
+	}
+
 	private async Task SearchArticles()
 	{
 		if(keys.Length == 0) keys = await databaseAccess.GetArticleIdsAsync();
@@ -45,8 +51,10 @@
 		}
 		else
 		{
-			// Clear searchResults if the search term is empty
-			searchResults = null;
+			results = keys.Order()
+						  .Select(e => e.Replace('-', ' '))
+                          .Select(s => char.ToUpper(s[0]) + s.Substring(1))
+                          .ToArray();
 		}
 	}
 

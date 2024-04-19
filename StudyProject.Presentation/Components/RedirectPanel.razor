@@ -18,13 +18,15 @@
 }
 
 <style>
-   .panel {
-       background-color: @Theme.Default.ForegroundColor;
-       color: @Theme.Default.TextColor;
-       width: @Width;
-   }
+    .panel {
+        background-color: @Theme.Default.ForegroundColor;
+        color: @Theme.Default.TextColor;
+        width: @Width;
+        transition: width 0.3s ease, transform 0.3s ease;
+    }
 
-.panel:hover {
-	   background-color: @Theme.Default.PrimaryColor;
-   }
+        .panel:hover {
+            background-color: @Theme.Default.PrimaryColor;
+            transform: scale(1.025, 1.1);
+        }
 </style>
