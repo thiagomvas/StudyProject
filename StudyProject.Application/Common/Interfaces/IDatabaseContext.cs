@@ -16,5 +16,8 @@ namespace StudyProject.Application.Common.Interfaces
         Task<StudyGuide> GetStudyGuideAsync(string name);
         Task<string> AddStudyGuideAsync(StudyGuide guide);
 
+        Task<Exercise> GetExerciseAsync(string id);
+        Task<string> AddExerciseAsync(Exercise exercise);
+
 	}
 }

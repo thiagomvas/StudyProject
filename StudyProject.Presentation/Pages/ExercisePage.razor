@@ -1,0 +1,45 @@
+﻿@page "/exercicio/{Id}"
+@using StudyProject.Application
+@using StudyProject.Core.Models
+@inject DatabaseAccess db
+
+@if(exercise != null)
+{
+    <h3>Questão:</h3>
+    <p>@exercise.Question</p>
+
+    <ActionButton OnClick="@(() => showSolution = !showSolution)">
+        Mostrar solução
+    </ActionButton>
+
+    <ActionButton OnClick="@(() => showHint = !showHint)">
+        Mostrar dica
+    </ActionButton>
+
+    @if (showHint)
+    {
+        <h3>Dica:</h3>
+        <p>@exercise.Hint</p>
+    }
+
+    @if (showSolution)
+    {
+        <h3>Solução:</h3>
+        <p>@exercise.Solution</p>
+    }
+    
+}
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    bool showSolution = false;
+    bool showHint = false;
+    private Exercise exercise;
+
+    protected override async Task OnInitializedAsync()
+    {
+        exercise = await db.GetExerciseAsync(Id);
+    }
+
+}

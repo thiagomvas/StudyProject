@@ -13,6 +13,7 @@ namespace StudyProject.Infrastructure
 	{
         private const string articlesPath = "articles";
         private const string studyGuidesPath = "studyguides";
+        private const string exercisePath = "exercises";
 		private readonly FirebaseClient firebaseClient;
 
 		public FirebaseContext(FirebaseClient firebaseClient)
@@ -152,6 +153,37 @@ namespace StudyProject.Infrastructure
             catch (Exception ex)
             {
                 Console.WriteLine($"Error adding guide: {ex.Message}");
+            }
+            return string.Empty;
+        }
+
+        public async Task<Exercise> GetExerciseAsync(string id)
+        {
+            try
+            {
+                return await firebaseClient.Child($"{exercisePath}/{id}").OnceSingleAsync<Exercise>();
+            }
+            catch
+            {
+                Console.WriteLine("Couldn't find exercise with specified ID");
+            }
+
+            return Exercise.NotFound;
+
+
+        }
+
+        public async Task<string> AddExerciseAsync(Exercise exercise)
+        {
+            try
+            {
+                string id = exercise.Id;
+                await firebaseClient.Child(exercisePath).Child(id).PutAsync(exercise);
+                return id;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding exercise: {ex.Message}");
             }
             return string.Empty;
         }

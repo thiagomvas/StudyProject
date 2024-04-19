@@ -63,5 +63,15 @@ namespace StudyProject.Application
         {
 			return await databaseContext.AddStudyGuideAsync(guide);
         }
+
+        public async Task<Exercise> GetExerciseAsync(string id)
+        {
+			return await databaseContext.GetExerciseAsync(id);
+        }
+
+		public async Task<string> AddExerciseAsync(Exercise exercise)
+		{
+			return await databaseContext.AddExerciseAsync(exercise);
+		}
     }
 }
