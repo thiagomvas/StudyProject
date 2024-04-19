@@ -1,4 +1,5 @@
 ﻿using StudyProject.Core.ArticleAggregate;
+using StudyProject.Core.Models;
 
 namespace StudyProject.Application.Common.Interfaces
 {
@@ -10,6 +11,10 @@ namespace StudyProject.Application.Common.Interfaces
         Task<DateTime> GetArticleLastEditAsync(string id);
         Task<Article[]> SearchArticlesAsync(string query);
         Task<string[]> GetArticleIdsAsync();
+
+        Task<string[]> GetStudyGuideNamesAsync();
+        Task<StudyGuide> GetStudyGuideAsync(string name);
+        Task<string> AddStudyGuideAsync(StudyGuide guide);
 
 	}
 }

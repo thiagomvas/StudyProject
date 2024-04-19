@@ -1,0 +1,43 @@
+﻿@page "/guiadeestudos/{Id}"
+@using Newtonsoft.Json
+@using StudyProject.Application
+@using StudyProject.Core.Models
+@inject DatabaseAccess db
+
+@if(studyGuide != null)
+{
+    <h3>@studyGuide?.Name</h3>
+    <p>@studyGuide?.Description</p>
+    <ul>
+        @foreach (var node in studyGuide?.Nodes)
+        {
+            <li>
+                <RedirectPanel Destination="@($"anotacao/{node.ArticleId}")">
+                    <h4>@node.Name</h4>
+                    <p>@node.Description</p>
+                </RedirectPanel>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Carregando...</p>
+}
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    private StudyGuide? studyGuide;
+
+    protected override async Task OnInitializedAsync()
+    {
+        studyGuide = await db.GetStudyGuideAsync(Id);
+    }
+
+
+    protected override void OnInitialized()
+    {
+    }
+
+}
