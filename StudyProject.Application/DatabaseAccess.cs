@@ -1,5 +1,6 @@
 ﻿using StudyProject.Application.Common.Interfaces;
 using StudyProject.Core.ArticleAggregate;
+using StudyProject.Core.Models;
 
 namespace StudyProject.Application
 {
@@ -9,7 +10,7 @@ namespace StudyProject.Application
 
 
         public string CreateId(string name) => name.Replace(" ", "-").ToLower();
-
+		public string GetNameFromId(string id) => (char.ToUpper(id[0]) + id.Substring(1)).Replace("-", " ");
         public DatabaseAccess(IDatabaseContext databaseContext)
 		{
 			this.databaseContext = databaseContext;
@@ -47,5 +48,30 @@ namespace StudyProject.Application
 		{
 			return await databaseContext.GetArticleIdsAsync();
 		}
-	}
+
+        public async Task<string[]> GetStudyGuideIdsAsync()
+        {
+			return await databaseContext.GetStudyGuideIdsAsync();
+        }
+
+        public async Task<StudyGuide> GetStudyGuideAsync(string name)
+        {
+			return await databaseContext.GetStudyGuideAsync(name);
+        }
+
+        public async Task<string> AddStudyGuideAsync(StudyGuide guide)
+        {
+			return await databaseContext.AddStudyGuideAsync(guide);
+        }
+
+        public async Task<Exercise> GetExerciseAsync(string id)
+        {
+			return await databaseContext.GetExerciseAsync(id);
+        }
+
+		public async Task<string> AddExerciseAsync(Exercise exercise)
+		{
+			return await databaseContext.AddExerciseAsync(exercise);
+		}
+    }
 }

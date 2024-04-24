@@ -79,5 +79,20 @@
 				}
 			} 
 		}
+
+		public string SecondaryTextColor
+		{
+            get
+			{
+                if(DarkMode)
+				{
+                    return "#B0B0B0";
+                }
+                else
+				{
+                    return "#606060";
+                }
+            } 
+        }
 	}
 }

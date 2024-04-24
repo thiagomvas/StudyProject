@@ -1,0 +1,69 @@
+﻿@page "/guiadeestudos/{Id}"
+@using Newtonsoft.Json
+@using StudyProject.Application
+@using StudyProject.Core.Models
+@inject DatabaseAccess db
+
+@if (studyGuide != null)
+{
+    <h1 class="title">@studyGuide?.Name</h1>
+    <p class="subtitle">@studyGuide?.Description</p>
+    @foreach (var group in nodeGroups)
+    {
+        <div class="array-row">
+            @foreach(var node in group)
+            {
+                <div class="array-item">
+                    <StudyGuideNodeDisplay Node="@node" />
+                </div>
+            }
+        </div>
+
+    }
+}
+else
+{
+    <p>Carregando...</p>
+}
+
+@code {
+    [Parameter] public string Id { get; set; }
+
+    private StudyGuide? studyGuide;
+    private IGrouping<int, StudyGuideNode>[]? nodeGroups;
+
+    protected override async Task OnInitializedAsync()
+    {
+        studyGuide = await db.GetStudyGuideAsync(Id);
+        nodeGroups = studyGuide.Nodes.GroupBy(n => n.LineIndex).OrderBy(g => g.Key).ToArray();
+    }
+
+
+    protected override void OnInitialized()
+    {
+    }
+
+}
+
+<style>
+    .array-row {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 20px;
+    }
+
+    .array-item {
+        margin: 0 5px;
+    }
+
+    .title {
+        text-align: center;
+        font-weight: bold;
+        color: @Theme.Default.TextColor;
+    }
+    .subtitle {
+        text-align: center;
+        font-style: italic;
+        color: @Theme.Default.SecondaryTextColor;
+    }
+</style>

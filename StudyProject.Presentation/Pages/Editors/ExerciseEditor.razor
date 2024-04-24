@@ -1,0 +1,278 @@
+﻿@page "/editordeexercicios"
+
+@using MathJaxBlazor
+@using StudyProject.Application
+@using StudyProject.Application.Common.Builders
+@using StudyProject.Core.ArticleAggregate
+@using System.Text.RegularExpressions
+@using StudyProject.Core.Models
+@using StudyProject.Infrastructure
+
+@inject DatabaseAccess context;
+
+<PageTitle>Editor</PageTitle>
+
+
+<style>
+
+	.custom-input {
+		width: 100px;
+		height: fit-content;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
+		appearance: none;
+		border: none;
+		border-radius: 5px;
+		padding: 0px 5px 0px 5px;
+	}
+
+		.custom-input::-webkit-inner-spin-button,
+		.custom-input::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		.custom-input[type="number"] {
+			-moz-appearance: textfield;
+		}
+
+	.customtextarea {
+		width: 100%;
+		height: 250px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+	}
+
+	.customtext {
+		height: 50px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+		margin: 10px 0;
+	}
+
+	.previewbox {
+		width: 100%;
+		height: 100%;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+	}
+</style>
+
+
+<InputText class="customtext" @bind-Value="id" placeholder="ID do exercicio" />
+
+<ActionButton OnClick="async () => await FetchExercise()">Puxar exercicio</ActionButton>
+
+<br />
+
+
+@switch (selectedTab)
+{
+	case Tab.Editor:
+		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
+		<h2>Editor</h2>
+
+		<h3>Questão</h3>
+		<InputText class="customtext" @bind-Value="exercise.Id" placeholder="Id da questão" />
+		<InputTextArea class="customtextarea" @bind-Value="exercise.Question" placeholder="@loremipsum" />
+		<Divider />
+
+		<h3>Dica</h3>
+		<InputText class="customtext" @bind-Value="exercise.Hint" placeholder="Dica da questão" />
+		<Divider />
+
+		<h3>Solução</h3>
+		<InputTextArea class="customtextarea" @bind-Value="exercise.Solution" placeholder="@loremipsum" />
+		<Divider />
+
+		<h4>Ativar input para resposta: </h4><InputCheckbox @bind-Value="exercise.EnableFillInAnswer"/>
+		@if(exercise.EnableFillInAnswer)
+		{
+			<h3>Resposta</h3>
+            <InputNumber class="customtext" @bind-Value="exercise.AnswerValue" placeholder="" />
+		}
+		<Divider />
+		<br />
+		<ActionButton OnClick="async () => await AddExercise()">Salvar exercicio</ActionButton>
+		break;
+	case Tab.Preview:
+		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Guide">Guia de edição</ActionButton>
+		<h2>Preview</h2>
+		<div class="previewbox">
+			<h1>Pergunta</h1>
+			<LatexViewer Content="@exercise.Question"/>
+			<h1>Dica</h1>
+			<LatexViewer Content="@exercise.Hint"/>
+			<h1>Resposta</h1>
+			<LatexViewer Content="@exercise.Solution"/>
+		</div>
+		break;
+	case Tab.Guide:
+		<ActionButton OnClick="() => selectedTab = Tab.Editor">Editor</ActionButton>
+		<ActionButton OnClick="() => selectedTab = Tab.Preview">Preview</ActionButton>
+		<h2>Guia de edição</h2>
+		<table>
+			<thead>
+				<tr>
+					<th>Grupo</th>
+					<th>Sintaxe</th>
+					<th>Resultado</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>LaTeX</td>
+					<td><code>$a^2 + b^2 = c^2$</code> <br /> <code>$$a^2 + b^2 = c^2$$</code></td>
+					<td> Lorem Ipsum <Equation Value="a^2 + b^2 = c^2" TeXDisplay="false" /> <br /> Lorem Ipsum <Equation Value="a^2 + b^2 = c^2" TeXDisplay="true" /> </td>
+				</tr>
+				<tr>
+					<td>Negrito</td>
+					<td><code>&lt;strong&gt; Lorem Ipsum &lt;/strong&gt;</code> <br /> <code>**Lorem Ipsum**</code></td>
+					<td><strong>Lorem Ipsum</strong></td>
+				</tr>
+				<tr>
+					<td>Italico</td>
+					<td><code>&lt;em&gt; Lorem Ipsum &lt;/em&gt;</code> <br /> <code>*Lorem Ipsum*</code></td>
+					<td><em>Lorem Ipsum</em></td>
+				</tr>
+				<tr>
+					<td>Sublinhado</td>
+					<td><code>&lt;u&gt; Lorem Ipsum &lt;/u&gt;</code> <br /> <code>__Lorem Ipsum__</code></td>
+					<td><u>Lorem Ipsum</u></td>
+				</tr>
+				<tr>
+					<td>Tachado</td>
+					<td><code>&lt;s&gt; Lorem Ipsum &lt;/s&gt;</code> <br /> <code>~~Lorem Ipsum~~</code></td>
+					<td><s>Lorem Ipsum</s></td>
+				</tr>
+				<tr>
+					<td>Link</td>
+					<td><code>&lt;a href="https://www.lipsum.com/"&gt;</code></td>
+					<td><a href="https://www.lipsum.com/">Lorem Ipsum</a></td>
+				</tr>
+				<tr>
+					<td>Imagem</td>
+					<td><code>&lt;img src="https://t.ly/-5UqW"&gt;</code></td>
+					<td><img style="max-height:64px; max-width:64px;" src="https://devblogs.microsoft.com/dotnet/wp-content/uploads/sites/16/2019/04/BrandBlazor_nohalo_1000x.png" alt="Lorem Ipsum" /></td>
+				</tr>
+				<tr>
+					<td>Titulos</td>
+					<td><code>&lt;h1&gt; &lt;h2&gt; &lt;h3&gt; &lt;h4&gt; &lt;h5&gt; &lt;h6&gt;</code> <br /> <code> # ## ### #### ##### ######</code></td>
+					<td><h1>Titulo 1</h1> <h2>Titulo 2</h2> <h3>Titulo 3</h3> <h4>Titulo 4</h4> <h5>Titulo 5</h5> <h6>Titulo 6</h6></td>
+				</tr>
+				<tr>
+					<td>Lista</td>
+					<td><code>&lt;ul&gt; &lt;ol&gt; &lt;li&gt;</code></td>
+					<td>
+						<ul>
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+						</ul>
+						<ol>
+							<li>Item 1</li>
+							<li>Item 2</li>
+							<li>Item 3</li>
+						</ol>
+					</td>
+				</tr>
+				<tr>
+					<td>Tabela</td>
+					<td><code>&lt;table&gt;</code> <code>&lt;tr&gt;</code> <code>&lt;th&gt;</code> <code>&lt;td&gt;</code></td>
+					<td>
+						<table>
+							<tr>
+								<th>Header 1</th>
+								<th>Header 2</th>
+							</tr>
+							<tr>
+								<td>Row 1, Cell 1</td>
+								<td>Row 1, Cell 2</td>
+							</tr>
+							<tr>
+								<td>Row 2, Cell 1</td>
+								<td>Row 2, Cell 2</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		break;
+}
+
+<p>@logMessage</p>
+
+
+
+@code {
+	Exercise exercise = new()
+	{
+		Question = "",
+        Solution = "",
+        Hint = ""
+		
+	};
+	string id = "";
+	bool preview = false;
+
+	string logMessage = "";
+
+	private void TogglePreview()
+	{
+		preview = !preview;
+	}
+
+	private async Task AddExercise()
+	{
+		try
+		{
+
+			string id = await context.AddExerciseAsync(exercise);
+			logMessage = $"Exercicio salvo com ID {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Erro criando exercicio no banco de dados! Mensagem de erro: {e.Message}";
+		}
+	}
+
+	private async Task FetchExercise()
+	{
+		try
+		{
+			exercise = await context.GetExerciseAsync(id);
+			logMessage = $"Exercicio puxado com ID {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Erro puxando o exercicio! Mensagem de erro: {e.Message}";
+		}
+	}
+
+
+	private const string loremipsum = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+	private enum Tab { Editor, Preview, Guide }
+	private Tab selectedTab = Tab.Editor;
+}

@@ -1,0 +1,130 @@
+﻿@page "/editordeguia"
+@using StudyProject.Application
+@using StudyProject.Core.Models
+@inject DatabaseAccess db
+
+<InputText class="customtext" @bind-Value="id" placeholder="ID do guia" />
+
+<ActionButton OnClick="async () => await FetchGuide()">Puxar guia</ActionButton>
+<h3>StudyGuideEditor</h3>
+
+<h3>Nome e descrição</h3>
+<InputText class="customtext" @bind-Value="guide.Name" placeholder="Nome do guia" />
+<InputTextArea class="customtextarea" @bind-Value="guide.Description" placeholder="Descrição do guia" />
+<Divider />
+
+<h3>Nodes</h3>
+@foreach(var node in guide.Nodes)
+{
+	<p>Nome: <InputText class="customtext" @bind-Value="node.Name" placeholder="Nome do node" /></p>
+	<p>Descrição:<InputText class="customtext" @bind-Value="node.Description" placeholder="Descrição do node" /></p>
+	<p>ID da anotação: <InputText class="customtext" @bind-Value="node.ArticleId" placeholder="ID da anotação" /></p>
+	<p>Indice da linha: <InputNumber class="custom-input" @bind-Value="node.LineIndex" /></p>
+	<Divider />
+}
+
+<ActionButton OnClick="@(() => guide.Nodes = [..guide.Nodes, new StudyGuideNode() {ExerciseIds = [""]}])">Adicionar node</ActionButton>
+
+<Divider />
+<ActionButton OnClick="async () => await AddGuide()">Salvar guia</ActionButton>
+
+@code {
+	string id;
+	StudyGuide guide = new()
+		{
+			Name = "",
+			Description = "",
+			Nodes = new StudyGuideNode[0],
+	};
+	string logMessage;
+
+	private async Task AddGuide()
+	{
+		try
+		{
+			await db.AddStudyGuideAsync(guide);
+			logMessage = "Guia adicionado com sucesso!";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Erro adicionando o guia! Mensagem de erro: {e.Message}";
+		}
+	}
+
+	private async Task FetchGuide()
+	{
+		try
+		{
+			guide = await db.GetStudyGuideAsync(id);
+			guide.Nodes = guide.Nodes.OrderBy(n => n.LineIndex).ToArray();
+			logMessage = $"Exercicio puxado com ID {id}";
+		}
+		catch (Exception e)
+		{
+			logMessage = $"Erro puxando o exercicio! Mensagem de erro: {e.Message}";
+		}
+	}
+}
+
+<style>
+
+	.custom-input {
+		width: 100px;
+		height: fit-content;
+		background: @Theme.Default.ForegroundColor;
+		color: @Theme.Default.TextColor;
+		appearance: none;
+		border: none;
+		border-radius: 5px;
+		padding: 0px 5px 0px 5px;
+	}
+
+		.custom-input::-webkit-inner-spin-button,
+		.custom-input::-webkit-outer-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
+
+		.custom-input[type="number"] {
+			-moz-appearance: textfield;
+		}
+
+	.customtextarea {
+		width: 100%;
+		height: 150px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+	}
+
+	.customtext {
+		height: 50px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+		margin: 10px 0;
+	}
+
+	.previewbox {
+		width: 100%;
+		height: 100%;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border-radius: 4px;
+		background-color: @Theme.Default.ForegroundColor;
+		font-size: 16px;
+		resize: none;
+		color: @Theme.Default.TextColor;
+		border: none;
+	}
+</style>

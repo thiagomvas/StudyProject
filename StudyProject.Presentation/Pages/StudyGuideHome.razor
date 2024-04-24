@@ -1,0 +1,23 @@
+﻿@page "/guiadeestudos"
+@using Newtonsoft.Json
+@using StudyProject.Application
+@using StudyProject.Core.Models
+@inject DatabaseAccess db
+
+@foreach(var guideId in guideIds)
+{
+    <RedirectPanel Destination="@($"guiadeestudos/{guideId}")">
+        <h3>@(db.GetNameFromId(guideId))</h3>
+    </RedirectPanel>
+
+}
+
+@code {
+
+    private string[] guideIds = new string[0];
+    protected override async Task OnInitializedAsync()
+    {
+        guideIds = await db.GetStudyGuideIdsAsync();
+
+    }
+}
